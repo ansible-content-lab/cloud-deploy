@@ -1,0 +1,12 @@
+---
+- name: Provision MySQL
+  hosts: servers
+  become: yes
+  vars_files:
+    - ./vars/mysql-vars.yml
+
+  tasks:
+
+    - name: Call MySQL Installation Role
+      include_role:
+        name: unxnn.mysql
