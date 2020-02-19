@@ -1,0 +1,52 @@
+---
+- name: Provision mysql
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+
+  tasks:
+
+    - name: Create AWS SSH Key Pair
+      ec2_key:
+        name: "{{ ec2_prefix }}-key"
+      register: create_key
+
+    # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
+    - name: Save Private Key Locally
+      copy:
+        content: "{{ create_key.key.private_key }}"
+        dest: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        mode: '0400'
+      when: create_key.changed
+
+    - name: Gather Subnet Information
+      ec2_vpc_subnet_info:
+        filters:
+          "tag:application": "{{ application }}"
+          "tag:provisioner": "mford"
+      register: subnet_info
+
+    - debug:
+        var: subnet_info
+
+    - name: "Create EC2 instances for {{ application }}"
+      ec2:
+        assign_public_ip: true
+        key_name: "{{ ec2_prefix }}-key"
+        group: "{{ ec2_prefix }}-sg"
+        instance_type: "{{ machine_type }}"
+        image: "{{ centos_image_id }}"
+        region: "{{ ec2_region }}"
+        count: "{{ num_instances }}"
+        wait: "{{ ec2_wait }}"
+        vpc_subnet_id: "{{ subnet_info.subnets[0].id }}"
+        instance_tags:
+          provisioner: mford
+          application: "{{ application }}"
+          Name: "{{ application }}"
+        volumes:
+          - device_name: /dev/sda1
+            volume_type: gp2
+            volume_size: 10
+            delete_on_termination: true
