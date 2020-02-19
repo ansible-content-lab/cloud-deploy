@@ -1,0 +1,8 @@
+---
+- name: install mysql
+  hosts: db-servers
+  become: yes
+  vars_files:
+    - ./vars/default-vars.yml
+  roles:
+    - ansible-role-mysql

@@ -1,0 +1,132 @@
+2020-02-18 23:33:36,908 p=15881 u=michaelford n=ansible | [WARNING]: - unxnn.mysql was NOT installed successfully: Unknown error when attempting to call Galaxy at
+'https://galaxy.ansible.com/api/api': <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get
+local issuer certificate (_ssl.c:1056)>
+
+2020-02-18 23:33:36,911 p=15881 u=michaelford n=ansible | ERROR! - you can use --ignore-errors to skip failed roles and finish processing the list.
+2020-02-18 23:53:40,879 p=17448 u=michaelford n=ansible | [DEPRECATION WARNING]: The TRANSFORM_INVALID_GROUP_CHARS settings is set to allow bad characters in group names by default, 
+this will change, but still be user configurable on deprecation. This feature will be removed in version 2.10. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2020-02-18 23:53:40,880 p=17448 u=michaelford n=ansible | [WARNING]: Invalid characters were found in group names but not replaced, use -vvvv to see details
+
+2020-02-18 23:53:41,687 p=17448 u=michaelford n=ansible | ERROR! the role 'unxnn.mysql' was not found in /Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles:/Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles:/Users/michaelford/My Local Documents/github-workspace/deploy-mysql
+
+The error appears to be in '/Users/michaelford/My Local Documents/github-workspace/deploy-mysql/install_mysql.yml': line 8, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+  roles:
+    - { role: unxnn.mysql }
+      ^ here
+
+2020-02-18 23:54:16,220 p=17490 u=michaelford n=ansible | [DEPRECATION WARNING]: The TRANSFORM_INVALID_GROUP_CHARS settings is set to allow bad characters in group names by default, 
+this will change, but still be user configurable on deprecation. This feature will be removed in version 2.10. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2020-02-18 23:54:16,221 p=17490 u=michaelford n=ansible | [WARNING]: Invalid characters were found in group names but not replaced, use -vvvv to see details
+
+2020-02-18 23:54:17,492 p=17490 u=michaelford n=ansible | PLAY [install mysql] **********************************************************************************************************
+2020-02-18 23:54:17,513 p=17490 u=michaelford n=ansible | TASK [Gathering Facts] ********************************************************************************************************
+2020-02-18 23:54:18,041 p=17490 u=michaelford n=ansible | fatal: [ec2-54-160-241-253.compute-1.amazonaws.com]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: centos@ec2-54-160-241-253.compute-1.amazonaws.com: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).", "unreachable": true}
+2020-02-18 23:54:18,043 p=17490 u=michaelford n=ansible | PLAY RECAP ********************************************************************************************************************
+2020-02-18 23:54:18,043 p=17490 u=michaelford n=ansible | ec2-54-160-241-253.compute-1.amazonaws.com : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2020-02-18 23:54:50,024 p=17537 u=michaelford n=ansible | [DEPRECATION WARNING]: The TRANSFORM_INVALID_GROUP_CHARS settings is set to allow bad characters in group names by default, 
+this will change, but still be user configurable on deprecation. This feature will be removed in version 2.10. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2020-02-18 23:54:50,024 p=17537 u=michaelford n=ansible | [WARNING]: Invalid characters were found in group names but not replaced, use -vvvv to see details
+
+2020-02-18 23:54:51,330 p=17537 u=michaelford n=ansible | PLAY [install mysql] **********************************************************************************************************
+2020-02-18 23:54:51,351 p=17537 u=michaelford n=ansible | TASK [Gathering Facts] ********************************************************************************************************
+2020-02-18 23:54:54,495 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:54,510 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : include_tasks] *************************************************************************************
+2020-02-18 23:54:54,551 p=17537 u=michaelford n=ansible | included: /Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles/ansible-role-mysql/tasks/variables.yml for ec2-54-160-241-253.compute-1.amazonaws.com
+2020-02-18 23:54:54,568 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Include OS-specific variables.] ********************************************************************
+2020-02-18 23:54:54,636 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=/Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles/ansible-role-mysql/vars/RedHat.yml)
+2020-02-18 23:54:54,646 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_packages.] ****************************************************************************
+2020-02-18 23:54:54,707 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:54,719 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_daemon.] ******************************************************************************
+2020-02-18 23:54:54,805 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:54,816 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_slow_query_log_file.] *****************************************************************
+2020-02-18 23:54:54,885 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:54,901 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_log_error.] ***************************************************************************
+2020-02-18 23:54:54,958 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:54,976 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_syslog_tag.] **************************************************************************
+2020-02-18 23:54:55,032 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:55,041 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_pid_file.] ****************************************************************************
+2020-02-18 23:54:55,102 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:55,112 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_config_file.] *************************************************************************
+2020-02-18 23:54:55,165 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:55,175 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_config_include_dir.] ******************************************************************
+2020-02-18 23:54:55,230 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:55,240 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_socket.] ******************************************************************************
+2020-02-18 23:54:55,288 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:55,303 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Define mysql_supports_innodb_large_prefix.] ********************************************************
+2020-02-18 23:54:55,353 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:54:55,365 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : include_tasks] *************************************************************************************
+2020-02-18 23:54:55,427 p=17537 u=michaelford n=ansible | included: /Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles/ansible-role-mysql/tasks/setup-RedHat.yml for ec2-54-160-241-253.compute-1.amazonaws.com
+2020-02-18 23:54:55,442 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Ensure MySQL packages are installed.] **************************************************************
+2020-02-18 23:55:11,297 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:11,308 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Ensure MySQL Python libraries are installed.] ******************************************************
+2020-02-18 23:55:12,730 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:12,742 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : include_tasks] *************************************************************************************
+2020-02-18 23:55:12,784 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:12,794 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Check if MySQL packages were installed.] ***********************************************************
+2020-02-18 23:55:12,851 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:12,861 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : include_tasks] *************************************************************************************
+2020-02-18 23:55:12,913 p=17537 u=michaelford n=ansible | included: /Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles/ansible-role-mysql/tasks/configure.yml for ec2-54-160-241-253.compute-1.amazonaws.com
+2020-02-18 23:55:12,928 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Get MySQL version.] ********************************************************************************
+2020-02-18 23:55:14,417 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:14,430 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Copy my.cnf global MySQL configuration.] ***********************************************************
+2020-02-18 23:55:17,585 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:17,595 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Verify mysql include directory exists.] ************************************************************
+2020-02-18 23:55:17,636 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:17,648 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Copy my.cnf override files into include directory.] ************************************************
+2020-02-18 23:55:17,712 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Create slow query log file (if configured).] *******************************************************
+2020-02-18 23:55:17,727 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:17,739 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Create datadir if it does not exist] ***************************************************************
+2020-02-18 23:55:19,158 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:19,175 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Set ownership on slow query log file (if configured).] *********************************************
+2020-02-18 23:55:19,189 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:19,201 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Create error log file (if configured).] ************************************************************
+2020-02-18 23:55:20,411 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:20,422 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Set ownership on error log file (if configured).] **************************************************
+2020-02-18 23:55:21,563 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:21,575 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Ensure MySQL is started and enabled on boot.] ******************************************************
+2020-02-18 23:55:27,793 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:27,803 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : include_tasks] *************************************************************************************
+2020-02-18 23:55:27,851 p=17537 u=michaelford n=ansible | included: /Users/michaelford/My Local Documents/github-workspace/deploy-mysql/roles/ansible-role-mysql/tasks/secure-installation.yml for ec2-54-160-241-253.compute-1.amazonaws.com
+2020-02-18 23:55:27,870 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Ensure default user is present.] *******************************************************************
+2020-02-18 23:55:27,919 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:27,933 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Copy user-my.cnf file with password credentials.] **************************************************
+2020-02-18 23:55:27,980 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:27,993 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Disallow root login remotely] **********************************************************************
+2020-02-18 23:55:29,201 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'))
+2020-02-18 23:55:29,218 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Get list of hosts for the root user.] **************************************************************
+2020-02-18 23:55:30,689 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:30,700 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Update MySQL root password for localhost root account (5.7.x).] ************************************
+2020-02-18 23:55:30,757 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=127.0.0.1) 
+2020-02-18 23:55:30,762 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=::1) 
+2020-02-18 23:55:30,769 p=17537 u=michaelford n=ansible | skipping: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=localhost) 
+2020-02-18 23:55:30,781 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Update MySQL root password for localhost root account (< 5.7.x).] **********************************
+2020-02-18 23:55:32,119 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=127.0.0.1)
+2020-02-18 23:55:33,391 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=::1)
+2020-02-18 23:55:34,732 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=localhost)
+2020-02-18 23:55:34,746 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Copy .my.cnf file with root password credentials.] *************************************************
+2020-02-18 23:55:37,410 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:37,421 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Get list of hosts for the anonymous user.] *********************************************************
+2020-02-18 23:55:38,710 p=17537 u=michaelford n=ansible | ok: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:38,721 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Remove anonymous MySQL users.] *********************************************************************
+2020-02-18 23:55:40,130 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=ip-172-31-8-107.ec2.internal)
+2020-02-18 23:55:41,336 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=localhost)
+2020-02-18 23:55:41,362 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Remove MySQL test database.] ***********************************************************************
+2020-02-18 23:55:43,436 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:43,447 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Ensure MySQL databases are present.] ***************************************************************
+2020-02-18 23:55:44,752 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item={'name': 'example_db', 'encoding': 'latin1', 'collation': 'latin1_general_ci'})
+2020-02-18 23:55:44,762 p=17537 u=michaelford n=ansible | TASK [ansible-role-mysql : Ensure MySQL users are present.] *******************************************************************
+2020-02-18 23:55:46,063 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com] => (item=None)
+2020-02-18 23:55:46,064 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:46,066 p=17537 u=michaelford n=ansible | RUNNING HANDLER [ansible-role-mysql : restart mysql] **************************************************************************
+2020-02-18 23:55:46,121 p=17821 u=michaelford n=ansible | [WARNING]: Ignoring "sleep" as it is not used in "systemd"
+
+2020-02-18 23:55:53,169 p=17537 u=michaelford n=ansible | changed: [ec2-54-160-241-253.compute-1.amazonaws.com]
+2020-02-18 23:55:53,172 p=17537 u=michaelford n=ansible | PLAY RECAP ********************************************************************************************************************
+2020-02-18 23:55:53,173 p=17537 u=michaelford n=ansible | ec2-54-160-241-253.compute-1.amazonaws.com : ok=35   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
