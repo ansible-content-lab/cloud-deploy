@@ -2,6 +2,7 @@
 - name: Show MySQL Information
   hosts: ec2
   become: yes
+  gather_facts: no
   vars_files:
     - ./vars/mysql-vars.yml
 
