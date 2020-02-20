@@ -7,6 +7,10 @@
 
   tasks:
 
+
+    - pip:
+        name: PyMySQL
+
     - name: Collect all info except settings and users by root
       mysql_info:
         login_user: root
