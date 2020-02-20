@@ -20,6 +20,25 @@
         mode: '0400'
       when: create_key.changed
 
+    - name: update SSH key with latest
+      tower_credential:
+        name: AWS Demo Instances Key
+        organization: Default
+        tower_host: "{{ tower_url }}"
+        tower_username: "{{ tower_user }}"
+        tower_password: "{{ tower_pass }}"
+        kind: ssh
+        ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        tower_verify_ssl: false
+      delegate_to: localhost
+      run_once: true
+      when: create_key.changed
+
+    - name: delete flat-file private key
+      file:
+        path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        state: absent
+
     - name: Gather Subnet Information
       ec2_vpc_subnet_info:
         filters:
