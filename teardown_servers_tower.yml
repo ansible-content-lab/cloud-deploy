@@ -60,6 +60,11 @@
         name: "{{ ec2_prefix }}-key"
         state: absent
 
+    - name: delete flat-file private key
+      file:
+        path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        state: absent
+
     # - name: update SSH key with latest
     #   tower_credential:
     #     name: AWS Demo Instances Key
