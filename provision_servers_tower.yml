@@ -22,7 +22,7 @@
         mode: '0400'
       when: create_key.changed
 
-    - name: update SSH key with latest
+    - name: Update Ansible Tower AWS SSH Credential
       tower_credential:
         name: AWS Demo Instances Key
         organization: Default
@@ -37,10 +37,10 @@
       run_once: true
       when: create_key.changed
 
-    - name: delete flat-file private key
-      file:
-        path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-        state: absent
+    # - name: delete flat-file private key
+    #   file:
+    #     path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+    #     state: absent
 
     - name: Gather Subnet Information
       ec2_vpc_subnet_info:
