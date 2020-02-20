@@ -1,0 +1,31 @@
+---
+- name: Add Database to MySQL
+  hosts: ec2
+  gather_facts: no
+  vars_files:
+    - ./vars/mysql-vars.yml
+
+  tasks:
+
+
+    - name: Create new databases with names 'foo' and 'bar'
+      mysql_db:
+        login_host: localhost
+        login_user: root
+        login_password: redhat123
+        name: "{{ db_name }}"
+        state: present
+
+    - name: Collect all info except settings and users by root
+      mysql_info:
+        login_host: localhost
+        login_user: root
+        login_password: redhat123
+        connect_timeout: 200
+        filter:
+          - databases
+      become: yes
+      register: mysql_output
+
+    - debug:
+        var: mysql_output
