@@ -7,6 +7,15 @@
 
   tasks:
 
+    - name: Install pip
+      easy_install:
+        name: pip
+        state: latest
+
+    - name: Install PyMySQL python module
+      pip:
+        name: PyMySQL
+
     - name: Call MySQL Installation Role
       include_role:
         name: unxnn.mysql
