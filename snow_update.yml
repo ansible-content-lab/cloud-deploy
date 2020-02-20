@@ -12,7 +12,7 @@
         instance: "{{ SNOW_INSTANCE }}"
         state: present
         data:
-          short_description: "Successfully completed VIP creation"
+          short_description: "{{ snow_message }}"
           severity: 3
           priority: 2
       register: new_incident

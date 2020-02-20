@@ -11,10 +11,8 @@
     - mysql_user:
         name: mford
         state: present
-        login_host: localhost
+        login_host: "{{ inventory_hostname }}"
         login_user: root
         login_password: redhat123
         password: redhat123
         priv: "*.*:ALL"
-
-    
