@@ -16,11 +16,13 @@
     - name: Install PyMySQL python module
       pip:
         name: PyMySQL
+      become: yes
 
 
     - name: Call MySQL Installation Role
       include_role:
         name: unxnn.mysql
+      become: yes
 
     - name: Create an incident
       snow_record:
