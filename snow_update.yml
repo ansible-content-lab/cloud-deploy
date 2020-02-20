@@ -1,0 +1,22 @@
+- name: ServiceNow Incident Creation
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./credentials/snow_creds.yml
+
+  tasks:
+    - name: Create an incident
+      snow_record:
+        username: "{{ SNOW_USERNAME }}"
+        password: "{{ SNOW_PASSWORD }}"
+        instance: "{{ SNOW_INSTANCE }}"
+        state: present
+        data:
+          short_description: "Successfully completed VIP creation"
+          severity: 3
+          priority: 2
+      register: new_incident
+
+    - name: Show incident details
+      debug:
+        var: new_incident

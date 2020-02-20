@@ -1,0 +1,15 @@
+---
+- name: Show MySQL Information
+  hosts: ec2
+  become: yes
+  vars_files:
+    - ./vars/mysql-vars.yml
+
+  tasks:
+
+    - name: Collect all info except settings and users by root
+      mysql_info:
+        login_user: root
+        login_password: redhat123
+        filter:
+          - databases
