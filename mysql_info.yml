@@ -16,3 +16,7 @@
         # filter:
         #   - databases
       become: yes
+      register: mysql_output
+
+    - debug:
+        var: mysql_output
