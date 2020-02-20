@@ -21,7 +21,6 @@
         dest: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
         mode: '0400'
       when: create_key.changed
-      become: yes
 
     - name: Update Ansible Tower AWS SSH Credential
       tower_credential:
