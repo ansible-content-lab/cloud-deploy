@@ -13,6 +13,6 @@
         login_user: root
         login_password: redhat123
         connect_timeout: 200
-        filter:
-          - databases
+        # filter:
+        #   - databases
       become: yes
