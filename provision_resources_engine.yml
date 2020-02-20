@@ -22,6 +22,7 @@
     # If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
     - name: "Create EC2 Security Group {{ec2_prefix }}-sg"
       ec2_group:
+        region: "{{ ec2_region }}"
         name: "{{ ec2_prefix }}-sg"
         description: "Application VPC for {{ ec2_prefix }}"
         vpc_id: "{{create_vpc.vpc.id}}"
