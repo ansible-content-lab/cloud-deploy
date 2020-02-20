@@ -46,6 +46,7 @@
           provisioner: mford
           application: "{{ application }}"
           Name: "{{ application }}"
+          demo: appdeployment
         volumes:
           - device_name: /dev/sda1
             volume_type: gp2

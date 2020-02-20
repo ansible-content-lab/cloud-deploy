@@ -17,6 +17,7 @@
         tags:
           provisioner: mford
           application: "{{ application }}"
+          demo: appdeployment
       register: create_vpc
 
     # If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
@@ -30,6 +31,7 @@
           provisioner: mford
           Name: "{{ ec2_prefix }}-sg"
           application: "{{ application }}"
+          demo: appdeployment
         rules:
           - proto: tcp
             ports:
@@ -50,6 +52,7 @@
         tags:
           provisioner: mford
           application: "{{ application }}"
+          demo: appdeployment
       register: create_subnet
 
     - name: Set ec2_subnet_id fact
@@ -64,6 +67,7 @@
         tags:
           provisioner: mford
           application: "{{ application }}"
+          demo: appdeployment
       register: igw
 
     # This task adds a route to the internet from the subnet through the IGW
@@ -79,3 +83,4 @@
         tags:
           provisioner: mford
           application: "{{ application }}"
+          demo: appdeployment

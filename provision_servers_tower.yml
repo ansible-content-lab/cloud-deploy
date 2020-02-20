@@ -67,7 +67,8 @@
         instance_tags:
           provisioner: mford
           application: "{{ application }}"
-          Name: "{{ application }}"
+          Name: "{{ application }}-server"
+          demo: appdeployment
         volumes:
           - device_name: /dev/sda1
             volume_type: gp2
