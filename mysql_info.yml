@@ -18,7 +18,8 @@
 
     - name: Collect all info except settings and users by root
       mysql_info:
-        login_user: example_user
+        login_host": "{{ inventory_hostname }}"
+        login_user: root
         login_password: redhat123
         filter:
           - databases
