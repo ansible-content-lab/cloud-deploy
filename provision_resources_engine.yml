@@ -11,6 +11,7 @@
    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
     - name: "Create AWS VPC {{ ec2_prefix }}-vpc"
       ec2_vpc_net:
+        region: "{{ ec2_region }}"
         name: "{{ ec2_prefix }}-vpc"
         cidr_block: "{{ ec2_vpc_cidr }}"
         tags:
