@@ -1,0 +1,74 @@
+---
+- name: Teardown AWS Instances
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+  vars:
+    ec2_instance_ids: []
+
+  tasks:
+
+
+    # # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
+    # - name: "Get the VPC ID for {{ ec2_prefix }}-vpc"
+    #   ec2_vpc_net_info:
+    #     filters:
+    #       "tag:Name": "{{ ec2_prefix }}-vpc"
+    #     region: "{{ ec2_region }}"
+    #   register: vpc_net_facts
+    #
+    # - name: debug vpc_net_facts
+    #   debug:
+    #     var: vpc_net_facts
+
+    - name: "Gather {{ application }} instance info"
+      ec2_instance_info:
+        region: "{{ ec2_region }}"
+        filters:
+          "tag:application": "{{ application }}"
+          "tag:provisioner": "mford"
+          "instance-state-name": "running"
+      register: instance_info
+
+    # - debug:
+    #     var: instance_info
+    #
+    # - debug:
+    #     var: instance_info.instances | length
+
+    # - debug:
+    #     var: instance_info | json_query('instances[*].instance_id')
+
+    - name: "Create a list of the {{ application }} Instances"
+      set_fact:
+        ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
+      loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
+
+    - name: "Terminate Instances for Application {{ application }}"
+      ec2:
+        state: absent
+        instance_ids: "{{ ec2_instance_ids }}"
+        wait: "{{ ec2_wait }}"
+        region: "{{ ec2_region }}"
+      when: ec2_instance_ids | length > 0
+
+    - name: Delete AWS SSH Public Key
+      ec2_key:
+        region: "{{ ec2_region }}"
+        name: "{{ ec2_prefix }}-key"
+        state: absent
+
+    - name: update SSH key with latest
+      tower_credential:
+        name: AWS Demo Instances Key
+        state: absent
+        organization: Default
+        tower_host: "{{ tower_url }}"
+        tower_username: "{{ tower_user }}"
+        tower_password: "{{ tower_pass }}"
+        kind: ssh
+        ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        tower_verify_ssl: false
+      delegate_to: localhost
+      run_once: true

@@ -13,6 +13,7 @@
     # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
     - name: "Get the VPC ID for {{ ec2_prefix }}-vpc"
       ec2_vpc_net_info:
+        region: "{{ ec2_region }}"
         filters:
           "tag:Name": "{{ ec2_prefix }}-vpc"
         region: "{{ ec2_region }}"
@@ -24,6 +25,7 @@
 
     - name: "Gather {{ application }} Instance Info"
       ec2_instance_info:
+        region: "{{ ec2_region }}"
         filters:
           "tag:application": "{{ application }}"
           "tag:provisioner": "mford"
@@ -88,6 +90,7 @@
 
         - name: "Delete AWS VPC {{ ec2_prefix }}-vpc"
           ec2_vpc_net:
+            region: "{{ ec2_region }}"
             name: "{{ ec2_prefix }}-vpc"
             cidr_block: "{{ vpc_net_facts.vpcs[0].cidr_block }}"
             state: absent
