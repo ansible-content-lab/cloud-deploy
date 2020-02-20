@@ -9,6 +9,7 @@
 
     - name: Create AWS SSH Key Pair
       ec2_key:
+        region: "{{ ec2_region }}"
         name: "{{ ec2_prefix }}-key"
       register: create_key
 
