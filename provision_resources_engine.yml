@@ -1,5 +1,5 @@
 ---
-- name: Provision mysql
+- name: Provision AWS Resources
   hosts: localhost
   gather_facts: no
   vars_files:

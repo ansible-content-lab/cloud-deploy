@@ -1,6 +1,6 @@
 ---
 - name: Provision MySQL
-  hosts: servers
+  hosts: ec2
   become: yes
   vars_files:
     - ./vars/mysql-vars.yml
