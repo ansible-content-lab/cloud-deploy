@@ -16,6 +16,7 @@
           severity: 3
           priority: 2
       register: new_incident
+      delegate_to: localhost
 
     - name: Show incident details
       debug:
