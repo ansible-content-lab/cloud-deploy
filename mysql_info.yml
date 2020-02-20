@@ -18,7 +18,7 @@
 
     - name: Collect all info except settings and users by root
       mysql_info:
-        login_user: root
+        login_user: example_user
         login_password: redhat123
         filter:
           - databases
