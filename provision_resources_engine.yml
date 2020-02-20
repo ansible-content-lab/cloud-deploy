@@ -43,6 +43,7 @@
     # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
     - name: "Create Subnet for {{ ec2_prefix }}-vpc"
       ec2_vpc_subnet:
+        region: "{{ ec2_region }}"
         vpc_id: "{{ create_vpc.vpc.id }}"
         map_public: yes
         cidr: "{{ ec2_vpc_subnet }}"
@@ -58,6 +59,7 @@
     # Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
     - name: "Create VPC Internet Gateway for {{ ec2_prefix }}-vpc"
       ec2_vpc_igw:
+        region: "{{ ec2_region }}"
         vpc_id: "{{ create_vpc.vpc.id }}"
         tags:
           provisioner: mford
@@ -67,6 +69,7 @@
     # This task adds a route to the internet from the subnet through the IGW
     - name: Create a Default Route for the Subnet
       ec2_vpc_route_table:
+        region: "{{ ec2_region }}"
         vpc_id: "{{ create_vpc.vpc.id }}"
         subnets:
           - "{{ create_subnet.subnet.id }}"
