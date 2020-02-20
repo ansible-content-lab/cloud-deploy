@@ -1,7 +1,6 @@
 ---
 - name: Provision MySQL
   hosts: ec2
-  become: yes
   vars_files:
     - ./vars/mysql-vars.yml
     - ./credentials/snow_creds.yml
@@ -12,10 +11,12 @@
       easy_install:
         name: pip
         state: latest
+      become: yes
 
     - name: Install PyMySQL python module
       pip:
         name: PyMySQL
+
 
     - name: Call MySQL Installation Role
       include_role:
