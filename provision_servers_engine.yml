@@ -7,6 +7,21 @@
 
   tasks:
 
+    - name: Set Machine Type to Small
+      set_fact:
+        machine_type: t3.small
+      when: instance_size == "small"
+
+    - name: Set Machine Type to Medium
+      set_fact:
+        machine_type: t3.medium
+      when: instance_size == "medium"
+
+    - name: Set Machine Type to large
+      set_fact:
+        machine_type: t3.large
+      when: instance_size == "large"
+      
     - name: Create AWS SSH Key Pair
       ec2_key:
         name: "{{ ec2_prefix }}-key"
