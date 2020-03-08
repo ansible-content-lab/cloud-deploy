@@ -3,7 +3,7 @@ working_dir: /tmp
 ec2_region: us-east-1
 ec2_prefix: mford-mysql
 application: mysql
-machine_type: t2.medium
+# machine_type: t2.medium
 num_instances: 3
 centos_image_id: ami-02eac2c0129f6376b #Centos7
 debian_image_id: ami-07ebfd5b3428b6f4d #Ubuntu 18.04
