@@ -1,0 +1,25 @@
+---
+- name: Teardown AWS infrastructure via Terraform
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - terraform:
+        project_path: /tmp/aws-terraform
+        state: absent
+      register: terraform_output
+
+    - debug:
+        var: terraform_output
+
+    - expect:
+        command: terraform destroy
+        chdir: /tmp/aws-terraform
+        responses:
+          (.*)Enter a value(.*): "yes"
+
+    - name: Recursively delete aws-terraform
+      file:
+        path: /tmp/aws-terraform
+        state: absent
