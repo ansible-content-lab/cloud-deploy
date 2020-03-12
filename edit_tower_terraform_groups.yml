@@ -1,0 +1,30 @@
+---
+- name: Edit Groups in AWS Terraform Inventory
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+    - ./credentials/tower_creds.yml
+
+  tasks:
+
+
+    - tower_group:
+        inventory: AWS Terraform Inventory
+        name: us-east-1
+        state: absent
+        tower_host: "{{ tower_url }}"
+        tower_username: "{{ tower_user }}"
+        tower_password: "{{ tower_pass }}"
+        tower_verify_ssl: false
+      delegate_to: localhost
+
+    - tower_group:
+        inventory: AWS Terraform Inventory
+        name: regions
+        state: absent
+        tower_host: "{{ tower_url }}"
+        tower_username: "{{ tower_user }}"
+        tower_password: "{{ tower_pass }}"
+        tower_verify_ssl: false
+      delegate_to: localhost
