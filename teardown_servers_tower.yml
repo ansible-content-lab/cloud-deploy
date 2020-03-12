@@ -29,7 +29,7 @@
         filters:
           "tag:application": "{{ application }}"
           "tag:provisioner": "mford"
-          "instance-state-name": "running"
+          instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
       register: instance_info
 
     # - debug:

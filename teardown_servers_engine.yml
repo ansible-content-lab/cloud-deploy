@@ -27,17 +27,17 @@
         filters:
           "tag:application": "{{ application }}"
           "tag:provisioner": "mford"
-          "instance-state-name": "running"
+          instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
       register: instance_info
 
-    # - debug:
-    #     var: instance_info
-    #
-    # - debug:
-    #     var: instance_info.instances | length
+    - debug:
+        var: instance_info
 
-    # - debug:
-    #     var: instance_info | json_query('instances[*].instance_id')
+    - debug:
+        var: instance_info.instances | length
+
+    - debug:
+        var: instance_info | json_query('instances[*].instance_id')
 
     - name: "Create a list of the {{ application }} Instances"
       set_fact:

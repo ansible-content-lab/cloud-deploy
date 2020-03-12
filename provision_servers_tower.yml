@@ -8,19 +8,28 @@
 
   tasks:
 
+    - name: Set Machine Type to Micro
+      set_fact:
+        machine_type: t2.micro
+        ec2_root_volume_name: /dev/xvda
+      when: instance_size == "micro"
+
     - name: Set Machine Type to Small
       set_fact:
         machine_type: t3.small
+        ec2_root_volume_name: /dev/sda1
       when: instance_size == "small"
 
     - name: Set Machine Type to Medium
       set_fact:
         machine_type: t3.medium
+        ec2_root_volume_name: /dev/sda1
       when: instance_size == "medium"
 
     - name: Set Machine Type to large
       set_fact:
         machine_type: t3.large
+        ec2_root_volume_name: /dev/sda1
       when: instance_size == "large"
 
     - name: Create AWS SSH Key Pair
@@ -80,7 +89,7 @@
         key_name: "{{ ec2_prefix }}-key"
         group: "{{ ec2_prefix }}-sg"
         instance_type: "{{ machine_type }}"
-        image: "{{ centos_image_id }}"
+        image: "{{ ec2_image_id }}"
         region: "{{ ec2_region }}"
         count: "{{ num_instances }}"
         wait: "{{ ec2_wait }}"
@@ -91,9 +100,9 @@
           Name: "{{ application }}-server"
           demo: appdeployment
         volumes:
-          - device_name: /dev/sda1
+          - device_name: "{{ ec2_root_volume_name }}"
             volume_type: gp2
-            volume_size: 10
+            volume_size: "{{ ec2_root_volume_size }}"
             delete_on_termination: true
 
     - pause:
