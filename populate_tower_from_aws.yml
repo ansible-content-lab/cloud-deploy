@@ -1,0 +1,23 @@
+---
+- name: Populate Ansible Tower Resources from AWS
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+    - ./credentials/tower_creds.yml
+
+  tasks:
+
+    - name: Update Ansible Tower AWS SSH Credential
+      tower_credential:
+        name: AWS Terraform Demo Instances Key
+        organization: Default
+        tower_host: "{{ tower_url }}"
+        tower_username: "{{ tower_user }}"
+        tower_password: "{{ tower_pass }}"
+        kind: ssh
+        username: centos
+        # ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        ssh_key_data: "{{ lookup('file', '{{ working_dir }}/terraform-aws-key.pem') }}"
+        tower_verify_ssl: false
+      delegate_to: localhost
