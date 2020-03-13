@@ -1,0 +1,34 @@
+---
+- name: Install and run apache
+  hosts: ec2
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+    - ./credentials/tower_creds.yml
+
+  tasks:
+
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+      become: yes
+
+    - name: Start Apache
+      service:
+        name: apache
+        state: started
+
+    - name: Create index.html file
+      copy:
+        dest: /var/www/html/index.html
+        content: "This is a newly created apache webserver"
+      notify: Restart Apache
+
+
+  handlers:
+
+    - name: Restart Apache
+      service:
+        name: apache
+        state: restarted

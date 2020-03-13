@@ -29,17 +29,17 @@
         tower_verify_ssl: false
       delegate_to: localhost
 
-    - tower_group:
-        inventory: AWS Terraform Inventory
-        name: servers
-        state: present
-        overwrite: yes
-        credential: "MAF Tiger Team AWS Key"
-        source: ec2
-        source_regions: us-east-1
-        instance_filters: "tag:demo=terraform-ansible"
-        tower_host: "{{ tower_url }}"
-        tower_username: "{{ tower_user }}"
-        tower_password: "{{ tower_pass }}"
-        validate_certs: no
-      delegate_to: localhost
+    # - tower_group:
+    #     inventory: AWS Terraform Inventory
+    #     name: servers
+    #     state: present
+    #     overwrite: yes
+    #     credential: "MAF Tiger Team AWS Key"
+    #     source: ec2
+    #     source_regions: us-east-1
+    #     instance_filters: "tag:demo=terraform-ansible"
+    #     tower_host: "{{ tower_url }}"
+    #     tower_username: "{{ tower_user }}"
+    #     tower_password: "{{ tower_pass }}"
+    #     validate_certs: no
+    #   delegate_to: localhost
