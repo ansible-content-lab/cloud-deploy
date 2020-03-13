@@ -17,3 +17,5 @@
 
     - debug:
         var: terraform_output
+      tags:
+        - debug

@@ -1,0 +1,11 @@
+---
+- name: Populate Tower Resources from AWS
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - name: Recursively delete aws-terraform
+      file:
+        path: /tmp/aws-terraform
+        state: absent

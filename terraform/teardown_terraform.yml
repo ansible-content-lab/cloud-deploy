@@ -12,14 +12,5 @@
 
     - debug:
         var: terraform_output
-
-    # - expect:
-    #     command: terraform destroy
-    #     chdir: /tmp/aws-terraform
-    #     responses:
-    #       (.*)Enter a value(.*): "yes"
-
-    - name: Recursively delete aws-terraform
-      file:
-        path: /tmp/aws-terraform
-        state: absent
+      tags:
+        - debug

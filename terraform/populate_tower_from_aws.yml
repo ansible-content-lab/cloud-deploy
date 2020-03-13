@@ -1,5 +1,5 @@
 ---
-- name: Populate Ansible Tower Resources from AWS
+- name: Populate Ansible Tower Credentials from AWS
   hosts: localhost
   gather_facts: no
   vars_files:
@@ -17,7 +17,6 @@
         tower_password: "{{ tower_pass }}"
         kind: ssh
         username: ec2-user
-        # ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
         ssh_key_data: "{{ lookup('file', '{{ working_dir }}/terraform-aws-key.pem') }}"
         tower_verify_ssl: false
       delegate_to: localhost
