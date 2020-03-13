@@ -1,5 +1,5 @@
 ---
-- name: Teardown AWS infrastructure via Terraform
+- name: Populate Tower Resources from AWS
   hosts: localhost
   gather_facts: no
 
