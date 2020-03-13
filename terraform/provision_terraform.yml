@@ -5,11 +5,6 @@
 
   tasks:
 
-    - name: Clone Terraform repo to server
-      git:
-        repo: https://github.com/michaelford85/aws-terraform.git
-        dest: /tmp/aws-terraform
-
 
     - command:
         cmd: terraform init
