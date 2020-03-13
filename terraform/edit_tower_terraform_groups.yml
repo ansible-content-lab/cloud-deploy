@@ -3,8 +3,8 @@
   hosts: localhost
   gather_facts: no
   vars_files:
-    - ./vars/default-vars.yml
-    - ./credentials/tower_creds.yml
+    - ../vars/default-vars.yml
+    - ../credentials/tower_creds.yml
 
   tasks:
 

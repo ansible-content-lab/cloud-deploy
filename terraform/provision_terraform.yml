@@ -2,7 +2,6 @@
 - name: Provision AWS infrastructure via Terraform
   hosts: localhost
   gather_facts: no
-  vars_files:
 
   tasks:
 
