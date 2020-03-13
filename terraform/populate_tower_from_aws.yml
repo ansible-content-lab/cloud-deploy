@@ -16,7 +16,7 @@
         tower_username: "{{ tower_user }}"
         tower_password: "{{ tower_pass }}"
         kind: ssh
-        username: centos
+        username: ec2-user
         # ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
         ssh_key_data: "{{ lookup('file', '{{ working_dir }}/terraform-aws-key.pem') }}"
         tower_verify_ssl: false
