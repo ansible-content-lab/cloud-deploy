@@ -15,12 +15,14 @@
       service:
         name: httpd
         state: started
+      become: yes
 
     - name: Create index.html file
       copy:
         dest: /var/www/html/index.html
         content: "This is a newly created apache webserver"
       notify: Restart Apache
+      become: yes
 
 
   handlers:
@@ -29,3 +31,4 @@
       service:
         name: httpd
         state: restarted
+      become: yes
