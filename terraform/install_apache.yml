@@ -13,7 +13,7 @@
 
     - name: Start Apache
       service:
-        name: apache
+        name: httpd
         state: started
 
     - name: Create index.html file
@@ -27,5 +27,5 @@
 
     - name: Restart Apache
       service:
-        name: apache
+        name: httpd
         state: restarted
