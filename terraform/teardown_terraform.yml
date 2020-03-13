@@ -1,16 +1,18 @@
 ---
-- name: Populate Tower Resources from AWS
+- name: Teardown AWS Instances/Resources via Terraform
   hosts: localhost
   gather_facts: no
 
   tasks:
 
-    - terraform:
+    - name: Teardown AWS Instances/Resources via Terraform
+      terraform:
         project_path: /tmp/aws-terraform
         state: absent
       register: terraform_output
 
-    - debug:
+    - name: Debug Terraform output
+      debug:
         var: terraform_output
       tags:
         - debug

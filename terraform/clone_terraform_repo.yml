@@ -10,6 +10,7 @@
         repo: https://github.com/michaelford85/aws-terraform.git
         dest: /tmp/aws-terraform
 
-    - command:
+    - name: Initialize Terraform
+      command:
         cmd: terraform init
         chdir: /tmp/aws-terraform

@@ -1,5 +1,5 @@
 ---
-- name: Edit Groups in AWS Terraform Inventory
+- name: Prune Groups in AWS Terraform Inventory
   hosts: localhost
   gather_facts: no
   vars_files:
@@ -9,7 +9,8 @@
   tasks:
 
 
-    - tower_group:
+    - name: Remove us-east-1 group
+      tower_group:
         inventory: AWS Terraform Inventory
         name: us-east-1
         state: absent
@@ -19,7 +20,8 @@
         tower_verify_ssl: false
       delegate_to: localhost
 
-    - tower_group:
+    - name: Remove regions group
+      tower_group:
         inventory: AWS Terraform Inventory
         name: regions
         state: absent

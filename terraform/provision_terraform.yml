@@ -5,17 +5,14 @@
 
   tasks:
 
-
-    - command:
-        cmd: terraform init
-        chdir: /tmp/aws-terraform
-
-    - terraform:
+    - name: Provision AWS Instances/Resources via Terraform
+      terraform:
         project_path: /tmp/aws-terraform
         state: present
       register: terraform_output
 
-    - debug:
+    - name: Debug Terraform output
+      debug:
         var: terraform_output
       tags:
         - debug
