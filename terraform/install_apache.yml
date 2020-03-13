@@ -20,7 +20,7 @@
     - name: Create index.html file
       copy:
         dest: /var/www/html/index.html
-        content: "This is a newly created apache webserver"
+        content: "This is a newly created apache webserver running on {{ inventory_hostname }}."
       notify: Restart Apache
       become: yes
 
