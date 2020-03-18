@@ -12,6 +12,7 @@
 
     - name: "Capture the Instance Facts for instance {{ ec2_instance_id }}"
       ec2_instance_info:
+        region: "{{ ec2_region }}"
         instance_ids:
           - "{{ ec2_instance_id }}"
       register: instance_output
@@ -24,6 +25,7 @@
 
     - name: "Capture the root volume info for instance {{ ec2_instance_id }}"
       ec2_vol_info:
+        region: "{{ ec2_region }}"
         filters:
           volume-id: "{{ instance_output.instances[0].block_device_mappings[0].ebs.volume_id }}"
       register: volume_output
@@ -44,6 +46,7 @@
 
     - name: Create AMI from snapshot we just created
       ec2_ami:
+        region: "{{ ec2_region }}"
         name: ansible_ami
         instance_id: "{{ ec2_instance_id }}"
         wait: yes
