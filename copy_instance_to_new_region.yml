@@ -44,7 +44,7 @@
         state: stopped
         wait: yes
 
-    - name: Create AMI from snapshot we just created
+    - name: Create Snapshot and AMI from the instance
       ec2_ami:
         region: "{{ ec2_region }}"
         name: "{{ ami_name }}"
