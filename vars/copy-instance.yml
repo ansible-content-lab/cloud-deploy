@@ -12,5 +12,5 @@ ec2_root_volume_size: 10
 num_instances: 1
 working_dir: /tmp
 instance_size: medium
-ec2_instance_state: stopped
+ec2_instance_state: restarted
 #machine_type: t2.medium
