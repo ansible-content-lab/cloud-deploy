@@ -1,0 +1,217 @@
+---
+- name: Copy instance from source region to another region
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./vars/copy-instance.yml
+  # vars:
+  #   ec2_instance_ids: []
+
+  tasks:
+
+
+    - name: "Capture the Instance Facts for instance {{ ec2_instance_id }}"
+      ec2_instance_info:
+        instance_ids:
+          - "{{ ec2_instance_id }}"
+      register: instance_output
+
+    # - debug:
+    #     var: instance_output
+
+    # - debug:
+    #     var: instance_output.instances[0].block_device_mappings[0].ebs.volume_id
+
+    - name: "Capture the root volume info for instance {{ ec2_instance_id }}"
+      ec2_vol_info:
+        filters:
+          volume-id: "{{ instance_output.instances[0].block_device_mappings[0].ebs.volume_id }}"
+      register: volume_output
+
+    # - debug:
+    #     var: volume_output
+    #
+    # - debug:
+    #     var: volume_output.volumes[0].size
+
+
+    - name: "Stop the instance {{ ec2_instance_id }}"
+      ec2:
+        instance_id: "{{ ec2_instance_id }}"
+        region: "{{ ec2_region }}"
+        state: stopped
+        wait: yes
+
+    - name: Create AMI from snapshot we just created
+      ec2_ami:
+        name: ansible_ami
+        instance_id: "{{ ec2_instance_id }}"
+        wait: yes
+      register: ami_created
+
+    # - debug:
+    #     var: ami_created
+
+    - name: "Copy AMI to {{ ec2_dest_region }}"
+      ec2_ami_copy:
+        source_region: "{{ ec2_region }}"
+        region: "{{ ec2_dest_region }}"
+        source_image_id: "{{ ami_created.image_id }}"
+        wait: yes
+        wait_timeout: 1200  # Default timeout is 600
+      register: copied_ami
+
+    # - debug:
+    #     var: copied_ami
+
+    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
+    - name: "Create AWS VPC {{ ec2_prefix }}-vpc"
+      ec2_vpc_net:
+        region: "{{ ec2_dest_region }}"
+        name: "{{ ec2_prefix }}-vpc"
+        cidr_block: "{{ ec2_vpc_cidr }}"
+        tags:
+          provisioner: mford
+          demo: ami_copy
+      register: create_vpc
+
+   # If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
+    - name: "Create EC2 Security Group {{ ec2_prefix }}-sg"
+      ec2_group:
+        region: "{{ ec2_dest_region }}"
+        name: "{{ ec2_prefix }}-sg"
+        description: "Application VPC for {{ ec2_prefix }}"
+        vpc_id: "{{create_vpc.vpc.id}}"
+        tags:
+          provisioner: mford
+          Name: "{{ ec2_prefix }}-sg"
+          demo: ami_copy
+        rules:
+          - proto: tcp
+            ports:
+            - 22
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            ports:
+            - 443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            ports:
+            - 80
+            cidr_ip: 0.0.0.0/0
+
+    # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
+    - name: "Create Subnet for {{ ec2_prefix }}-vpc"
+      ec2_vpc_subnet:
+        region: "{{ ec2_dest_region }}"
+        vpc_id: "{{ create_vpc.vpc.id }}"
+        map_public: yes
+        cidr: "{{ ec2_vpc_subnet }}"
+        tags:
+          provisioner: mford
+          demo: ami_copy
+      register: create_subnet
+
+    - name: Set ec2_subnet_id fact
+      set_fact:
+        ec2_vpc_subnet_id: "{{ create_subnet.subnet.id }}"
+
+    # Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
+    - name: "Create VPC Internet Gateway for {{ ec2_prefix }}-vpc"
+      ec2_vpc_igw:
+        region: "{{ ec2_dest_region }}"
+        vpc_id: "{{ create_vpc.vpc.id }}"
+        tags:
+          provisioner: mford
+          demo: ami_copy
+      register: igw
+
+    # This task adds a route to the internet from the subnet through the IGW
+    - name: Create a Default Route for the Subnet
+      ec2_vpc_route_table:
+        region: "{{ ec2_dest_region }}"
+        vpc_id: "{{ create_vpc.vpc.id }}"
+        subnets:
+          - "{{ create_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ igw.gateway_id }}"
+        tags:
+          provisioner: mford
+          demo: ami_copy
+
+    - name: Set Machine Type to Micro
+      set_fact:
+        machine_type: t2.micro
+        ec2_root_volume_name: /dev/xvda
+      when: instance_size == "micro"
+
+    - name: Set Machine Type to Small
+      set_fact:
+        machine_type: t3.small
+        ec2_root_volume_name: /dev/sda1
+      when: instance_size == "small"
+
+    - name: Set Machine Type to Medium
+      set_fact:
+        machine_type: t3.medium
+        ec2_root_volume_name: /dev/sda1
+      when: instance_size == "medium"
+
+    - name: Set Machine Type to large
+      set_fact:
+        machine_type: t3.large
+        ec2_root_volume_name: /dev/sda1
+      when: instance_size == "large"
+
+    - name: Create AWS SSH Key Pair
+      ec2_key:
+        name: "{{ ec2_prefix }}-key"
+        region: "{{ ec2_dest_region }}"
+      register: create_key
+
+    # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
+    - name: Save Private Key Locally
+      copy:
+        content: "{{ create_key.key.private_key }}"
+        dest: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        mode: '0400'
+      when: create_key.changed
+
+    - name: Gather Subnet Information
+      ec2_vpc_subnet_info:
+        region: "{{ ec2_dest_region }}"
+        filters:
+          "tag:demo": "ami_copy"
+          "tag:provisioner": "mford"
+      register: subnet_info
+
+    # - debug:
+    #     var: subnet_info
+
+    - name: "Create EC2 instances"
+      ec2:
+        assign_public_ip: true
+        key_name: "{{ ec2_prefix }}-key"
+        group: "{{ ec2_prefix }}-sg"
+        instance_type: "{{ machine_type }}"
+        image: "{{ copied_ami.image_id }}"
+        region: "{{ ec2_dest_region }}"
+        count: "{{ num_instances }}"
+        wait: "{{ ec2_wait }}"
+        vpc_subnet_id: "{{ subnet_info.subnets[0].id }}"
+        instance_tags:
+          provisioner: mford
+          demo: ami_copy
+        volumes:
+          - device_name: "{{ ec2_root_volume_name }}"
+            volume_type: gp2
+            volume_size: "{{ volume_output.volumes[0].size }}"
+            delete_on_termination: true
+
+    - name: Start the original instance
+      ec2:
+        instance_id: "{{ ec2_instance_id }}"
+        region: "{{ ec2_region }}"
+        state: "{{ ec2_instance_state }}"
+        wait: yes

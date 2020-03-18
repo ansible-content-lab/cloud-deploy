@@ -1,0 +1,16 @@
+---
+ec2_instance_id: i-02ac5b68c024dd2c6
+ec2_region: us-east-1
+ec2_prefix: ami-copy
+ec2_dest_region: eu-west-2
+ec2_volume_description: This snapshot was created by Ansible
+ec2_device_name: /dev/sda1
+ec2_wait: yes #wait for newly created instances to reach desired state before returning
+ec2_vpc_subnet: "192.168.0.0/28"
+ec2_vpc_cidr: "192.168.0.0/24"
+ec2_root_volume_size: 10
+num_instances: 1
+working_dir: /tmp
+instance_size: medium
+ec2_instance_state: stopped
+#machine_type: t2.medium
