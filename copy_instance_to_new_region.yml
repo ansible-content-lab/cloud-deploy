@@ -47,7 +47,7 @@
     - name: Create AMI from snapshot we just created
       ec2_ami:
         region: "{{ ec2_region }}"
-        name: ansible_ami
+        # name: ansible_ami
         instance_id: "{{ ec2_instance_id }}"
         wait: yes
       register: ami_created
