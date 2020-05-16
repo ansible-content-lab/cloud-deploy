@@ -46,7 +46,7 @@
       become: yes
 
     - name: Add public ssh key to user
-      authorized_key :
+      authorized_key:
         user: "{{ item.username }}"
         state: present
         key: "{{ lookup('file', './vars/maf-tiger-team.pub') }}"

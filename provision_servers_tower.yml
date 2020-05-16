@@ -47,9 +47,15 @@
       when: create_key.changed
       no_log: yes
 
+    - name: Derive Public Key from Private Key
+      command: "ssh-keygen -y -f {{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+      register: pubkey_output
+      when: create_key.changed
+      no_log: yes
+
     - name: Save Public Key Locally
       copy:
-        content: "{{ create_key.key.public_key }}"
+        content: "{{ pubkey_output.stdout }}"
         dest: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
         mode: '0400'
       when: create_key.changed

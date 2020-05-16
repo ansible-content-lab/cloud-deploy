@@ -1,0 +1,17 @@
+---
+- name: Public Key Generation
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - command: ssh-keygen -y -f ~/.ssh/mford-useast-2-key.pem
+      register: pubkey_output
+
+    - debug:
+        var: pubkey_output
+
+    - copy:
+        content: "{{ pubkey_output.stdout }}"
+        dest: ./public-key.pem
+        mode: '0400'
