@@ -49,6 +49,10 @@
             ports:
             - 3306 # for mysql
             cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            ports:
+            - 8200 # Hashicorp vault
+            cidr_ip: 0.0.0.0/0
 
     # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
     - name: "Create Subnet for {{ ec2_prefix }}-vpc"
