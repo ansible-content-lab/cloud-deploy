@@ -17,15 +17,16 @@
         auto_attach: true
       become: yes
 
-    - name: Disable all RHSM repositories
-      rhsm_repository:
-        name: rhel-7-server-htb-rpms
-        state: disabled
+    # - name: Disable all RHSM repositories
+    #   rhsm_repository:
+    #     name: rhel-7-server-htb-rpms
+    #     state: disabled
 
     - name: upgrade all packages
       yum:
         name: '*'
         state: latest
+        disablerepo: rhel-7-server-htb-rpms
       become: yes
 
     # - name: Enable epel repository
