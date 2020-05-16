@@ -1,0 +1,72 @@
+---
+- name: Ensure Standard RHEL8 Configuration
+  hosts: rhel
+  gather_facts: yes
+  vars_files:
+    - ./vars/linux_users.yml
+    - ./credentials/redhat-activation-key.yml
+
+  tasks:
+
+    - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
+      redhat_subscription:
+        state: present
+        activationkey: "{{ rhactivationkey }}"
+        org_id: "{{ rhorg_id }}"
+      become: yes
+
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+      become: yes
+
+    - name: Enable epel repository
+      yum:
+        enablerepo: epel
+      become: yes
+
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+      become: yes
+
+    - name: build report
+      include_role:
+        name: build_report
+
+    #Create users and force them to change password upon first login
+    #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
+    - name: Add users
+      user:
+        name: "{{ item.username }}"
+        groups: wheel
+      with_items: "{{ linux_users }}"
+      become: yes
+
+    - name: Add public ssh key to user
+      authorized_key :
+        user: "{{ item.username }}"
+        state: present
+        key: "{{ lookup('file', './vars/maf-tiger-team.pub') }}"
+      with_items: "{{ linux_users }}"
+      become: yes
+
+    - name: Unlock password and set it to empty
+      command: "passwd -d {{ item.username }}"
+      with_items: "{{ linux_users }}"
+      become: yes
+
+    - name: Expire password
+      command: "chage -d 0 {{ item.username }}"
+      with_items: "{{ linux_users }}"
+      become: yes
+
+    - name: Allow newly added users to sudo without a password
+      template:
+        src: ./templates/sudoers.j2
+        dest: /etc/sudoers.d/sudoers
+        validate: 'visudo -cf %s'
+        mode: 0440
+      become: yes

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+$("document").ready(function(){
+  $click =  $('.expandclass');   // Click selector
+
+
+  $click.click(function () {
+
+    $clicked = $(this);
+    $expand = $(this).parent('.expand').next();  // Expand and collapse content selector
+
+        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+        $expand.slideToggle(500, function () {
+            //execute this after slideToggle is done
+            //change text of expand based on visibility of content div
+        });
+
+    });
+});
+</script>
+</head>
+<body>
+<center>
+<h1>Welcome to Apache on Webserver {{ ansible_host }}!</h1>
+</center>
+<center><p>Deployed with</p><br><img src="webpage_logo.png" width="300">
+<p>The source code to create this report can be found at <a href="https://github.com/michaelford85/aws-deploy">https://github.com/michaelford85/aws-deploy</a></br><br>
+If you are new to Ansible Automation check out the following links:<br>
+<a href="https://docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html">Getting Started</a"><br>
+<a href="https://ansible.com/workshops">Free hands-on workshops</a><br>
+<a href="https://youtube.com/ansibleautomation">Youtube Videos</a><br>
+</p>
+</center>
+<footer> Reported generated on: {{ansible_date_time.date}} @ {{ansible_date_time.time}} </footer>
+</body>
+</html>

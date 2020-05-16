@@ -1,0 +1,16 @@
+---
+- name: Unregister RHEL8 with subscription-manager
+  hosts: rhel
+  become: yes
+  vars_files:
+    - ./vars/rhel8-vars.yml
+  #   - ./credentials/snow_creds.yml
+
+  tasks:
+
+    - name: Unregister with activationkey
+      redhat_subscription:
+        state: absent
+        # activationkey: rhel8-standard-key
+        # org_id: 12510151
+      # become: yes

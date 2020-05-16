@@ -47,6 +47,14 @@
       when: create_key.changed
       no_log: yes
 
+    - name: Save Public Key Locally
+      copy:
+        content: "{{ create_key.key.public_key }}"
+        dest: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+        mode: '0400'
+      when: create_key.changed
+      no_log: yes
+
     # - name: Set Key information to string
     #   set_fact:
     #     private_key_content: lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key-private.pem')
