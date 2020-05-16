@@ -39,6 +39,14 @@
             cidr_ip: 0.0.0.0/0
           - proto: tcp
             ports:
+            - 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            ports:
+            - 443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            ports:
             - 3306 # for mysql
             cidr_ip: 0.0.0.0/0
 

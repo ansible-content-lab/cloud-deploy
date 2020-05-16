@@ -1,6 +1,6 @@
 ---
 - name: Ensure Standard RHEL8 Configuration
-  hosts: rhel
+  hosts: ec2
   gather_facts: yes
   vars_files:
     - ./vars/linux_users.yml
@@ -21,10 +21,10 @@
         state: latest
       become: yes
 
-    - name: Enable epel repository
-      yum:
-        enablerepo: epel
-      become: yes
+    # - name: Enable epel repository
+    #   yum:
+    #     enablerepo: epel
+    #   become: yes
 
     - name: Install Apache
       yum:
