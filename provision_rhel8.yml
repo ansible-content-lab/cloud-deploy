@@ -14,7 +14,13 @@
         state: present
         activationkey: "{{ rhactivationkey }}"
         org_id: "{{ rhorg_id }}"
+        auto_attach: true
       become: yes
+
+    - name: Disable all RHSM repositories
+      rhsm_repository:
+        name: rhel-7-server-htb-rpms
+        state: disabled
 
     - name: upgrade all packages
       yum:
