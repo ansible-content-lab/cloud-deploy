@@ -4,6 +4,7 @@
   gather_facts: yes
   vars_files:
     - ./vars/linux_users.yml
+    - ./vars/default-vars.yml
     - ./credentials/redhat-activation-key.yml
 
   tasks:
@@ -49,7 +50,7 @@
       authorized_key:
         user: "{{ item.username }}"
         state: present
-        key: "{{ lookup('file', './vars/maf-tiger-team.pub') }}"
+        key: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}"
       with_items: "{{ linux_users }}"
       become: yes
 
