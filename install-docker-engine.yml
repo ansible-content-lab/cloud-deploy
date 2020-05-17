@@ -23,6 +23,10 @@
           state: absent
         become: yes
 
+      - name: Add repository
+        yum_repository:
+          baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+
       - name: Install required packages
         yum:
           name: "{{ packages }}"
