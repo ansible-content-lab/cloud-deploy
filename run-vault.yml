@@ -1,20 +1,28 @@
 ---
+- name: Ensure docker python package is installed
+  hosts: localhost
+  gather_facts: no
+  # vars_files:
+  #   - ./vars/default-vars.yml
+
+  tasks:
+    - name: Ensure docker python package is installed
+      pip:
+        name: docker
+        umask: 0022
+        state: forcereinstall
+
+
 - name: Ensure vault is running
   hosts: ec2
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
-    - ./credentials/redhat-activation-key.yml
 
   tasks:
 
     - block:
-      - name: Ensure docker python package is installed
-        pip:
-          name: docker
-          umask: 0022
-          state: forcereinstall
-          
+
       - name: Create vault container
         docker_container:
           name: vault
