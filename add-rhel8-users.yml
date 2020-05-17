@@ -54,6 +54,16 @@
         status_code: 200, 204
       run_once: yes
 
+    - name: Delete linux_users.json
+      file:
+        path: ./linux_users.json
+        state: absent
+
+    - name: Delete vault_hostname.yml
+      file:
+        path: /tmp/vault_hostname.yml
+        state: absent
+
 
     # - block:
     #   #Create users and force them to change password upon first login

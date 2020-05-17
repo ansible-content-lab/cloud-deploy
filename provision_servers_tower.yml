@@ -114,6 +114,7 @@
           Name: "{{ application }}-server"
           demo: appdeployment
           group: rhel
+          ec2_prefix: "{{ ec2_prefix }}"
         volumes:
           - device_name: "{{ ec2_root_volume_name }}"
             volume_type: gp2
@@ -137,6 +138,7 @@
           Name: "{{ application }}-webserver"
           demo: appdeployment
           group: webserver
+          ec2_prefix: "{{ ec2_prefix }}"
         volumes:
           - device_name: /dev/sda1
             volume_type: gp2

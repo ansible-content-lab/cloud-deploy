@@ -1,9 +1,9 @@
 {
 {% for item in linux_users %}
 {% if not loop.last %}
-	"{{item.username}}_password": "password",
+	"{{item.username}}_password": "{{ lookup('file', '{{ working_dir }}/mford-httpd-key.pub') }}",
 {% else %}
-	"{{item.username}}_password": "password"
+	"{{item.username}}_password": "{{ lookup('file', '{{ working_dir }}/mford-httpd-key.pub') }}"
 {% endif %}
 {% endfor %}
 }
