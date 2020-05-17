@@ -9,7 +9,7 @@
     - name: Ensure docker python package is installed
       pip:
         name: docker
-        umask: 0022
+        umask: "0022"
         state: forcereinstall
 
 
