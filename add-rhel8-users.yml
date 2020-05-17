@@ -29,19 +29,19 @@
         file: /tmp/vault_hostname.yml
       run_once: yes
 
-    - name: Add key value pair secrets engine to vault
-      uri:
-        url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
-        method: POST
-        body_format: json
-        body:
-          {
-            "type": "kv"
-          }
-        headers:
-          X-Vault-Token: "{{ vault_root_token }}"
-        status_code: 200, 204
-      run_once: yes
+    # - name: Add key value pair secrets engine to vault
+    #   uri:
+    #     url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
+    #     method: POST
+    #     body_format: json
+    #     body:
+    #       {
+    #         "type": "kv"
+    #       }
+    #     headers:
+    #       X-Vault-Token: "{{ vault_root_token }}"
+    #     status_code: 200, 204
+    #   run_once: yes
 
     - name: Create linux_users.json template
       template:
