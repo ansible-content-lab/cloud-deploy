@@ -133,6 +133,7 @@
       - name: restart docker instance
         reboot:
           msg: "Reboot initiated by Ansible"
+        become: yes
 
       - debug:
           msg: "Reboot completed successfully"
