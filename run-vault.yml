@@ -24,6 +24,12 @@
 
     - block:
 
+      - name: Ensure docker python package is installed
+        pip:
+          name: docker
+          state: present
+        become: yes
+
       - name: Create vault container
         docker_container:
           name: vault
