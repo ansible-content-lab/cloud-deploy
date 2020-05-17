@@ -24,6 +24,11 @@
 
     - block:
 
+      - name: Ensure pip is installed
+        yum:
+          name: python3-pip
+          state: latest
+
       - name: Ensure docker python package is installed
         pip:
           name: docker
