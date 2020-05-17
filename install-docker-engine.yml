@@ -99,11 +99,11 @@
             - docker-ce
             - docker-ce-cli
 
-      - name: Enable service firewalld
-        service:
-          name: firewalld
-          enabled: no
-          state: stopped
+      # - name: Enable service firewalld
+      #   service:
+      #     name: firewalld
+      #     enabled: no
+      #     state: stopped
 
       # - name: Start Docker service
       #   service:
