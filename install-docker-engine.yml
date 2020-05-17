@@ -18,7 +18,9 @@
         become: yes
 
       - name: Remove existing Docker repositories from /etc/yum.repos.d/
-        command: rm /etc/yum.repos.d/docker*.repo
+        file:
+          path: /etc/yum.repos.d/docker*.repo
+          state: absent
         become: yes
 
       - name: Install required packages
