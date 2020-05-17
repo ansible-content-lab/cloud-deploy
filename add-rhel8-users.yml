@@ -2,45 +2,91 @@
 - name: Add RHEL8 users from data file
   hosts: ec2
   gather_facts: yes
+  vars:
+    vault_hostname: "3.84.237.87"
   vars_files:
     - ./vars/linux_users.yml
     - ./vars/default-vars.yml
+    - ./credentials/vault_creds.yml
 
   tasks:
 
-    - block:
-      #Create users and force them to change password upon first login
-      #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
-      - name: Add users
-        user:
-          name: "{{ item.username }}"
-          groups: wheel
-        with_items: "{{ linux_users }}"
-        become: yes
+    # - name: Retrieve hostname of vault server
+    #     set_fact:
+    #       vault_hostname: "{{ ansible_host }}"
+    #   when: ec2_tag_group == "webserver"
+    #
+    # - debug:
 
-      - name: Add public ssh key to user
-        authorized_key:
-          user: "{{ item.username }}"
-          state: present
-          key: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}"
-        with_items: "{{ linux_users }}"
-        become: yes
+    - name: Add key value pair secrets engine to vault
+      uri:
+        url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
+        method: POST
+        body_format: json
+        body:
+          {
+            "type": "kv"
+          }
+        headers:
+          X-Vault-Token: "{{ vault_root_token }}"
+      run_once: yes
 
-      - name: Unlock password and set it to empty
-        command: "passwd -d {{ item.username }}"
-        with_items: "{{ linux_users }}"
-        become: yes
+    - name: Add user ssh keys to secrets engine
+      uri:
+        url: "http://{{ vault_hostname }}:8200/v1/rhel8/users"
+        method: POST
+        src: ./templates/linux_users.j2
+        headers:
+          X-Vault-Token: "{{ vault_root_token }}"
+      run_once: yes
 
-      - name: Expire password
-        command: "chage -d 0 {{ item.username }}"
-        with_items: "{{ linux_users }}"
-        become: yes
 
-      - name: Allow newly added users to sudo without a password
-        template:
-          src: ./templates/sudoers.j2
-          dest: /etc/sudoers.d/sudoers
-          validate: 'visudo -cf %s'
-          mode: 0440
-        become: yes
-      when: ec2_tag_group == "rhel"
+    # - block:
+    #   #Create users and force them to change password upon first login
+    #   #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
+    #   - name: Add users
+    #     user:
+    #       name: "{{ item.username }}"
+    #       groups: wheel
+    #     with_items: "{{ linux_users }}"
+    #     become: yes
+    #
+    #   - name: Add public ssh key to user
+    #     authorized_key:
+    #       user: "{{ item.username }}"
+    #       state: present
+    #       key: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}"
+    #     with_items: "{{ linux_users }}"
+    #     become: yes
+    #
+    #   # - name: Add key value pair secrets engine to vault
+    #   #   uri:
+    #   #     url: "http://{{ vault_hostname }}/v1/sys/mounts/linux_users"
+    #   #     method: POST
+    #   #     body_format: json
+    #   #     body:
+    #   #       {
+    #   #         "type": "kv"
+    #   #       }
+    #   #     headers:
+    #   #       X-Vault-Token: "{{ vault_root_token }}"
+    #   #   run_once: yes
+    #
+    #   - name: Unlock password and set it to empty
+    #     command: "passwd -d {{ item.username }}"
+    #     with_items: "{{ linux_users }}"
+    #     become: yes
+    #
+    #   - name: Expire password
+    #     command: "chage -d 0 {{ item.username }}"
+    #     with_items: "{{ linux_users }}"
+    #     become: yes
+    #
+    #   - name: Allow newly added users to sudo without a password
+    #     template:
+    #       src: ./templates/sudoers.j2
+    #       dest: /etc/sudoers.d/sudoers
+    #       validate: 'visudo -cf %s'
+    #       mode: 0440
+    #     become: yes
+    #   when: ec2_tag_group == "rhel"

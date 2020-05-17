@@ -1,0 +1,9 @@
+{
+{% for item in linux_users %}
+{% if not loop.last %}
+	"{{item.username}}_password": "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}",
+{% else %}
+	"{{item.username}}_password": "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}"
+{% endif %}
+{% endfor %}
+}

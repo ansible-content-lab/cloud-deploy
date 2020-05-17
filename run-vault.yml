@@ -29,4 +29,8 @@
             VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
           published_ports:
             - 8200:8200
+
+      # - name: Create key-value pair secrets engine
+
+
       when: ec2_tag_group == "webserver"
