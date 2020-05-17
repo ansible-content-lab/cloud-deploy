@@ -9,72 +9,64 @@
 
   tasks:
 
-    - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
-      redhat_subscription:
-        state: present
-        activationkey: "{{ rhactivationkey }}"
-        org_id: "{{ rhorg_id }}"
-        auto_attach: true
-      become: yes
+    - block:
+      - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
+        redhat_subscription:
+          state: present
+          activationkey: "{{ rhactivationkey }}"
+          org_id: "{{ rhorg_id }}"
+          auto_attach: true
+        become: yes
 
-    # - name: Disable all RHSM repositories
-    #   rhsm_repository:
-    #     name: rhel-7-server-htb-rpms
-    #     state: disabled
+      - name: upgrade all packages
+        yum:
+          name: '*'
+          state: latest
+          disablerepo: rhel-7-server-htb-rpms
+        become: yes
 
-    - name: upgrade all packages
-      yum:
-        name: '*'
-        state: latest
-        disablerepo: rhel-7-server-htb-rpms
-      become: yes
+      - name: Install Apache
+        yum:
+          name: httpd
+          state: latest
+        become: yes
 
-    # - name: Enable epel repository
-    #   yum:
-    #     enablerepo: epel
-    #   become: yes
+      - name: build report
+        include_role:
+          name: build_report
 
-    - name: Install Apache
-      yum:
-        name: httpd
-        state: latest
-      become: yes
+      #Create users and force them to change password upon first login
+      #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
+      - name: Add users
+        user:
+          name: "{{ item.username }}"
+          groups: wheel
+        with_items: "{{ linux_users }}"
+        become: yes
 
-    - name: build report
-      include_role:
-        name: build_report
+      - name: Add public ssh key to user
+        authorized_key:
+          user: "{{ item.username }}"
+          state: present
+          key: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}"
+        with_items: "{{ linux_users }}"
+        become: yes
 
-    #Create users and force them to change password upon first login
-    #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
-    - name: Add users
-      user:
-        name: "{{ item.username }}"
-        groups: wheel
-      with_items: "{{ linux_users }}"
-      become: yes
+      - name: Unlock password and set it to empty
+        command: "passwd -d {{ item.username }}"
+        with_items: "{{ linux_users }}"
+        become: yes
 
-    - name: Add public ssh key to user
-      authorized_key:
-        user: "{{ item.username }}"
-        state: present
-        key: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key.pub') }}"
-      with_items: "{{ linux_users }}"
-      become: yes
+      - name: Expire password
+        command: "chage -d 0 {{ item.username }}"
+        with_items: "{{ linux_users }}"
+        become: yes
 
-    - name: Unlock password and set it to empty
-      command: "passwd -d {{ item.username }}"
-      with_items: "{{ linux_users }}"
-      become: yes
-
-    - name: Expire password
-      command: "chage -d 0 {{ item.username }}"
-      with_items: "{{ linux_users }}"
-      become: yes
-
-    - name: Allow newly added users to sudo without a password
-      template:
-        src: ./templates/sudoers.j2
-        dest: /etc/sudoers.d/sudoers
-        validate: 'visudo -cf %s'
-        mode: 0440
-      become: yes
+      - name: Allow newly added users to sudo without a password
+        template:
+          src: ./templates/sudoers.j2
+          dest: /etc/sudoers.d/sudoers
+          validate: 'visudo -cf %s'
+          mode: 0440
+        become: yes
+    when: ec2_tag_group == "rhel"

@@ -1,0 +1,34 @@
+---
+- name: Ensure Docker Engine is installed on webserver
+  hosts: ec2
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+    - ./credentials/redhat-activation-key.yml
+
+  tasks:
+
+    - block:
+      - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
+        redhat_subscription:
+          state: present
+          activationkey: "{{ rhactivationkey }}"
+          org_id: "{{ rhorg_id }}"
+          auto_attach: true
+        become: yes
+
+      - name: Remove existing Docker repositories from /etc/yum.repos.d/
+        command: rm /etc/yum.repos.d/docker*.repo
+        become: yes
+
+      - name: Install required packages
+        yum:
+          name: "{{ packages }}"
+          state: latest
+        vars:
+          packages:
+            - yum-utils
+            - device-mapper-persistent-data
+            - lvm2
+        become: yes
+    when: ec2_tag_group == "webserver"
