@@ -9,6 +9,12 @@
   tasks:
 
     - block:
+      - name: Ensure docker python package is installed
+        pip:
+          name: docker
+          umask: 0022
+          state: forcereinstall
+          
       - name: Create vault container
         docker_container:
           name: vault
