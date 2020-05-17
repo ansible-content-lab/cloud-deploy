@@ -13,6 +13,8 @@
         docker_container:
           name: vault
           image: vault
+          env:
+            VAULT_DEV_ROOT_TOKEN_ID: ansible
           published_ports:
             - 8200:8200
       when: ec2_tag_group == "webserver"
