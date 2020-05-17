@@ -79,7 +79,7 @@
 
       - name: Uninstall the latest available containerd.io package manually
         yum:
-          name: containerd.io.x86_64
+          name: containerd.io-1.2.6-3.3.el7.x86_64
           state: absent
         become: yes
 
