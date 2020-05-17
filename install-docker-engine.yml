@@ -80,4 +80,4 @@
       #     state: started
       #     enabled: yes
       #   become: yes
-      # when: ec2_tag_group == "webserver"
+      when: ec2_tag_group == "webserver"
