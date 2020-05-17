@@ -65,16 +65,22 @@
           state: present
         become: yes
 
-      # - name: Install Docker
-      #   yum:
-      #     name: "{{ packages }}"
-      #     state: latest
-      #   become: yes
-      #   vars:
-      #     packages:
-      #       - docker-ce
-      #       - docker-ce-cli
-      #
+      - name: Install Docker
+        yum:
+          name: "{{ packages }}"
+          state: latest
+        become: yes
+        vars:
+          packages:
+            - docker-ce
+            - docker-ce-cli
+
+      - name: Enable service firewalld
+        service:
+          name: firewalld
+          enabled: no
+          state: stopped
+
       # - name: Start Docker service
       #   service:
       #     name: docker
