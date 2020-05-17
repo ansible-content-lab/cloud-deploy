@@ -55,4 +55,22 @@
           option: enabled
           value: 0
         become: yes
+
+      - name: Install Docker
+        yum:
+          name: "{{ packages }}"
+          state: latest
+        become: yes
+        vars:
+          packages:
+            - docker-ce
+            - docker-ce-cli
+            - containerd.io
+
+      - name: Start Docker service
+        service:
+          name: docker
+          state: started
+          enabled: yes
+        become: yes
       when: ec2_tag_group == "webserver"
