@@ -17,62 +17,62 @@
 
     - debug:
         var: joined_key
-    # - name: Create vault_hostname.yml template
-    #   template:
-    #     src: ./templates/vault_hostname.j2
-    #     dest: /tmp/vault_hostname.yml
-    #   delegate_to: localhost
-    #   run_once: yes
-    #
-    # - name: Include variable file for vault_hostname
-    #   include_vars:
-    #     file: /tmp/vault_hostname.yml
-    #   run_once: yes
-    #
-    # - name: Add key value pair secrets engine to vault
-    #   uri:
-    #     url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
-    #     method: POST
-    #     body_format: json
-    #     body:
-    #       {
-    #         "type": "kv"
-    #       }
-    #     headers:
-    #       X-Vault-Token: "{{ vault_root_token }}"
-    #     status_code: 200, 204
-    #   run_once: yes
-    #
-    # - name: Create linux_users.json template
-    #   template:
-    #     src: ./templates/linux_users.j2
-    #     dest: /tmp/linux_users.json
-    #   delegate_to: localhost
-    #   run_once: yes
-    #
-    # - name: Add user ssh keys to secrets engine
-    #   uri:
-    #     url: "http://{{ vault_hostname }}:8200/v1/rhel8/users"
-    #     method: POST
-    #     src: /tmp/linux_users.json
-    #     headers:
-    #       X-Vault-Token: "{{ vault_root_token }}"
-    #     status_code: 200, 204
-    #   run_once: yes
-    #
-    # - name: Delete linux_users.json
-    #   file:
-    #     path: /tmp/linux_users.json
-    #     state: absent
-    #   delegate_to: localhost
-    #   run_once: yes
-    #
-    # - name: Delete vault_hostname.yml
-    #   file:
-    #     path: /tmp/vault_hostname.yml
-    #     state: absent
-    #   delegate_to: localhost
-    #   run_once: yes
+    - name: Create vault_hostname.yml template
+      template:
+        src: ./templates/vault_hostname.j2
+        dest: /tmp/vault_hostname.yml
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Include variable file for vault_hostname
+      include_vars:
+        file: /tmp/vault_hostname.yml
+      run_once: yes
+
+    - name: Add key value pair secrets engine to vault
+      uri:
+        url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
+        method: POST
+        body_format: json
+        body:
+          {
+            "type": "kv"
+          }
+        headers:
+          X-Vault-Token: "{{ vault_root_token }}"
+        status_code: 200, 204
+      run_once: yes
+
+    - name: Create linux_users.json template
+      template:
+        src: ./templates/linux_users.j2
+        dest: /tmp/linux_users.json
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Add user ssh keys to secrets engine
+      uri:
+        url: "http://{{ vault_hostname }}:8200/v1/rhel8/users"
+        method: POST
+        src: /tmp/linux_users.json
+        headers:
+          X-Vault-Token: "{{ vault_root_token }}"
+        status_code: 200, 204
+      run_once: yes
+
+    - name: Delete linux_users.json
+      file:
+        path: /tmp/linux_users.json
+        state: absent
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Delete vault_hostname.yml
+      file:
+        path: /tmp/vault_hostname.yml
+        state: absent
+      delegate_to: localhost
+      run_once: yes
 
 
     # - block:
