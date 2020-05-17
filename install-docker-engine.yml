@@ -105,10 +105,10 @@
       #     enabled: no
       #     state: stopped
 
-      # - name: Start Docker service
-      #   service:
-      #     name: docker
-      #     state: started
-      #     enabled: yes
-      #   become: yes
+      - name: Start Docker service
+        service:
+          name: docker
+          state: started
+          enabled: yes
+        become: yes
       when: ec2_tag_group == "webserver"
