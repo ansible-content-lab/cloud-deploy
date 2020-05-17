@@ -20,6 +20,12 @@
           auto_attach: true
         become: yes
 
+      - name: Remove docker directory
+        file:
+          path: /var/lib/docker/
+          state: absent
+        become: yes
+
       - name: Remove existing Docker repositories from /etc/yum.repos.d/
         file:
           path: /etc/yum.repos.d/docker*.repo
@@ -111,4 +117,23 @@
           state: started
           enabled: yes
         become: yes
+
+      - name: Create docker group
+        group:
+          name: docker
+          state: present
+
+      - name: Add ec2-user to docker group
+        user:
+          name: ec2-user
+          append: yes
+          groups: docker
+        become: yes
+
+      - name: restart docker instance
+        reboot:
+          msg: "Reboot initiated by Ansible"
+
+      - debug:
+          msg: "Reboot completed successfully"
       when: ec2_tag_group == "webserver"
