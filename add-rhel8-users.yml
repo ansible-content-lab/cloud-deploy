@@ -13,8 +13,8 @@
   tasks:
 
     - name: Retrieve hostname of vault server
-        set_fact:
-          vault_hostname: "{{ ansible_host }}"
+      set_fact:
+        vault_hostname: "{{ ansible_host }}"
       when: ec2_tag_group == "webserver"
 
     - debug:
