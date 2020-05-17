@@ -69,4 +69,4 @@
           validate: 'visudo -cf %s'
           mode: 0440
         become: yes
-    when: ec2_tag_group == "rhel"
+      when: ec2_tag_group == "rhel"
