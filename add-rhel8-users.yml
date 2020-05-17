@@ -13,7 +13,7 @@
   tasks:
 
     - set_fact:
-        joined_key: "{{ lookup('file', '/tmp/mford-httpd-key-private.pem'}}"
+        joined_key: "{{ lookup('file', '/tmp/mford-httpd-key-private.pem') }}"
 
     - debug:
         var: joined_key
