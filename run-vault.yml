@@ -1,17 +1,17 @@
 ---
-- name: Ensure docker python package is installed
-  hosts: tower
-  gather_facts: no
-  # vars_files:
-  #   - ./vars/default-vars.yml
-
-  tasks:
-    - name: Ensure docker python package is installed
-      pip:
-        name: docker
-        umask: "0022"
-        state: forcereinstall
-      become: yes
+# - name: Ensure docker python package is installed
+#   hosts: tower
+#   gather_facts: no
+#   # vars_files:
+#   #   - ./vars/default-vars.yml
+#
+#   tasks:
+#     - name: Ensure docker python package is installed
+#       pip:
+#         name: docker
+#         umask: "0022"
+#         state: forcereinstall
+#       become: yes
 
 
 - name: Ensure vault is running
