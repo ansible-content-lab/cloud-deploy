@@ -19,44 +19,40 @@
       delegate_to: localhost
       run_once: yes
 
-    # - name: Retrieve hostname of vault server
-    #   set_fact:
-    #     vault_hostname: "{{ ansible_host }}"
-    #   when: ec2_tag_group == "webserver"
-    #
-    # - debug:
-    #     var: vault_hostname
+    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+      include_vars:
+        file: /tmp/vault_hostname.yml
 
-    # - name: Add key value pair secrets engine to vault
-    #   uri:
-    #     url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
-    #     method: POST
-    #     body_format: json
-    #     body:
-    #       {
-    #         "type": "kv"
-    #       }
-    #     headers:
-    #       X-Vault-Token: "{{ vault_root_token }}"
-    #     status_code: 200, 204
-    #   run_once: yes
-    #
-    # - name: Create linux_users.json template
-    #   template:
-    #     src: ./templates/linux_users.j2
-    #     dest: ./linux_users.json
-    #   delegate_to: localhost
-    #   run_once: yes
-    #
-    # - name: Add user ssh keys to secrets engine
-    #   uri:
-    #     url: "http://{{ vault_hostname }}:8200/v1/rhel8/users"
-    #     method: POST
-    #     src: ./linux_users.json
-    #     headers:
-    #       X-Vault-Token: "{{ vault_root_token }}"
-    #     status_code: 200, 204
-    #   run_once: yes
+    - name: Add key value pair secrets engine to vault
+      uri:
+        url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel8"
+        method: POST
+        body_format: json
+        body:
+          {
+            "type": "kv"
+          }
+        headers:
+          X-Vault-Token: "{{ vault_root_token }}"
+        status_code: 200, 204
+      run_once: yes
+
+    - name: Create linux_users.json template
+      template:
+        src: ./templates/linux_users.j2
+        dest: ./linux_users.json
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Add user ssh keys to secrets engine
+      uri:
+        url: "http://{{ vault_hostname }}:8200/v1/rhel8/users"
+        method: POST
+        src: ./linux_users.json
+        headers:
+          X-Vault-Token: "{{ vault_root_token }}"
+        status_code: 200, 204
+      run_once: yes
 
 
     # - block:
