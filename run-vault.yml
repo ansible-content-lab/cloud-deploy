@@ -28,6 +28,7 @@
         yum:
           name: python3-pip
           state: latest
+        become: yes
 
       - name: Ensure docker python package is installed
         pip:
