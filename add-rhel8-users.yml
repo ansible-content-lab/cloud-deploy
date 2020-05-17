@@ -41,7 +41,7 @@
     - name: Create linux_users.json template
       template:
         src: ./templates/linux_users.j2
-        dest: ./linux_users.json
+        dest: /tmp/linux_users.json
       delegate_to: localhost
       run_once: yes
 
@@ -49,7 +49,7 @@
       uri:
         url: "http://{{ vault_hostname }}:8200/v1/rhel8/users"
         method: POST
-        src: ./linux_users.json
+        src: /tmp/linux_users.json
         headers:
           X-Vault-Token: "{{ vault_root_token }}"
         status_code: 200, 204
@@ -57,7 +57,7 @@
 
     - name: Delete linux_users.json
       file:
-        path: ./linux_users.json
+        path: /tmp/linux_users.json
         state: absent
       delegate_to: localhost
       run_once: yes
