@@ -22,6 +22,7 @@
     - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
       include_vars:
         file: /tmp/vault_hostname.yml
+      run_once: yes
 
     - name: Add key value pair secrets engine to vault
       uri:
@@ -58,11 +59,15 @@
       file:
         path: ./linux_users.json
         state: absent
+      delegate_to: localhost
+      run_once: yes
 
     - name: Delete vault_hostname.yml
       file:
         path: /tmp/vault_hostname.yml
         state: absent
+      delegate_to: localhost
+      run_once: yes
 
 
     # - block:
