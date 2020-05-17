@@ -59,6 +59,30 @@
           value: '0'
         become: yes
 
+      - name: Remove docker if installed from CentOS repo
+        yum:
+          name: "{{ packages }}"
+          state: removed
+        become: yes
+        vars:
+          packages:
+            - docker
+            - docker-client
+            - docker-client-latest
+            - docker-common
+            - docker-latest
+            - docker-latest-logrotate
+            - docker-logrotate
+            - docker-engine
+            - docker-ce
+            - docker-ce-cli
+
+      - name: Uninstall the latest available containerd.io package manually
+        yum:
+          name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+          state: absent
+        become: yes
+
       - name: Install the latest available containerd.io package manually
         yum:
           name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
