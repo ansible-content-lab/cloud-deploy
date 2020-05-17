@@ -3,8 +3,8 @@
 - name: Add RHEL8 users from data file
   hosts: ec2
   gather_facts: yes
-  # vars:
-  #   vault_hostname: "3.84.237.87"
+  vars:
+    servers_to_monitor: "{{ groups['ec2'] }}"
   vars_files:
     - ./vars/linux_users.yml
     - ./vars/default-vars.yml
@@ -12,13 +12,20 @@
 
   tasks:
 
-    - name: Retrieve hostname of vault server
-      set_fact:
-        vault_hostname: "{{ ansible_host }}"
-      when: ec2_tag_group == "webserver"
+    - name: Create vault_hostname.yml template
+      template:
+        src: ./templates/vault_hostname.j2
+        dest: /tmp/vault_hostname.yml
+      delegate_to: localhost
+      run_once: yes
 
-    - debug:
-        var: vault_hostname
+    # - name: Retrieve hostname of vault server
+    #   set_fact:
+    #     vault_hostname: "{{ ansible_host }}"
+    #   when: ec2_tag_group == "webserver"
+    #
+    # - debug:
+    #     var: vault_hostname
 
     # - name: Add key value pair secrets engine to vault
     #   uri:
