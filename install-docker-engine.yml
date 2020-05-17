@@ -23,10 +23,6 @@
           state: absent
         become: yes
 
-      - name: Add repository
-        yum_repository:
-          baseurl: https://download.docker.com/linux/centos/docker-ce.repo
-
       - name: Install required packages
         yum:
           name: "{{ packages }}"
@@ -37,4 +33,8 @@
             - device-mapper-persistent-data
             - lvm2
         become: yes
+
+      - name: Add repository
+        yum_repository:
+          baseurl: https://download.docker.com/linux/centos/docker-ce.repo
       when: ec2_tag_group == "webserver"
