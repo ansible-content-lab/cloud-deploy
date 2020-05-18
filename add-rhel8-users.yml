@@ -107,7 +107,7 @@
 
       #Instructions on how to change SSH PasswordAuthentication
       #https://www.reddit.com/r/ansible/comments/8v943t/add_a_ansible_task_to_allow/
-      - name: update sshd config
+      - name: update sshd config to allow for Password Authentication
         lineinfile:
           path: /etc/ssh/sshd_config
           regexp: '^PasswordAuthentication.*no'
