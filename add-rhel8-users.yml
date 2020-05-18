@@ -113,6 +113,7 @@
           regexp: '^PasswordAuthentication.*no'
           line: 'PasswordAuthentication=yes'
         notify: restart_sshd
+        become: yes
       when: ec2_tag_group == "rhel"
 
   handlers:
@@ -120,4 +121,5 @@
       service:
         name: sshd
         state: restarted
+      become: yes
       when: ec2_tag_group == "rhel"
