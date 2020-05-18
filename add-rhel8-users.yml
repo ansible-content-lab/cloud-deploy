@@ -105,6 +105,8 @@
           mode: 0440
         become: yes
 
+      #Instructions on how to change SSH PasswordAuthentication
+      #https://www.reddit.com/r/ansible/comments/8v943t/add_a_ansible_task_to_allow/
       - name: update sshd config
         lineinfile:
           path: /etc/ssh/sshd_config
