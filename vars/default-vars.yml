@@ -11,3 +11,4 @@ ec2_image_id: ami-098f16afa9edf40be #RHEL 8 HVM
 ec2_wait: yes #wait for newly created instances to reach desired state before returning
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
+initial_password: ansible
