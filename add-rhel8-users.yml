@@ -104,4 +104,18 @@
           validate: 'visudo -cf %s'
           mode: 0440
         become: yes
+
+      - name: update sshd config
+        lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '^PasswordAuthentication.*no'
+          line: 'PasswordAuthentication=yes'
+        notify: restart_sshd
+      when: ec2_tag_group == "rhel"
+
+  handlers:
+    - name: restart_sshd
+      service:
+        name: sshd
+        state: restarted
       when: ec2_tag_group == "rhel"
