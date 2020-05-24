@@ -22,9 +22,9 @@
           close_notes: "{{ close_notes }}"
       register: change_request_status
 
-    - name: Show Change Request details
-      debug:
-        var: change_request_status.record.state
+    # - name: Show Change Request details
+    #   debug:
+    #     var: change_request_status.record.state
 
     - name: Remove Change Request Variable file
       file:
@@ -42,6 +42,7 @@
     # 0 means it is in the review state
     # 3 means CR closed successfully (perhaps with issues)
     # 4 means cancelled
+    #https://docs.servicenow.com/bundle/orlando-it-service-management/page/product/change-management/task/state-model-activate-tasks.html
 
     #approval
     # - not requested

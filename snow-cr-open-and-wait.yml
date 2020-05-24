@@ -7,7 +7,7 @@
     - servicenow.servicenow
 
   tasks:
-    - name: Open Change Request Details
+    - name: Create ServiceNow Change Request
       snow_record:
         username: "{{ SNOW_USERNAME }}"
         password: "{{ SNOW_PASSWORD }}"
@@ -22,10 +22,41 @@
           approval: "requested"
           state: -4
       register: new_change_request
+      when: from_snow|bool
 
     - name: Show Change Request details
       debug:
         var: new_change_request
+      when: from_snow|bool
+
+    - name: Store change request for later in the workflow
+      template:
+        src: ./templates/snow-change-request.j2
+        dest: /tmp/snow-change-request.yml
+      run_once: yes
+      delegate_to: localhost
+      when: from_snow|bool
+
+    - name: Wait for Change Request approval
+      snow_record_find:
+        username: "{{ SNOW_USERNAME }}"
+        password: "{{ SNOW_PASSWORD }}"
+        instance: "{{ SNOW_INSTANCE }}"
+        table: change_request
+        query:
+          AND:
+            equals:
+              number: "{{ new_change_request.record.number }}"
+      register: change_request_status
+      when: from_snow|bool
+      until: change_request_status.record.status == "-2"
+      retries: 50
+      delay: 10
+
+    - debug:
+        msg: "Change request {{ new_change_request.record.number }} has been approved!"
+
+
 
     #state
     # -5 is just created
