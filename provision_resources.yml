@@ -33,7 +33,7 @@
 
     - name: Store change request for later in the workflow
       template:
-        source: ./templates/snow-change-request.j2
+        src: ./templates/snow-change-request.j2
         dest: /tmp/snow-change-request.yml
       run_once: yes
       delegate_to: localhost
