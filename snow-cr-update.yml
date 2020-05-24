@@ -17,7 +17,7 @@
         number: "{{ snow_cr_number }}"
         state: present
         data:
-          state: 7
+          state: "-3"
           close_code: "{{ close_code }}"
           close_notes: "{{ close_notes }}"
       register: change_request_status
