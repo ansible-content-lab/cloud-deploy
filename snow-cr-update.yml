@@ -3,12 +3,12 @@
   gather_facts: no
   vars_files:
     - ./credentials/snow_creds.yml
-    - ./tmp/snow-change-request.yml
+    - /tmp/snow-change-request.yml
   collections:
     - servicenow.servicenow
 
   tasks:
-    - name: Close Change Request Details
+    - name: Update Change Request
       snow_record:
         username: "{{ SNOW_USERNAME }}"
         password: "{{ SNOW_PASSWORD }}"
@@ -22,9 +22,17 @@
           close_notes: "{{ close_notes }}"
       register: change_request_status
 
-    - name: Show Change Request details
-      debug:
-        var: change_request_status
+    # - name: Show Change Request details
+    #   debug:
+    #     var: change_request_status
+
+    - name: Remove Change Request Variable file
+      file:
+        path: /tmp/snow-change-request.yml
+        state: absent
+      when:
+        - close_state == 7
+        - close_state == 3
 
     #state
     # -5 is just created
