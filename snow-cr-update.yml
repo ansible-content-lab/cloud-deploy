@@ -30,7 +30,8 @@
       file:
         path: /tmp/snow-change-request.yml
         state: absent
-      when: change_request_status.record.state == "4"
+      when: (change_request_status.record.state == "3") or
+            (change_request_status.record.state == "4")
 
     #state
     # -5 is just created
