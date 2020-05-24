@@ -4,6 +4,7 @@
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
+    - ./credentials/snow_creds.yml
 
   tasks:
 
