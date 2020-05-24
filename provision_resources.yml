@@ -24,7 +24,7 @@
           approval: "requested"
           state: -4
       register: new_change_request
-      until: delete_sg is not failed
+      until: new_change_request is not failed
       retries: 50
       delay: 10
       when: from_snow|bool
