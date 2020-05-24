@@ -31,8 +31,8 @@
         path: /tmp/snow-change-request.yml
         state: absent
       when:
-        - change_request_status.record.state is match("4")
-        - change_request_status.record.state is match("3")
+        - change_request_status.record.state|int == 4
+        - change_request_status.record.state|int == 3
 
     #state
     # -5 is just created
