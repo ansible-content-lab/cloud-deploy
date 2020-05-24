@@ -18,7 +18,7 @@
         state: present
         data:
           state: "{{ close_state }}"
-          close_code: ""{{ close_code }}"
+          close_code: "{{ close_code }}"
           close_notes: "{{ close_notes }}"
       register: change_request_status
 
