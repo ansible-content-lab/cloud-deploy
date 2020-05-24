@@ -49,9 +49,9 @@
               number: "{{ new_change_request.record.number }}"
       register: change_request_status
       when: from_snow|bool
-      until: change_request_status.record.status == "-2"
-      retries: 50
-      delay: 10
+      # until: change_request_status.record.status == "-2"
+      # retries: 50
+      # delay: 10
 
     - debug:
         msg: "Change request {{ new_change_request.record.number }} has been approved!"
