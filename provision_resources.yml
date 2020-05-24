@@ -26,12 +26,12 @@
       until: delete_sg is not failed
       retries: 50
       delay: 10
-      when: from_snow == true
+      when: from_snow|bool
 
     - name: Show Change Request details
       debug:
         var: new_change_request
-      when: from_snow == true
+      when: from_snow|bool
 
    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
     - name: "Create AWS VPC {{ ec2_prefix }}-vpc"
