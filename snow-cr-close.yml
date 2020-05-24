@@ -3,6 +3,7 @@
   gather_facts: no
   vars_files:
     - ./credentials/snow_creds.yml
+    - ./tmp/snow-change-request.yml
   collections:
     - servicenow.servicenow
 
@@ -13,12 +14,12 @@
         password: "{{ SNOW_PASSWORD }}"
         instance: "{{ SNOW_INSTANCE }}"
         table: change_request
-        number: "CHG0030014"
+        number: "{{ snow-cr-number }}"
         state: present
         data:
-          state: 3
-          close_code: "successful"
-          close_notes: "Created Successfully"
+          state: "{{ close_state }}"
+          close_code: ""{{ close_code }}"
+          close_notes: "{{ close_notes }}"
       register: change_request_status
 
     - name: Show Change Request details
@@ -33,6 +34,7 @@
     # -1 means it is in the implement stage
     # 0 means it is in the review state
     # 3 means CR closed successfully (perhaps with issues)
+    # 4 means cancelled
 
     #approval
     # - not requested
