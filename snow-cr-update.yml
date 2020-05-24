@@ -14,7 +14,7 @@
         password: "{{ SNOW_PASSWORD }}"
         instance: "{{ SNOW_INSTANCE }}"
         table: change_request
-        number: "{{ snow-cr-number }}"
+        number: "{{ snow_cr_number }}"
         state: present
         data:
           state: "{{ close_state }}"
