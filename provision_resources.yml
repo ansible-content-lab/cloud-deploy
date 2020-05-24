@@ -24,9 +24,9 @@
           approval: "requested"
           state: -4
       register: new_change_request
-      until: new_change_request is not failed
-      retries: 50
-      delay: 10
+      # until: new_change_request is not failed
+      # retries: 50
+      # delay: 10
       when: from_snow|bool
 
     - name: Show Change Request details
