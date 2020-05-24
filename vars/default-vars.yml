@@ -1,8 +1,8 @@
 ---
 working_dir: /tmp
 ec2_region: us-east-1
-ec2_prefix: mford-mysql
-application: mysql
+ec2_prefix: mford-linux
+application: apache
 # machine_type: t2.medium
 num_instances: 3
 # ec2_image_id: ami-02eac2c0129f6376b #Centos7
