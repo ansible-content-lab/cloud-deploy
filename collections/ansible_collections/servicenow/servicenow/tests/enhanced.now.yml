@@ -1,0 +1,10 @@
+---
+plugin: servicenow.servicenow.now
+instance: dev93775.service-now.com
+username: admin
+password: knTVFcRlD6d9
+selection_order: name
+enhanced: True
+#keyed_groups:
+#    - key: sn_sys_class_name
+#      prefix: sn

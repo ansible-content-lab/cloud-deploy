@@ -1,0 +1,47 @@
+- name: ServiceNow Close Change Request
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./credentials/snow_creds.yml
+  collections:
+    - servicenow.servicenow
+
+  tasks:
+    - name: Close Change Request Details
+      snow_record:
+        username: "{{ SNOW_USERNAME }}"
+        password: "{{ SNOW_PASSWORD }}"
+        instance: "{{ SNOW_INSTANCE }}"
+        table: change_request
+        number: "CHG0030014"
+        state: present
+        data:
+          state: 3
+          close_code: "successful"
+          close_notes: "Created Successfully"
+      register: change_request_status
+
+    - name: Show Change Request details
+      debug:
+        var: change_request_status
+
+    #state
+    # -5 is just created
+    # -4 means approval has been requested
+    # -3 means partial approval
+    # -2 means it has been approved
+    # -1 means it is in the implement stage
+    # 0 means it is in the review state
+    # 3 means CR closed successfully (perhaps with issues)
+
+    #approval
+    # - not requested
+    # - requested
+    # - approved
+
+    #close_code
+    # - successful
+    # - successful with issues
+    # - unsuccessful
+
+    #closed_notes

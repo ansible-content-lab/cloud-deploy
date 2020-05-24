@@ -1,0 +1,46 @@
+---
+- name: release collection
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars:
+    version: undef #pass in -e version=X.Y.Z when running playbook
+    api_key: undef #pass in -e api_key=WXYZ when running playbook
+
+  tasks:
+    - name: update galaxy.yml
+      lineinfile:
+        path: "{{ playbook_dir}}/galaxy.yml"
+        regexp: '^version:'
+        line: "version: \"{{ version }}\""
+
+    - name: build collection
+      command:
+        cmd: ansible-galaxy collection build
+        chdir: "{{ playbook_dir }}"
+        creates: "{{ playbook_dir }}/servicenow.servicenow-{{ version }}.tar.gz"
+      tags: build
+
+    - name: install collection
+      command:
+        cmd: "ansible-galaxy collection install servicenow-servicenow-{{ version }}.tar.gz -p ~/.ansible/collections/"
+        chdir: "{{ playbook_dir }}"
+      tags: install
+
+    - name: publish collection
+      command:
+        cmd: "ansible-galaxy collection publish --api-key={{ api_key }} servicenow-servicenow-{{ version }}.tar.gz"
+        chdir: "{{ playbook_dir }}"
+      tags: publish
+
+    - name: commit galaxy.yml
+      command:
+        cmd: "git commit galaxy.yml -m 'update to version {{ version }}'"
+        chdir: "{{ playbook_dir }}"
+      tags: git
+    
+    - name: tag version
+      command:
+        cmd: "git tag v{{ version }}"
+        chdir: "{{ playbook_dir }}"
+      tags: git

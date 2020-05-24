@@ -1,0 +1,8 @@
+---
+plugin: servicenow.servicenow.now
+instance: dev93775.service-now.com
+username: admin
+password: le4MnTLd3bCK
+table: cmdb_ci_netgear
+selection_order: name
+enhanced: True
