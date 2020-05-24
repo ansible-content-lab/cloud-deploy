@@ -17,22 +17,22 @@
         number: "{{ snow_cr_number }}"
         state: present
         data:
-          state: "{{ close_state | int }}"
+          state: "{{ close_state }}"
           close_code: "{{ close_code }}"
           close_notes: "{{ close_notes }}"
       register: change_request_status
 
-    # - name: Show Change Request details
-    #   debug:
-    #     var: change_request_status
+    - name: Show Change Request details
+      debug:
+        var: change_request_status
 
     - name: Remove Change Request Variable file
       file:
         path: /tmp/snow-change-request.yml
         state: absent
       when:
-        - close_state == 7|int
-        - close_state == 3|int
+        - close_state == 7|string
+        - close_state == 3|string
 
     #state
     # -5 is just created
