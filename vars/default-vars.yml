@@ -12,3 +12,4 @@ ec2_wait: yes #wait for newly created instances to reach desired state before re
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
 from_snow: false
+instance_username: ec2-user
