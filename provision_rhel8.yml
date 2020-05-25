@@ -32,4 +32,4 @@
       - name: build report
         include_role:
           name: build_report
-      when: ec2_tag_group == "rhel"
+      when: tags.group == "rhel"

@@ -114,7 +114,7 @@
           line: 'PasswordAuthentication=yes'
         notify: restart_sshd
         become: yes
-      when: ec2_tag_group == "rhel"
+      when: tags.group == "rhel"
 
   handlers:
     - name: restart_sshd
@@ -122,4 +122,4 @@
         name: sshd
         state: restarted
       become: yes
-      when: ec2_tag_group == "rhel"
+      when: tags.group == "rhel"

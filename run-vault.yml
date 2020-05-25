@@ -34,4 +34,4 @@
       # - name: Create key-value pair secrets engine
 
 
-      when: ec2_tag_group == "webserver"
+      when: tags.group == "webserver"
