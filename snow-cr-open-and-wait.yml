@@ -29,10 +29,10 @@
     #     var: new_change_request
     #   when: from_snow|bool
 
-    - name: Store Change Request number for later in the workflow
+    - name: Store Change Request number as artifact for later in the workflow
       template:
         src: ./templates/snow-change-request.j2
-        dest: /tmp/snow-change-request.yml
+        dest: "{{ working_dir }}/snow-change-request.yml"
       run_once: yes
       delegate_to: localhost
       when: from_snow|bool
@@ -61,6 +61,20 @@
     - debug:
         msg: "Change Request {{ new_change_request.record.number }} has been approved!"
       when: from_snow|bool
+
+    - name: Move Change Request to implement stage
+      snow_record:
+        username: "{{ SNOW_USERNAME }}"
+        password: "{{ SNOW_PASSWORD }}"
+        instance: "{{ SNOW_INSTANCE }}"
+        table: change_request
+        number: "{{ snew_change_request.record.number }}"
+        state: present
+        data:
+          state: "{{ item }}"
+      loop:
+        - "-1"
+        - "0"
 
 
 
