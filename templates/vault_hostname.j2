@@ -1,6 +1,6 @@
 ---
 {% for host in servers_to_monitor %}
-{% if hostvars[host].ec2_tag_group == 'webserver' %}
+{% if hostvars[host].tags.group == 'webserver' %}
 vault_hostname: {{ hostvars[host].inventory_hostname }}
 {% endif %}
 {% endfor %}
