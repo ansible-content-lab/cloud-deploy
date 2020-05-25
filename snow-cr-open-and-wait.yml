@@ -73,6 +73,7 @@
         state: present
         data:
           state: "{{ item }}"
+      when: from_snow|bool
       loop:
         - "-1"
         - "0"
