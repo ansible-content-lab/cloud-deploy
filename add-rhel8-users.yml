@@ -83,7 +83,7 @@
         authorized_key:
           user: "{{ item.username }}"
           state: present
-          key: "{{ lookup('file', '{{ working_dir }}/{{ ec2_tag_ec2_prefix }}-key.pub') }}"
+          key: "{{ lookup('file', '{{ working_dir }}/{{ tags.ec2_prefix }}-key.pub') }}"
         with_items: "{{ linux_users }}"
         become: yes
 
