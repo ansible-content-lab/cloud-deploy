@@ -24,17 +24,22 @@
       register: new_change_request
       when: from_snow|bool
 
-    - name: Show Change Request details
-      debug:
-        var: new_change_request
-      when: from_snow|bool
+    # - name: Show Change Request details
+    #   debug:
+    #     var: new_change_request
+    #   when: from_snow|bool
 
-    - name: Store change request for later in the workflow
+    - name: Store Change Request number for later in the workflow
       template:
         src: ./templates/snow-change-request.j2
         dest: /tmp/snow-change-request.yml
       run_once: yes
       delegate_to: localhost
+      when: from_snow|bool
+
+    - name: Print out Change Request number
+      debug:
+        msg: "The newly created Change Request is {{ new_change_request.record.number }}. Awaiting Approval."
       when: from_snow|bool
 
     - name: Wait for Change Request approval
@@ -54,7 +59,8 @@
       delay: 10
 
     - debug:
-        msg: "Change request {{ new_change_request.record.number }} has been approved!"
+        msg: "Change Request {{ new_change_request.record.number }} has been approved!"
+      when: from_snow|bool
 
 
 
