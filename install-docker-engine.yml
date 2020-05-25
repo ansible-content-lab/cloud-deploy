@@ -137,4 +137,4 @@
 
       - debug:
           msg: "Reboot completed successfully"
-      when: ec2_tag_group == "webserver"
+      when: tags.group == "webserver"
