@@ -63,7 +63,7 @@
         msg: "Change Request {{ new_change_request.record.number }} has been approved!"
       when: from_snow|bool
 
-    - name: Move Change Request to implement stage
+    - name: Move Change Request to Review stage
       snow_record:
         username: "{{ SNOW_USERNAME }}"
         password: "{{ SNOW_PASSWORD }}"
