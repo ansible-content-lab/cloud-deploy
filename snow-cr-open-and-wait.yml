@@ -69,7 +69,7 @@
         password: "{{ SNOW_PASSWORD }}"
         instance: "{{ SNOW_INSTANCE }}"
         table: change_request
-        number: "{{ snew_change_request.record.number }}"
+        number: "{{ new_change_request.record.number }}"
         state: present
         data:
           state: "{{ item }}"
