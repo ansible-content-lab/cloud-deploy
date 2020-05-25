@@ -1,9 +1,9 @@
 {
 {% for item in linux_users %}
 {% if not loop.last %}
-	"{{item.username}}_password": "{{ lookup('file', '/{{ working_dir }}/{{ ec2_tag_ec2_prefix }}-key-private.pem') | b64encode }}",
+	"{{item.username}}_password": "{{ lookup('file', '/{{ working_dir }}/{{ tags.ec2_prefix }}-key-private.pem') | b64encode }}",
 {% else %}
-	"{{item.username}}_password": "{{ lookup('file', '/{{ working_dir }}/{{ ec2_tag_ec2_prefix }}-key-private.pem') | b64encode }}"
+	"{{item.username}}_password": "{{ lookup('file', '/{{ working_dir }}/{{ tags.ec2_prefix }}-key-private.pem') | b64encode }}"
 {% endif %}
 {% endfor %}
 }
