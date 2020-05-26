@@ -1,4 +1,4 @@
-- name: ServiceNow Close Change Request
+- name: ServiceNow Update Change Request
   hosts: localhost
   gather_facts: no
   vars_files:
