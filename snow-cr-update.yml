@@ -22,6 +22,7 @@
           close_code: "{{ close_code }}"
           close_notes: "{{ close_notes }}"
       register: change_request_status
+      when: from_snow|bool
 
     # - name: Show Change Request details
     #   debug:
@@ -31,8 +32,9 @@
       file:
         path: "{{ working_dir }}/snow-change-request.yml"
         state: absent
-      when: (change_request_status.record.state == "3") or
-            (change_request_status.record.state == "4")
+      when: ((change_request_status.record.state == "3") or
+            (change_request_status.record.state == "4")) and
+            (from_snow|bool)
 
     #state
     # -5 is just created
