@@ -3,6 +3,7 @@
   gather_facts: no
   vars_files:
     - ./credentials/snow_creds.yml
+    - ./vars/default-vars.yml
     - "{{ working_dir }}/snow-change-request.yml"
   collections:
     - servicenow.servicenow
