@@ -44,6 +44,7 @@
         msg: "The newly created Change Request is {{ new_change_request.record.number }}. Awaiting Approval."
       when: from_snow|bool
 
+    #https://www.infinitypp.com/ansible/email-notifications-with-examples/
     - name: Sending an email requesting approval
       mail:
         host: smtp.gmail.com
