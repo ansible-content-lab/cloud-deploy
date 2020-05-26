@@ -3,7 +3,7 @@
   gather_facts: no
   vars_files:
     - ./credentials/snow_creds.yml
-    - /tmp/snow-change-request.yml
+    - "{{ working_dir }}/snow-change-request.yml"
   collections:
     - servicenow.servicenow
 
@@ -28,7 +28,7 @@
 
     - name: Remove Change Request Variable file
       file:
-        path: /tmp/snow-change-request.yml
+        path: "{{ working_dir }}/snow-change-request.yml"
         state: absent
       when: (change_request_status.record.state == "3") or
             (change_request_status.record.state == "4")
