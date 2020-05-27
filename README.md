@@ -1,4 +1,4 @@
-# Self-Service Automation of Infrastructure and Linux Applications on Amazon Web Services with ServiceNow
+#Providing Governance to Self-Service Infrastructure Provisioning in the Cloud
 
 
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
