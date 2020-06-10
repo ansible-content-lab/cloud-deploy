@@ -29,6 +29,10 @@
           state: latest
         become: yes
 
+      - name: Register with Red Hat Insights
+        command: insights-client --register
+        become: yes
+
       - name: build report
         include_role:
           name: build_report
