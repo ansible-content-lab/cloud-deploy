@@ -111,7 +111,7 @@
         lineinfile:
           path: /etc/ssh/sshd_config
           regexp: '^PasswordAuthentication.*no'
-          line: 'PasswordAuthentication=yes'
+          line: 'PasswordAuthentication yes'
         notify: restart_sshd
         become: yes
       when: tags.group == "rhel"
