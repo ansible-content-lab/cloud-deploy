@@ -3,6 +3,7 @@
   hosts: localhost
   vars_files:
     - ./credentials/gmail_creds.yml
+    - ./vars/default-vars.yml
     - "{{ working_dir }}/snow-change-request.yml"
 
   tasks:
