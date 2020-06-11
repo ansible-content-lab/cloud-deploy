@@ -1,0 +1,19 @@
+---
+- name: Send success email to requester
+  hosts: localhost
+  vars_files:
+    - ./credentials/gmail_creds.yml
+    - "{{ working_dir }}/snow-change-request.yml"
+
+  tasks:
+    - name: Sending an email requesting approval
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        username: "{{ gmail_username }}"
+        password: "{{ gmail_password }}"
+        to: Michael Ford <mfordansible@gmail.com>
+        subject: "Change Request {{ snow_cr_number }} Successful"
+        body: "Your ServiceNow Change Request {{ snow_cr_number }} has been completed successfully!"
+      delegate_to: localhost
+      when: from_snow|bool
