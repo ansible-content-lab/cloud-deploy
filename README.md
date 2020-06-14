@@ -54,16 +54,16 @@ The [default variables file](vars/default-vars.yml) contains the basic variables
 
 - `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts get placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings: ![Tower Job Path Settings](images/tower_writable_paths.jpg)
 - `ec2_region`: This is the AWS region in which all resources will be provisioned.
-- `ec2_prefix`: The prefix that will apear in front of all AWS resources (VPC, subnets, security groups, etc.)
-- `application`: As this demo supports more applications, this variable will indicate which application was deployed. Used to mark instances via AWS tags.
+- `ec2_prefix`: The prefix that will appear in the names of all AWS resources (VPC, subnets, security groups, etc.) created in this demo.
+- `application`: As this demo supports more applications, this variable will indicate which application was deployed. This value is used to mark newly created instances via AWS tags.
 - `num_instances`: The number of linux instances to deploy. This value will be overridden by the one specified in the Ansible Tower Workflow Template.
 - `ec2_image_id`: The AMI used to deploy linux. In the sample file, this is RHEL 8.
-- `ec2_wait`:
+- `ec2_wait`: Determines whether to wait for the ec2 instance to reach its desired state before returning from creation.
 - `ec2_vpc_subnet`: The IP Subnet assigned to the AWS subnet that is created.
 - `ec2_vpc_cidr`: The IP Subnet assigned to the AWS VPC that is created.
-- `ec2_root_volume_size`: The size of the Elastic Block Store volumes tied to the linux instances created, in GB
-- `from_snow`: This indicates whether or not the Workflow Template was called from ServiceNow, or Ansible Tower. When this value is `true`, a ServiceNow Change Request is created
-- `instance_username`: The default username which is used to log into the newly created linux instances. For RHEL 8, this is `ec2-user`.
+- `ec2_root_volume_size`: The size of the Elastic Block Store volumes tied to the linux instances created, in GB.
+- `from_snow`: This indicates whether or not the Workflow Template was called from ServiceNow, or Ansible Tower. When this value is `true`, a ServiceNow Change Request is created and modified/closed as the Workflow Template progresses.
+- `instance_username`: The default username which is used to log into the newly created linux instances. For RHEL 8, this is ***ec2-user***.
 
 # linux_users
 
