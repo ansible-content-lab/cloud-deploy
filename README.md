@@ -56,8 +56,8 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 The [default variables file](vars/default-vars.yml) contains the basic variables needed to set up the cloud infrastructure. In some cases (such as VPC subnets), these variables are hard-coded for simplicity's sake; in production there would be logic to dynamically change the values.
 
 
-- `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts get placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings: ![Tower Job Path Settings](images/tower_writable_paths.jpg)
-- `ec2_region`: This is the AWS region in which all resources will be provisioned.
+- `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts are placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings: ![Tower Job Path Settings](images/tower_writable_paths.jpg)
+- `ec2_region`: Dictates the AWS region in which all resources will be provisioned.
 - `ec2_prefix`: The prefix that will appear in the names of all AWS resources (VPC, subnets, security groups, etc.) created in this demo.
 - `application`: As this demo supports more applications, this variable will indicate which application was deployed. This value is used to mark newly created instances via AWS tags.
 - `num_instances`: The number of linux instances to deploy. This value will be overridden by the one specified in the Ansible Tower Workflow Template.
@@ -71,19 +71,69 @@ The [default variables file](vars/default-vars.yml) contains the basic variables
 
 # linux_users
 
-A list of users to add to the provisioned linux instances. These users will have the ability to use privilege escalation, and also be forced to create a password when they first log in via SSH private key.
+The [linux users](vars/linux_users.yml) contains a list of users to add to the provisioned linux instances. These users will have the ability to use privilege escalation, and also be forced to create a password when they first log in via SSH private key.
 
 # Credentials
 
-This demonstration requires credentials in order to integrate with other platforms. The credential files in this repository are all encrypted with ansible-vault, and the ansible-vault credential is passed to every Job template where credentials are required. Each of these files must be present in order for this demonstration to work; the variables in each credential file is listed here:
+This demonstration requires credentials (in YAML format) in order to integrate with other platforms. The credential files in this repository are all encrypted with ansible-vault, and the ansible-vault credential is passed to every Job Template where any of the credentials are required. Each of these files must be present in order for this demonstration to work; the variables in each credential file are listed here:
 
 # gmail_creds
 
+This is to simulate a use case where an email is sent to the required approvers when a ServiceNow Change Request is made. the email address here is used to send an approval request.
+
+In the case of a gmail using multi-factor authentication, the password has to be an application-specific password generated in your gmail security settings.
+
+File format:
+```
+---
+gmail_username: user@gmail.com
+gmail_password: password
+```
+
 # redhat-activation-key
+
+When provisioning RHEL instances, this activation key (generated at https://access.redhat.com) is used to subscribe instances using subscription-manager. Alternatively, you can elect to deploy non-RHEL linux instances (Centos is suggested).
+
+File format:
+```
+---
+rhactivationkey: the-activation-key
+rhorg_id: "99999999"
+```
 
 # snow_creds
 
+The credentials and name of developer instance used to kick off self-service of cloud provisioning via a Catalog item.
+
+File format:
+```
+---
+SNOW_USERNAME: admin
+SNOW_PASSWORD: password
+SNOW_INSTANCE: dev99999
+```
 # tower_creds
+
+The url and credentials for the demo to populate Ansible Tower resources, such as the SSH private key generated from the cloud provider.
+
+File format:
+```
+---
+tower_url: https://ansible.tower.com
+tower_user: admin
+tower_pass: password
+```
+
+#vault_creds
+
+As part of this demo, a Hashicorp vault container is created to store the user credentials externally. Instead of a randomly generated root token for login, you can select an easy-to-remember root token (this is of course for demo purposes, only).
+
+File format:
+```
+---
+vault_root_token: thetoken
+```
+
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
 
