@@ -30,7 +30,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
   - [redhat-activation-key](#redhat-activation-key)
   - [snow_creds](#snow_creds)
   - [tower_creds](#tower_creds)
-  - [Hashicorp vault Credentials](#Hashicorp vault Credentials)
+  - [Hashicorp vault Credentials](#Hashicorp-vault-Credentials)
 <!---
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
@@ -43,7 +43,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 - [Remote Desktop](#remote-desktop)
 - [Getting Help](#getting-help) --->
 
-# Requirements
+## Requirements
 
 - Ansible Tower 3.7 or later: [Ansible Tower 3.7+ installation Guide](https://docs.ansible.com/ansible-tower/latest/html/quickinstall/index.html).
 - Ansible Tower License: [Ansible Tower 60-day trial license](https://www.redhat.com/en/technologies/management/ansible/try-it).
