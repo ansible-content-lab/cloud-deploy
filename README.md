@@ -35,9 +35,9 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 
 # Requirements
 
-- [Ansible Tower 3.7+ installation Guide](https://docs.ansible.com/ansible-tower/latest/html/quickinstall/index.html).
-- [Ansible Tower 60-day trial license](https://www.redhat.com/en/technologies/management/ansible/try-it).
-- [ServiceNow Developer Instance](https://developer.servicenow.com/dev.do#!/guide/orlando/now-platform/pdi-guide/obtaining-a-pdi).
+- Ansible Tower 3.7 or later: [Ansible Tower 3.7+ installation Guide](https://docs.ansible.com/ansible-tower/latest/html/quickinstall/index.html).
+- Ansible Tower License: [Ansible Tower 60-day trial license](https://www.redhat.com/en/technologies/management/ansible/try-it).
+- ServiceNow Developer Instance: [ServiceNow Developer Instance](https://developer.servicenow.com/dev.do#!/guide/orlando/now-platform/pdi-guide/obtaining-a-pdi).
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
 
