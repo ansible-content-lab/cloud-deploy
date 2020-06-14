@@ -23,14 +23,14 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 # Table Of Contents
 - [Requirements](#requirements)
 - [Variables](#variables)
-  - [default-vars](#default-vars)
-  - [linux_users](#linux_users)
+  * [default-vars.yml](#default-variables)
+  * [linux_users.yml](#linux-users)
 - [Credentials](#credentials)
-  - [gmail_creds](#gmail_creds)
-  - [redhat-activation-key](#redhat-activation-key)
-  - [snow_creds](#snow_creds)
-  - [tower_creds](#tower_creds)
-  - [Hashicorp vault Credentials](#Hashicorp-vault-Credentials)
+  * [gmail_creds.yml](#gmail-credentials)
+  * [redhat-activation-key.yml](#redhat-activation-key)
+  * [snow_creds.yml](#servicenow-credentials)
+  * [tower_creds.yml](#tower-credentials)
+  * [vault_creds.yml](#hashicorp-vault-credentials)
 <!---
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
@@ -53,7 +53,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 
 ## Variables
 
-### default-vars
+### default-variables
 
 The [default variables file](vars/default-vars.yml) contains the basic variables needed to set up the cloud infrastructure. In some cases (such as VPC subnets), these variables are hard-coded for simplicity's sake; in production there would be logic to dynamically change the values.
 
@@ -71,7 +71,7 @@ The [default variables file](vars/default-vars.yml) contains the basic variables
 - `from_snow`: This indicates whether or not the Workflow Template was called from ServiceNow, or Ansible Tower. When this value is `true`, a ServiceNow Change Request is created and modified/closed as the Workflow Template progresses.
 - `instance_username`: The default username which is used to log into the newly created linux instances. For RHEL 8, this is **ec2-user**.
 
-### linux_users
+### linux-users
 
 The [linux users](vars/linux_users.yml) contains a list of users to add to the provisioned linux instances. These users will have the ability to use privilege escalation, and also be forced to create a password when they first log in via SSH private key.
 
@@ -79,7 +79,7 @@ The [linux users](vars/linux_users.yml) contains a list of users to add to the p
 
 This demonstration requires credentials (in YAML format) in order to integrate with other platforms. The credential files in this repository are all encrypted with ansible-vault, and the ansible-vault credential is passed to every Job Template where any of the credentials are required. Each of these files must be present in order for this demonstration to work; the variables in each credential file are listed here:
 
-### gmail_creds
+### gmail-credentials
 
 This is to simulate a use case where an email is sent to the required approvers when a ServiceNow Change Request is made. the email address here is used to send an approval request.
 
@@ -103,7 +103,7 @@ rhactivationkey: the-activation-key
 rhorg_id: "99999999"
 ```
 
-### snow_creds
+### servicenow-credentials
 
 The credentials and name of developer instance used to kick off self-service of cloud provisioning via a Catalog item.
 
@@ -114,7 +114,7 @@ SNOW_USERNAME: admin
 SNOW_PASSWORD: password
 SNOW_INSTANCE: dev99999
 ```
-### tower_creds
+### tower_credentials
 
 The url and credentials for the demo to populate Ansible Tower resources, such as the SSH private key generated from the cloud provider.
 
@@ -126,7 +126,7 @@ tower_user: admin
 tower_pass: password
 ```
 
-### Hashicorp-vault-Credentials
+### hashicorp-vault-credentials
 
 As part of this demo, a Hashicorp vault container is created to store the user credentials externally. Instead of a randomly generated root token for login, you can select an easy-to-remember root token (this is of course for demo purposes, only).
 
