@@ -30,7 +30,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
   - [redhat-activation-key](#redhat-activation-key)
   - [snow_creds](#snow_creds)
   - [tower_creds](#tower_creds)
-  - [Hashicorp vault Credentials](#vault_creds)
+  - [Hashicorp vault Credentials](#Hashicorp vault Credentials)
 <!---
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
