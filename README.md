@@ -15,10 +15,11 @@ To provision this infrastructure:
 <!--- #TODO replace this with the Cloud Infrastructure--->
 ![Placeholder](images/snow_cloud_catalog.png)
 
-What the end user will not see, is the set of Ansible Tower playbooks, running as a workflow, such as the one we see here:
+What the end user will not see, is the set of Ansible Tower playbooks, running as a Workflow Template, such as the one we see here:
 
 ![Cloud Provisioning Workflow](images/cloud_workflow.gif)
 
+Let's walk through the Ansible playbooks in this repository to see how this is accomplished.
 
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
