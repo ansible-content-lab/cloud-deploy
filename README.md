@@ -6,7 +6,7 @@ Cloud providers have developed mature, feature-rich platforms that allow organiz
 - **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, security, OS, database) to work together, preparing a holistic solution to a known problem.
 - **Enables Innovation:** When common cloud workloads are automated and presented with self-service delivery, domain experts are free to focus on the innovative solutions they were hired to develop.
 
-Ultimately, organizations can use self-service to allow end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository is an example of just that, using this interface:
+Ultimately, organizations can use self-service to allow end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository is an example of just that, with the end-user using this interface:
 
 ![ServiceNow Provisioning Catalog Item](images/snow_cloud_catalog.png)
 
@@ -15,6 +15,9 @@ To provision this infrastructure:
 <!--- #TODO replace this with the Cloud Infrastructure--->
 ![Placeholder](images/snow_cloud_catalog.png)
 
+What the end user will not see, is the set of Ansible Tower playbooks, running as a workflow, such as the one we see here:
+
+![Cloud Provisioning Workflow](images/cloud_workflow.gif)
 
 
 <!---
