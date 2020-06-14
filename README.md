@@ -114,7 +114,7 @@ SNOW_USERNAME: admin
 SNOW_PASSWORD: password
 SNOW_INSTANCE: dev99999
 ```
-### tower_credentials
+### tower-credentials
 
 The url and credentials for the demo to populate Ansible Tower resources, such as the SSH private key generated from the cloud provider.
 
