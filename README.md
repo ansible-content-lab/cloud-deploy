@@ -47,11 +47,9 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 
 # Variables
 
-Description of variables
-
 # default-vars
 
-description of default-vars
+The default variables file contains the basic variables needed to set up the cloud infrastructure. [default-vars.yml](vars/default-vars.yml)
 
 # linux_users
 
