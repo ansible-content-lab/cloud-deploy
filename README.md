@@ -26,6 +26,10 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
   - [default-vars](#default-vars)
   - [linux_users](#linux_users)
 - [Credentials](#credentials)
+  - [gmail_creds](#gmail_creds)
+  - [redhat-activation-key](#redhat-activation-key)
+  - [snow_creds](#snow_creds)
+  - [tower_creds](#tower_creds)
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
   - [Setup (per workshop)](#setup-per-workshop)
@@ -57,17 +61,29 @@ The [default variables file](vars/default-vars.yml) contains the basic variables
 - `ec2_prefix`: The prefix that will appear in the names of all AWS resources (VPC, subnets, security groups, etc.) created in this demo.
 - `application`: As this demo supports more applications, this variable will indicate which application was deployed. This value is used to mark newly created instances via AWS tags.
 - `num_instances`: The number of linux instances to deploy. This value will be overridden by the one specified in the Ansible Tower Workflow Template.
-- `ec2_image_id`: The AMI used to deploy linux. In the sample file, this is RHEL 8.
+- `ec2_image_id`: The AMI used to deploy linux. In the sample file, this is **RHEL 8**.
 - `ec2_wait`: Determines whether to wait for the ec2 instance to reach its desired state before returning from creation.
 - `ec2_vpc_subnet`: The IP Subnet assigned to the AWS subnet that is created.
 - `ec2_vpc_cidr`: The IP Subnet assigned to the AWS VPC that is created.
 - `ec2_root_volume_size`: The size of the Elastic Block Store volumes tied to the linux instances created, in GB.
 - `from_snow`: This indicates whether or not the Workflow Template was called from ServiceNow, or Ansible Tower. When this value is `true`, a ServiceNow Change Request is created and modified/closed as the Workflow Template progresses.
-- `instance_username`: The default username which is used to log into the newly created linux instances. For RHEL 8, this is ***ec2-user***.
+- `instance_username`: The default username which is used to log into the newly created linux instances. For RHEL 8, this is **ec2-user**.
 
 # linux_users
 
-Description of linux users
+A list of users to add to the provisioned linux instances. These users will have the ability to use privilege escalation, and also be forced to create a password when they first log in via SSH private key.
+
+# Credentials
+
+This demonstration requires credentials in order to integrate with other platforms. The credential files in this repository are all encrypted with ansible-vault, and the ansible-vault credential is passed to every Job template where credentials are required. Each of these files must be present in order for this demonstration to work; the variables in each credential file is listed here:
+
+# gmail_creds
+
+# redhat-activation-key
+
+# snow_creds
+
+# tower_creds
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
 
