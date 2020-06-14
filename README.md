@@ -1,4 +1,4 @@
-# Providing Governance to Self-Service Infrastructure Provisioning in the Cloud
+# Governing Self-Service Cloud Infrastructure Provisioning
 
 
 Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. In most cases, this high level of control is welcome - however in certain cases, simple self-service cloud provisioning is preferred:
