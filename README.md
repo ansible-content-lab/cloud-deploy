@@ -31,6 +31,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
   - [snow_creds](#snow_creds)
   - [tower_creds](#tower_creds)
   - [Hashicorp vault Credentials](#vault_creds)
+<!---
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
   - [Setup (per workshop)](#setup-per-workshop)
@@ -40,7 +41,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 - [FAQ](../docs/faq.md)
 - [More info on what is happening](#more-info-on-what-is-happening)
 - [Remote Desktop](#remote-desktop)
-- [Getting Help](#getting-help)
+- [Getting Help](#getting-help) --->
 
 # Requirements
 
