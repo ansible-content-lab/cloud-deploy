@@ -22,8 +22,8 @@ What the end user will not see, is the set of Ansible Tower playbooks, running a
 Let's walk through the Ansible playbooks in this repository to see how this is accomplished.
 # Table Of Contents
 - [Requirements](#requirements)
-- [Variables] (#variables)
-- [Credentials] (#credentials)
+- [Variables](#variables)
+- [Credentials](#credentials)
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
   - [Setup (per workshop)](#setup-per-workshop)
