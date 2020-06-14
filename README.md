@@ -125,7 +125,7 @@ tower_user: admin
 tower_pass: password
 ```
 
-#vault_creds
+# vault_creds
 
 As part of this demo, a Hashicorp vault container is created to store the user credentials externally. Instead of a randomly generated root token for login, you can select an easy-to-remember root token (this is of course for demo purposes, only).
 
