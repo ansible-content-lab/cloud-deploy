@@ -1,4 +1,4 @@
-# Governing Self-Service Cloud Infrastructure Provisioning
+# Governing Self-Service Cloud Provisioning
 
 
 Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation.
