@@ -1,25 +1,30 @@
 # Governing Self-Service Cloud Infrastructure Provisioning
 
 
-Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation. - however in certain cases, simple self-service cloud provisioning is preferred:
+Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation.
+
+As these domain experts produce repeatable solutions to known business needs, they can add automation and self-service to make cloud provisioning accessible to a wider audience in the organization. There are a few reasons orgs would want to do this:
+
 - **Speed of Delivery:** Mature automation can be run by end-users with stripped-down options and less roadblocks, allowing business-critical applications/solutions to be delivered more quickly.
 - **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, application, database, etc.) to work together, preparing a holistic solution to a known business need.
 - **Enables Innovation:** When common cloud workloads are automated and presented with self-service delivery, domain experts are free to focus on the innovative solutions they were hired to develop.
 
-Ultimately, organizations can use self-service to allow end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository is an example of just that, with the end-user using this interface:
+Self-service cloud automation allows end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository contains an 'art-of-the-possible' demonstration of this very concept. Using Ansible playbooks, implemented with the following Ansible Tower Workflow Template:
+
+![Cloud Provisioning Workflow](images/cloud_workflow.gif)
+
+We can provision the following infrastructure:
 
 ![ServiceNow Provisioning Catalog Item](images/snow_cloud_catalog.png)
 
-To provision this infrastructure:
+The end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
 
 <!--- #TODO replace this with the Cloud Infrastructure--->
 ![Placeholder](images/snow_cloud_catalog.png)
 
-What the end user will not see, is the set of Ansible Tower playbooks, running as a Workflow Template, such as the one we see here:
-
-![Cloud Provisioning Workflow](images/cloud_workflow.gif)
-
 Let's walk through the Ansible playbooks in this repository to see how this is accomplished.
+
+<!---
 # Table Of Contents
 - [Requirements](#requirements)
 - [Variables](#variables)
@@ -31,7 +36,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
   * [snow_creds.yml](#servicenow-credentials)
   * [tower_creds.yml](#tower-credentials)
   * [vault_creds.yml](#hashicorp-vault-credentials)
-<!---
+
 - [Lab Setup](#lab-setup)
   - [One Time Setup](#one-time-setup)
   - [Setup (per workshop)](#setup-per-workshop)
@@ -41,7 +46,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 - [FAQ](../docs/faq.md)
 - [More info on what is happening](#more-info-on-what-is-happening)
 - [Remote Desktop](#remote-desktop)
-- [Getting Help](#getting-help) --->
+- [Getting Help](#getting-help)
 
 ## Requirements
 
@@ -135,6 +140,7 @@ File format:
 ---
 vault_root_token: thetoken
 ```
+--->
 
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
