@@ -17,7 +17,7 @@ Self-service cloud automation allows end-users to create on-demand, ephemeral wo
 </p>
 <!--- ![Cloud Provisioning Workflow](images/cloud_workflow.gif) --->
 
-We can provision the following infrastructure:
+We can provision the following infrastructure (including underlying networking, compute instances, containers/pods, applications, etc.):
 
 <p align="center">
 <img src="images/cloud_infrastructure.png" alt="Cloud Infrastructure"
