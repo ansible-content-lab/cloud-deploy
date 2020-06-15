@@ -17,8 +17,10 @@ Self-service cloud automation allows end-users to create on-demand, ephemeral wo
 
 We can provision the following infrastructure:
 
-<center><img src="images/cloud_infrastructure.png" alt="Cloud Infrastructure"
-	title="Cloud Infrastructure" width="500" /></center>
+<p align="center">
+<img src="images/cloud_infrastructure.png" alt="Cloud Infrastructure"
+	title="Cloud Infrastructure" width="500" />
+</p>
 <!--- ![Cloud Infrastructure](images/cloud_infrastructure.jpeg) --->
 
 The end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
