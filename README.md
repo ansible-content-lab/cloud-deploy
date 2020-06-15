@@ -11,8 +11,10 @@ As these domain experts produce repeatable solutions to known business needs, th
 
 Self-service cloud automation allows end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository contains an 'art-of-the-possible' demonstration of this very concept. Using Ansible playbooks, implemented with the following Ansible Tower Workflow Template:
 
+<p align="center">
 <img src="images/cloud_workflow.gif" alt="Cloud Provisioning Workflow"
 	title="Cloud Provisioning Workflow" width="700" />
+</p>
 <!--- ![Cloud Provisioning Workflow](images/cloud_workflow.gif) --->
 
 We can provision the following infrastructure:
@@ -25,8 +27,10 @@ We can provision the following infrastructure:
 
 The end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
 
+<p align="center">
 <img src="images/snow_cloud_catalog.png" alt="ServiceNow Catalog Item"
 	title="ServiceNow Catalog Item" width="500" />
+</p>
 <!--- ![ServiceNow Catalog Item](images/snow_cloud_catalog.png) --->
 
 Let's walk through the Ansible playbooks in this repository to see how this is accomplished.
