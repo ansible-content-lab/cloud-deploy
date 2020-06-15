@@ -15,7 +15,7 @@ Self-service cloud automation allows end-users to create on-demand, ephemeral wo
 
 We can provision the following infrastructure:
 
-![ServiceNow Provisioning Catalog Item](images/snow_cloud_catalog.png)
+![Cloud Infrastructure](images/cloud_infrastructure.jpeg)
 
 The end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
 
