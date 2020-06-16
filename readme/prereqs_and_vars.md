@@ -1,10 +1,10 @@
 # Demo Prerequisites and Required Variables
 
-
+This document lists the software requirements needed to set up this demonstration, and the variables/credentials needed to run the ansible playbooks properly.
 
 
 # Table Of Contents
-- [Requirements](#requirements)
+- [Software Requirements](#requirements)
 - [Variables](#variables)
   * [default-vars.yml](#default-variables)
   * [linux_users.yml](#linux-users)
