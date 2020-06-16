@@ -31,11 +31,7 @@ The [default variables file](vars/default-vars.yml) contains the basic variables
 
 
 - `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts are placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings:
-<p align="center">
-<img src="../images/tower_writable_paths.jpg" alt="Tower Job Path Settings"
-	title="Tower Job Path Settings" width="700" />
-</p>
-<!-- ![Tower Job Path Settings](../images/tower_writable_paths.jpg) -->
+![Tower Job Path Settings](../images/tower_writable_paths.jpg)
 - `ec2_region`: Dictates the AWS region in which all resources will be provisioned.
 - `ec2_prefix`: The prefix that will appear in the names of all AWS resources (VPC, subnets, security groups, etc.) created in this demo.
 - `application`: As this demo supports more applications, this variable will indicate which application was deployed. This value is used to mark newly created instances via AWS tags.
