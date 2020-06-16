@@ -12,8 +12,8 @@ As these domain experts produce repeatable solutions to known business needs, th
 Self-service cloud automation allows end-users to easily create on-demand, ephemeral workloads. This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to create the following:
 - A cloud virtual private cloud with a public subnet
 - A number of Red Hat Enterprise Linux instances, with the following attributes:
-  - A set of pre-defined users, with privilege-escalation rights and that must create a new password upon first login.
-  - An installed Apache webserver with a dynamically generated index.html page.
+  - A set of pre-defined users, each with privilege-escalation rights and that must create a new password upon first login.
+  - An installed Apache webserver and dynamically generated index.html page.
   - Is registered with Red Hat Insights.
 - A container-based secrets engine that holds the SSH private keys for the predefined linux user passwords
 
