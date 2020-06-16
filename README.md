@@ -9,15 +9,15 @@ As these domain experts produce repeatable solutions to known business needs, th
 - **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, application, database, etc.) to work together, preparing a holistic solution to a known business need.
 - **Enables Innovation:** When common cloud workloads are automated and presented with self-service delivery, domain experts are free to focus on the innovative solutions they were hired to develop.
 
-Self-service cloud automation allows end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository contains an 'art-of-the-possible' demonstration of this very concept. Using Ansible playbooks, implemented with the following Ansible Tower Workflow Template:
+Self-service cloud automation allows end-users to easily create on-demand, ephemeral workloads. This repository contains an 'art-of-the-possible' demonstration of this very concept. Using Ansible playbooks, this repository is used to create the following:
+- A cloud virtual private cloud with a public subnet
+- A number of Red Hat Enterprise Linux instances, with the following attributes:
+  - A set of pre-defined users, with privilege-escalation rights and that must create a new password upon first login.
+  - An installed Apache webserver with a dynamically generated index.html page.
+  - Is registered with Red Hat Insights.
+- A container-based secrets engine that holds the SSH private keys for the predefined linux user passwords
 
-<p align="center">
-<img src="images/cloud_workflow.gif" alt="Cloud Provisioning Workflow"
-	title="Cloud Provisioning Workflow" width="700" />
-</p>
-<!--- ![Cloud Provisioning Workflow](images/cloud_workflow.gif) --->
-
-We can provision the following infrastructure (including underlying networking, compute instances, containers/pods, applications, etc.):
+A visual representation of the final product can be seen here:
 
 <p align="center">
 <img src="images/cloud_infrastructure.png" alt="Cloud Infrastructure"
@@ -25,7 +25,15 @@ We can provision the following infrastructure (including underlying networking, 
 </p>
 <!--- ![Cloud Infrastructure](images/cloud_infrastructure.jpeg) --->
 
-The end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
+The Ansible playbooks are implemented with the following Ansible Tower Workflow Template:
+
+<p align="center">
+<img src="images/cloud_workflow.gif" alt="Cloud Provisioning Workflow"
+	title="Cloud Provisioning Workflow" width="700" />
+</p>
+<!--- ![Cloud Provisioning Workflow](images/cloud_workflow.gif) --->
+
+Finally, the end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
 
 <p align="center">
 <img src="images/snow_cloud_catalog.png" alt="ServiceNow Catalog Item"
@@ -37,6 +45,10 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 
 # Table Of Contents
 - [Demo Prerequisites and Required Variables](readme/prereqs_and_vars.md)
+- [Preparing Ansible Tower Project and Cloud Credentials](readme/tower_setup.md)
+- [Setting up the Ansible Tower Workflow](readme/tower_workflow.md)
+- [The Payoff: Deploying Your Cloud Workload](readme/workflow_kickoff.md)
+- [Bonus: Deploying Your Cloud Workload via ServiceNow](readme/snow_integration.md)
 <!-- - [Variables](#variables)
   * [default-vars.yml](#default-variables)
   * [linux_users.yml](#linux-users)
