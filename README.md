@@ -25,7 +25,7 @@ A visual representation of the final product can be seen here:
 </p>
 <!--- ![Cloud Infrastructure](images/cloud_infrastructure.jpeg) --->
 
-The Ansible playbooks are implemented with the following Ansible Tower Workflow Template:
+The Ansible playbooks are implemented with the following Ansible Tower Workflow Template (for separation of responsibilities and error handling):
 
 <p align="center">
 <img src="images/cloud_workflow.gif" alt="Cloud Provisioning Workflow"
