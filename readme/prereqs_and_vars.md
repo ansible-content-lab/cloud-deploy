@@ -1,55 +1,8 @@
-# Governing Self-Service Cloud Provisioning
+# Demo Prerequisites and Required Variables
 
 
-Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation.
 
-As these domain experts produce repeatable solutions to known business needs, they can add automation and self-service to make cloud provisioning accessible to a wider audience in the organization. There are a few reasons orgs would want to do this:
 
-- **Speed of Delivery:** Mature automation can be run by end-users with stripped-down options and less roadblocks, allowing business-critical applications/solutions to be delivered more quickly.
-- **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, application, database, etc.) to work together, preparing a holistic solution to a known business need.
-- **Enables Innovation:** When common cloud workloads are automated and presented with self-service delivery, domain experts are free to focus on the innovative solutions they were hired to develop.
-
-Self-service cloud automation allows end-users to create on-demand, ephemeral workloads in a way that's simple to understand. This repository contains an 'art-of-the-possible' demonstration of this very concept. Using Ansible playbooks, implemented with the following Ansible Tower Workflow Template:
-
-<p align="center">
-<img src="images/cloud_workflow.gif" alt="Cloud Provisioning Workflow"
-	title="Cloud Provisioning Workflow" width="700" />
-</p>
-<!--- ![Cloud Provisioning Workflow](images/cloud_workflow.gif) --->
-
-We can provision the following infrastructure (including underlying networking, compute instances, containers/pods, applications, etc.):
-
-<p align="center">
-<img src="images/cloud_infrastructure.png" alt="Cloud Infrastructure"
-	title="Cloud Infrastructure" width="500" />
-</p>
-<!--- ![Cloud Infrastructure](images/cloud_infrastructure.jpeg) --->
-
-The end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
-
-<p align="center">
-<img src="images/snow_cloud_catalog.png" alt="ServiceNow Catalog Item"
-	title="ServiceNow Catalog Item" width="500" />
-</p>
-<!--- ![ServiceNow Catalog Item](images/snow_cloud_catalog.png) --->
-
-Let's walk through the Ansible playbooks in this repository to see how this is accomplished.
-
-# Table Of Contents
-- [Demo Prerequisites and Required Variables](readme/prereqs_and_vars.md)
-<!-- - [Variables](#variables)
-  * [default-vars.yml](#default-variables)
-  * [linux_users.yml](#linux-users)
-- [Credentials](#credentials)
-  * [gmail_creds.yml](#gmail-credentials)
-  * [redhat-activation-key.yml](#redhat-activation-key)
-  * [snow_creds.yml](#servicenow-credentials)
-  * [tower_creds.yml](#tower-credentials)
-  * [vault_creds.yml](#hashicorp-vault-credentials)
-
-## Requirements -->
-
-<!---
 # Table Of Contents
 - [Requirements](#requirements)
 - [Variables](#variables)
@@ -61,17 +14,6 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
   * [snow_creds.yml](#servicenow-credentials)
   * [tower_creds.yml](#tower-credentials)
   * [vault_creds.yml](#hashicorp-vault-credentials)
-
-- [Lab Setup](#lab-setup)
-  - [One Time Setup](#one-time-setup)
-  - [Setup (per workshop)](#setup-per-workshop)
-  - [Accessing student documentation and slides](#Accessing-student-documentation-and-slides)
-- [Lab Teardown](#aws-teardown)
-- [Demos](#demos)
-- [FAQ](../docs/faq.md)
-- [More info on what is happening](#more-info-on-what-is-happening)
-- [Remote Desktop](#remote-desktop)
-- [Getting Help](#getting-help)
 
 ## Requirements
 
@@ -88,7 +30,7 @@ Let's walk through the Ansible playbooks in this repository to see how this is a
 The [default variables file](vars/default-vars.yml) contains the basic variables needed to set up the cloud infrastructure. In some cases (such as VPC subnets), these variables are hard-coded for simplicity's sake; in production there would be logic to dynamically change the values.
 
 
-- `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts are placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings: ![Tower Job Path Settings](images/tower_writable_paths.jpg)
+- `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts are placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings: ![Tower Job Path Settings](../images/tower_writable_paths.jpg)
 - `ec2_region`: Dictates the AWS region in which all resources will be provisioned.
 - `ec2_prefix`: The prefix that will appear in the names of all AWS resources (VPC, subnets, security groups, etc.) created in this demo.
 - `application`: As this demo supports more applications, this variable will indicate which application was deployed. This value is used to mark newly created instances via AWS tags.
@@ -103,7 +45,7 @@ The [default variables file](vars/default-vars.yml) contains the basic variables
 
 ### linux-users
 
-The [linux users](vars/linux_users.yml) contains a list of users to add to the provisioned linux instances. These users will have the ability to use privilege escalation, and also be forced to create a password when they first log in via SSH private key.
+The [linux users](../vars/linux_users.yml) contains a list of users to add to the provisioned linux instances. These users will have the ability to use privilege escalation, and also be forced to create a password when they first log in via SSH private key.
 
 ## Credentials
 
@@ -165,7 +107,6 @@ File format:
 ---
 vault_root_token: thetoken
 ```
---->
 
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
