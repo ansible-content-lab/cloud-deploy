@@ -113,7 +113,7 @@ File format:
 vault_root_token: thetoken
 ```
 
-##Next Steps
+## Next Steps
 
 - Go back to the first page of instructions: [Governing Self-Service Cloud Provisioning](../README.md)
 - Continue to the next step: [Preparing Ansible Tower Project and Cloud Credentials](readme/tower_setup.md)
