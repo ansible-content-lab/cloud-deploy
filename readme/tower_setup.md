@@ -49,7 +49,7 @@ Once you have the Project and Credential set up, you can now move to setting up 
 
 Description:
 
-| Parameter | Value |
+    | Parameter | Value |
     |---|---|
     | Name  | Backup network configurations  |
     |  Job Type |  Run |
