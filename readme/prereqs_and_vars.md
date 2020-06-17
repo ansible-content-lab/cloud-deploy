@@ -18,8 +18,10 @@ This document lists the software requirements needed to set up this demonstratio
 ## Requirements
 
 - Ansible Tower 3.7 or later: [Ansible Tower 3.7+ installation Guide](https://docs.ansible.com/ansible-tower/latest/html/quickinstall/index.html).
-- Ansible Tower License: [Ansible Tower 60-day trial license](https://www.redhat.com/en/technologies/management/ansible/try-it).
-- ServiceNow Developer Instance: [ServiceNow Developer Instance](https://developer.servicenow.com/dev.do#!/guide/orlando/now-platform/pdi-guide/obtaining-a-pdi).
+- Ansible Tower License: Required to be able to automate against the instances and containers you will be deploying.
+  - A 60-day, 100-node trial license can be generated here: [Ansible Tower 60-day trial license](https://www.redhat.com/en/technologies/management/ansible/try-it).
+- ServiceNow Developer Instance: Optionally, ServiceNow (or any ticketing system that can make outbound RESTful API calls) can be used to programmatically start this deployment. Many organizations use ServiceNow as a front-end for self-service IT, and Ansible Tower allows end-users to continue utilizing an interface they are accustomed to.
+  - Instructions on how to set up a free developer instance of ServiceNow can be found [here](https://developer.servicenow.com/dev.do#!/guide/orlando/now-platform/pdi-guide/obtaining-a-pdi).
 - Programmatic Cloud Credentials
   - This demo begins with AWS, but will be expanding to include Azure and GCP.
 

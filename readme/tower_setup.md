@@ -3,7 +3,7 @@
 Forthcoming.
 
 
-<!-- # Table Of Contents
+# Table Of Contents
 - [Software Requirements](#requirements)
 - [Variables](#variables)
   * [default-vars.yml](#default-variables)
@@ -15,4 +15,4 @@ Forthcoming.
   * [tower_creds.yml](#tower-credentials)
   * [vault_creds.yml](#hashicorp-vault-credentials)
 
-## Requirements -->
+## Requirements
