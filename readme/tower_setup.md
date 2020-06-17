@@ -45,18 +45,28 @@ Once you have the Project and Credential set up, you can now move to setting up 
 <img src="images/tower_job_template.jpg" alt="Tower Job Template"
 	title="Tower Job Template" width="500" />
 
-### Test Job Template
+### Open ServiceNow Change Request and wait for Approval
 
 Description:
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Backup network configurations  |
+| Name  | Open ServiceNow Change Request and wait for Approval  |
 |  Job Type |  Run |
-|  Inventory |  Workshop Inventory |
-|  Project |  Workshop Project |
-|  Playbook |  network_backup.yml |
-|  Credential |  Workshop Credential |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  snow-cr-open-and-wait.yml |
+|  Credential |  ansible-vault password |
+
+#### Survey Parameters
+| Parameter | Value |
+|-----|-----|
+| Name  | Open ServiceNow Change Request and wait for Approval  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  snow-cr-open-and-wait.yml |
+|  Credential |  ansible-vault password |
 
 ## Next Steps
 
