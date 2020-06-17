@@ -49,14 +49,14 @@ Once you have the Project and Credential set up, you can now move to setting up 
 
 Description:
 
-    | Parameter | Value |
-    |---|---|
-    | Name  | Backup network configurations  |
-    |  Job Type |  Run |
-    |  Inventory |  Workshop Inventory |
-    |  Project |  Workshop Project |
-    |  Playbook |  network_backup.yml |
-    |  Credential |  Workshop Credential |
+| Parameter | Value |
+|-----|-----|
+| Name  | Backup network configurations  |
+|  Job Type |  Run |
+|  Inventory |  Workshop Inventory |
+|  Project |  Workshop Project |
+|  Playbook |  network_backup.yml |
+|  Credential |  Workshop Credential |
 
 ## Next Steps
 
