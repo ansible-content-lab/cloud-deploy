@@ -45,7 +45,7 @@ Once you have the Project and Credential set up, you can now move to setting up 
 <img src="images/tower_job_template.jpg" alt="Tower Job Template"
 	title="Tower Job Template" width="500" />
 
-# Test Job Template
+### Test Job Template
 
 Description:
 
