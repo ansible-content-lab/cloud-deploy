@@ -45,6 +45,19 @@ Once you have the Project and Credential set up, you can now move to setting up 
 <img src="images/tower_job_template.jpg" alt="Tower Job Template"
 	title="Tower Job Template" width="500" />
 
+# Test Job Template
+
+Description:
+
+| Parameter | Value |
+    |---|---|
+    | Name  | Backup network configurations  |
+    |  Job Type |  Run |
+    |  Inventory |  Workshop Inventory |
+    |  Project |  Workshop Project |
+    |  Playbook |  network_backup.yml |
+    |  Credential |  Workshop Credential |
+
 ## Next Steps
 
 - Go back to the first page of instructions: [Governing Self-Service Cloud Provisioning](../README.md)
