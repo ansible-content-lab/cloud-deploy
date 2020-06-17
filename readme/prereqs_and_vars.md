@@ -116,7 +116,7 @@ vault_root_token: thetoken
 ## Next Steps
 
 - Go back to the first page of instructions: [Governing Self-Service Cloud Provisioning](../README.md)
-- Continue to the next step: [Preparing Ansible Tower Project and Cloud Credentials](readme/tower_setup.md)
+- Continue to the next step: [Preparing Ansible Tower Project and Cloud Credentials](tower_setup.md)
 
 <!---
 The goal of this repository is to demonstrate self-service provisioning of cloud infrastructure and applications using [Ansible Automation Platform](https://www.ansible.com/products/automation-platform) on the backend, and [ServiceNow](https://www.servicenow.com/now-platform.html) to start the process.
