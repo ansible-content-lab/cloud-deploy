@@ -9,13 +9,13 @@ As these domain experts produce repeatable solutions to known business needs, th
 - **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, application, database, etc.) to work together, preparing a holistic solution to a known business need.
 - **Enables Innovation:** When common cloud workloads are automated and presented with self-service delivery, domain experts are free to focus on the innovative solutions they were hired to develop.
 
-Self-service cloud automation allows end-users to easily create on-demand, ephemeral workloads. This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to create the following:
-- A cloud virtual private cloud with a public subnet
-- A number of Red Hat Enterprise Linux instances, with the following attributes:
-  - A set of pre-defined users, each with privilege-escalation rights and that must create a new password upon first login.
-  - An installed Apache webserver and dynamically generated index.html page.
+Self-service cloud automation allows end-users to easily create on-demand, ephemeral workloads. This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to accomplish the following:
+- Create a cloud virtual private cloud with a public subnet
+- Creates a number of Red Hat Enterprise Linux instances, with the following attributes:
+  - Includes a set of pre-defined users, each with privilege-escalation rights and that must create a new password upon first login.
+  - Hosts an Apache webserver and dynamically generated index.html page.
   - Is registered with Red Hat Insights.
-- A container-based secrets engine that holds the SSH private keys for the predefined linux user passwords
+- Creates a container-based secrets engine that holds the SSH private keys for the predefined linux user passwords
 
 A visual representation of the final product can be seen here:
 
@@ -41,7 +41,7 @@ Finally, the end-user can accomplish all of this with a simplified interface, su
 </p>
 <!--- ![ServiceNow Catalog Item](images/snow_cloud_catalog.png) --->
 
-Let's walk through the Ansible playbooks in this repository to see how this is accomplished.
+Let's walk through the Ansible playbooks and 3rd-party integration instructions in this repository to see how this is accomplished.
 
 # Table Of Contents
 - [Demo Prerequisites and Required Variables](readme/prereqs_and_vars.md)
