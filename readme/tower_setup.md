@@ -1,6 +1,6 @@
 # Preparing Ansible Tower Project and Cloud Credentials
 
-Forthcoming.
+Once Ansible Tower is deployed, you need to do some initial setup in order to ingest playbooks and cloud credentials and make them available for use.
 
 
 # Table Of Contents
@@ -15,4 +15,33 @@ Forthcoming.
   * [tower_creds.yml](#tower-credentials)
   * [vault_creds.yml](#hashicorp-vault-credentials)
 
-## Requirements
+## Ansible Tower Project
+
+Under Resources --> Projects, create a new Project with the following attributes:
+
+<img src="images/tower_project.jpg" alt="Tower Project"
+	title="Tower Project" width="500" />
+
+I have elected to create a custom Python virtual environment that supports Python3. While this is not necessary for an Ansible Tower installation on Centos 8/RHEL 8 (which only comes with Python3), you can set up a custom Python virtual environent per [these instructions](https://docs.ansible.com/ansible-tower/latest/html/upgrade-migration-guide/virtualenv.html) (See section 4.1).
+
+
+
+## Cloud Provider Credentials
+
+Under Resources --> Projects, create a new set of credentials of the appropriate type. The example below, is for AWS programmatic keys, which you can generate in the AWS console:
+
+<img src="images/cloud_credentials.jpg" alt="Cloud Credentials"
+	title="Cloud Credentials" width="500" />
+
+Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the resources this demo generates.
+
+Lastly, Ansible Tower automatically encrypts any secrets, which in the case of AWS is the Secret Key. Ansible Tower users (with appropriate permissions) can use the credential without knowing its contents.
+
+
+<!-- Job Templates -->
+
+
+## Next Steps
+
+- Go back to the first page of instructions: [Governing Self-Service Cloud Provisioning](../README.md)
+- Continue to the next step: [Setting up the Ansible Tower Workflow](tower_workflow.md)
