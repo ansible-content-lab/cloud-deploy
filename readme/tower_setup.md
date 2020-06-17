@@ -3,7 +3,7 @@
 Once Ansible Tower is deployed, you need to do some initial setup in order to ingest playbooks and cloud credentials and make them available for use.
 
 
-# Table Of Contents
+<!-- # Table Of Contents
 - [Software Requirements](#requirements)
 - [Variables](#variables)
   * [default-vars.yml](#default-variables)
@@ -13,7 +13,7 @@ Once Ansible Tower is deployed, you need to do some initial setup in order to in
   * [redhat-activation-key.yml](#redhat-activation-key)
   * [snow_creds.yml](#servicenow-credentials)
   * [tower_creds.yml](#tower-credentials)
-  * [vault_creds.yml](#hashicorp-vault-credentials)
+  * [vault_creds.yml](#hashicorp-vault-credentials) -->
 
 ## Ansible Tower Project
 
@@ -33,7 +33,7 @@ Under Resources --> Projects, create a new set of credentials of the appropriate
 <img src="images/cloud_credentials.jpg" alt="Cloud Credentials"
 	title="Cloud Credentials" width="500" />
 
-Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the resources this demo generates.
+Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the cloud resources this demo generates.
 
 Lastly, Ansible Tower automatically encrypts any secrets, which in the case of AWS is the Secret Key. Ansible Tower users (with appropriate permissions) can use the credential without knowing its contents.
 
