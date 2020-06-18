@@ -54,21 +54,23 @@ Description:
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
 |  Project |  Deploy AWS Applications |
-|  Playbook |  snow-cr-open-and-wait.yml |
-|  Credential |  ansible-vault password |
+|  Playbook |  `snow-cr-open-and-wait.yml` |
+|  Credential |  `ansible-vault password` |
 
 ### Provision AWS resources
+
+Description:
+
 | Parameter | Value |
 |-----|-----|
 | Name  | Provision AWS resources  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
 |  Project |  Deploy AWS Applications |
-|  Playbook |  provision_resources.yml |
+|  Playbook |  `provision_resources.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Programmatic Key` |
 
-####n Extra Variables
-
+#### Extra Variables
 ```
 ec2_region: us-east-1
 num_instances: 3
@@ -76,6 +78,54 @@ ec2_wait: yes
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
 ```
+
+### Provision AWS Linux Instances
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Provision AWS Linux Instances  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `provision_servers_tower.yml` |
+|  Credential |  `ansible-vault password`, `Cloud Programmatic Key` |
+
+#### Extra Variables
+```
+ec2_region: us-east-1
+ec2_wait: yes
+ec2_vpc_subnet: "192.168.0.0/28"
+ec2_vpc_cidr: "192.168.0.0/24"
+```
+
+### Teardown AWS Linux Resources
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Teardown AWS Linux Resources  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `teardown_resources.yml` |
+|  Credential |  `Cloud Programmatic Key` |
+
+### Install Docker Engine on Linux Instances
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Install Docker Engine on Linux Instances  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `install-docker-engine.yml` |
+|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+
 
 ## Next Steps
 
