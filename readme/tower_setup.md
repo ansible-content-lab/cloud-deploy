@@ -57,15 +57,25 @@ Description:
 |  Playbook |  snow-cr-open-and-wait.yml |
 |  Credential |  ansible-vault password |
 
-#### Survey Parameters
+### Provision AWS resources
 | Parameter | Value |
 |-----|-----|
-| Name  | Open ServiceNow Change Request and wait for Approval  |
+| Name  | Provision AWS resources  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
 |  Project |  Deploy AWS Applications |
-|  Playbook |  snow-cr-open-and-wait.yml |
-|  Credential |  ansible-vault password |
+|  Playbook |  provision_resources.yml |
+|  Credential |  `ansible-vault password`, `Cloud Programmatic Key` |
+
+####n Extra Variables
+
+```
+ec2_region: us-east-1
+num_instances: 3
+ec2_wait: yes
+ec2_vpc_subnet: "192.168.0.0/28"
+ec2_vpc_cidr: "192.168.0.0/24"
+```
 
 ## Next Steps
 
