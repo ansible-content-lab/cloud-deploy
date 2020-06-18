@@ -127,6 +127,65 @@ Description:
 |  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
 
 
+### Install/configure vault on Linux Docker instance
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Install/configure vault on Linux Docker instance  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `run-vault.yml` |
+|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+
+### Provision RHEL8 on Linux Instances
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Provision RHEL8 on Linux Instances  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `provision_rhel8.yml` |
+|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+
+### Add RHEL8 users to AWS Instances
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Add RHEL8 users to AWS Instances  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `add-rhel8-users.yml` |
+|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+
+### Update ServiceNow Change Request
+
+Description:
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Update ServiceNow Change Request  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `snow-cr-update.yml` |
+|  Credential |  `ansible-vault password` |
+
+#### Extra Variables (check the box marked `PROMPT ON LAUNCH`)
+```
+close_state: 7
+close_code: "unsuccessful"
+close_notes: "Canceled by the requester"
+```
+
 ## Next Steps
 
 - Go back to the first page of instructions: [Governing Self-Service Cloud Provisioning](../README.md)
