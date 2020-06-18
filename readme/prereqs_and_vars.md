@@ -54,7 +54,7 @@ The [linux users file](../vars/linux_users.yml) contains a list of users to add 
 
 ## Credentials
 
-This demonstration requires credentials (in YAML format) in order to integrate with other platforms. The credential files in this repository are all encrypted with ansible-vault, and the ansible-vault credential is passed to every Job Template where any of the credentials are required. Each of these files must be present in order for this demonstration to work; the variables in each credential file are listed here:
+This demonstration requires credentials (in YAML format) in order to integrate with other platforms. The credential files in this repository are all encrypted with [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html), and the ansible-vault credential is passed to every Job Template where any of the credentials are required. In the next page of instructions where Job Templates are references, I will refer to this as `ansible-vault password`. Each of these files must be present in order for this demonstration to work; the variables in each credential file are listed here:
 
 ### gmail-credentials
 
