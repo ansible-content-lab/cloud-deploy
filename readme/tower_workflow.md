@@ -270,6 +270,14 @@ close_code: successful
 close_notes: Linux Instances deployed successfully!
 ```
 
+<!-- # Teardown Workflow Template
+
+Finally, let's walk through the teardown Workflow Template. -->
+
+## Next Steps
+
+- Go back to the first page of instructions: [Governing Self-Service Cloud Provisioning](../README.md)
+- Continue to the next step: [The Payoff: Deploying Your Cloud Workload](workflow_kickoff.md)
 <!-- # Table Of Contents
 - [Software Requirements](#requirements)
 - [Variables](#variables)
