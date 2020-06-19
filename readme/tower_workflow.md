@@ -7,12 +7,14 @@ Workflow Templates are valuable for automation teams as they allow domain expert
 In this demo, you will create two workflows; one for deploying your cloud workload, and another for tearing it down. these instructions will walk you through setting up the workflow and the parameters for each part of the workflow.
 
 Cloud workload provisioning Workflow Template:
+
 <img src="images/provision_workflow_full.jpg" alt="Tower Project"
-	title="Tower Project" width="500" />
+	title="Tower Project" width="800" />
 
 I will break this into two smaller images later in the documentation.
 
 Cloud workload teardown Workflow Template:
+
 <img src="images/teardown_workflow.jpg" alt="Tower Project"
 	title="Tower Project" width="500" />
 
