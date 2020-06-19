@@ -4,11 +4,15 @@
   vars_files:
     - ./credentials/snow_creds.yml
     - ./vars/default-vars.yml
-    - "{{ working_dir }}/snow-change-request.yml"
   collections:
     - servicenow.servicenow
 
   tasks:
+
+    - name: Include Change Request artifact
+      include_vars: "{{ working_dir }}/snow-change-request.yml"
+      when: from_snow|bool
+
     - name: Update Change Request
       snow_record:
         username: "{{ SNOW_USERNAME }}"
