@@ -38,12 +38,12 @@ You can set up the Workflow Template by navigating to Resources --> Templates, a
 For the provisioner template, fill out the fields as follows:
 
 <img src="images/workflow_parameters.jpg" alt="Workflow Parameters"
-	title="Workflow Parameters" width="500" />
+	title="Workflow Parameters" width="800" />
 
   | Parameter | Value |
   |-----|-----|
-  | Name  | How many instances should be spun up?  |
-  | Organization  | Please select no more than 10.  |
+  | Name  | Provision AWS Linux Webserver with Users  |
+  | Organization  | Default  |
   |  Inventory | Demo Inventory |
 
   #### Extra Variables (check the box marked `PROMPT ON LAUNCH`)
