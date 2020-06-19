@@ -46,7 +46,7 @@ For the provisioner template, fill out the fields as follows:
   | Organization  | Default  |
   |  Inventory | Demo Inventory |
 
-  #### Extra Variables (check the box marked `PROMPT ON LAUNCH`)
+#### Extra Variables (check the box marked `PROMPT ON LAUNCH`)
   ```
   from_snow: no
   ```
