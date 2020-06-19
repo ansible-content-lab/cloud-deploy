@@ -113,6 +113,19 @@ ec2_vpc_cidr: "192.168.0.0/24"
 |  Playbook |  `teardown_resources.yml` |
 |  Credential |  `Cloud Programmatic Key` |
 
+### Teardown AWS Linux Instances
+
+**Description:** This tears down all RHEL 8 instances, indicated by the identifying metadata.
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Teardown AWS Linux Resources  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `teardown_servers_tower.yml` |
+|  Credential |  `Cloud Programmatic Key` |
+
 ### Install Docker Engine on Linux Instances
 
 **Description:** Installs Docker Engine on the additional Linux instance deployed.
