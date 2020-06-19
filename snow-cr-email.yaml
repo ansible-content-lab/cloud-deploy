@@ -7,6 +7,11 @@
     - "{{ working_dir }}/snow-change-request.yml"
 
   tasks:
+
+    - name: Include Change Request artifact
+      include_vars: "{{ working_dir }}/snow-change-request.yml"
+      when: from_snow|bool
+
     - name: Sending an email requesting approval
       mail:
         host: smtp.gmail.com
