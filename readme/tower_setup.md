@@ -46,7 +46,7 @@ Once you have the Project and Credential set up, you can now move to setting up 
 
 ### Open ServiceNow Change Request and wait for Approval
 
-Description: if `from_snow` is true, a ServiceNow Change Request is opened, and an email with an approval request link is sent to the approval group (for this demo, the recipient email is hardcoded). The playbook will wait until the Change Request has been approved, or will time out.
+**Description:** if `from_snow` is true, a ServiceNow Change Request is opened, and an email with an approval request link is sent to the approval group (for this demo, the recipient email is hardcoded). The playbook will wait until the Change Request has been approved, or will time out.
 
 | Parameter | Value |
 |-----|-----|
@@ -59,7 +59,7 @@ Description: if `from_snow` is true, a ServiceNow Change Request is opened, and 
 
 ### Provision AWS resources
 
-Description: This provisions all networking resources (private cloud, subnet, internet gateway) with a hardcoded RFC1918 IP subnet and adds metadata for identification and cleanup purposes.
+**Description:** This provisions all networking resources (private cloud, subnet, internet gateway) with a hardcoded RFC1918 IP subnet and adds metadata for identification and cleanup purposes.
 
 | Parameter | Value |
 |-----|-----|
@@ -81,7 +81,7 @@ ec2_vpc_cidr: "192.168.0.0/24"
 
 ### Provision AWS Linux Instances
 
-Description: Provisions public/private SSH Key pair, and adds the private key as an Ansible Tower credential. Deploys the requested number of RHEL8 instances into the previously created subnet, plus an additional instance to host the Hashicorp vault secrets engine.
+**Description:** Provisions public/private SSH Key pair, and adds the private key as an Ansible Tower credential. Deploys the requested number of RHEL8 instances into the previously created subnet, plus an additional instance to host the Hashicorp vault secrets engine.
 
 | Parameter | Value |
 |-----|-----|
@@ -102,7 +102,7 @@ ec2_vpc_cidr: "192.168.0.0/24"
 
 ### Teardown AWS Linux Resources
 
-Description: This tears down all networking resources (private cloud, subnet, internet gateway), indicated by the identifying metadata.
+**Description:** This tears down all networking resources (private cloud, subnet, internet gateway), indicated by the identifying metadata.
 
 | Parameter | Value |
 |-----|-----|
@@ -115,7 +115,7 @@ Description: This tears down all networking resources (private cloud, subnet, in
 
 ### Install Docker Engine on Linux Instances
 
-Description: Installs Docker Engine on the additional Linux instance deployed.
+**Description:** Installs Docker Engine on the additional Linux instance deployed.
 
 | Parameter | Value |
 |-----|-----|
@@ -129,7 +129,7 @@ Description: Installs Docker Engine on the additional Linux instance deployed.
 
 ### Install/configure vault on Linux Docker instance
 
-Description: Deploys a dev Hashicorp vault container from the Dockerhub image. Sets a root token from the vault_creds.yml file, variable name `vault_root_token`.
+**Description:** Deploys a dev Hashicorp vault container from the Dockerhub image. Sets a root token from the vault_creds.yml file, variable name `vault_root_token`.
 
 | Parameter | Value |
 |-----|-----|
@@ -142,7 +142,7 @@ Description: Deploys a dev Hashicorp vault container from the Dockerhub image. S
 
 ### Provision RHEL8 on Linux Instances
 
-Description: Performs the following functions on the requested RHEL 8 instances:
+**Description:** Performs the following functions on the requested RHEL 8 instances:
 - Registers with Red Hat Subscription Manager
 - Updates all packages and installs Apache Webserver
 - Registers with Red Hat Insights
@@ -159,7 +159,7 @@ Description: Performs the following functions on the requested RHEL 8 instances:
 
 ### Add RHEL8 users to AWS Instances
 
-Description: Creates a key-value secrets engine for vault, and adds all users/private keys to the secrets engine. The private keys are base64 encoded. Adds all users to the RHEL 8 servers, gives them privilege escalation without a password required, and forces them to create a password upon first login.
+**Description:** Creates a key-value secrets engine for vault, and adds all users/private keys to the secrets engine. The private keys are base64 encoded. Adds all users to the RHEL 8 servers, gives them privilege escalation without a password required, and forces them to create a password upon first login.
 
 | Parameter | Value |
 |-----|-----|
@@ -172,7 +172,7 @@ Description: Creates a key-value secrets engine for vault, and adds all users/pr
 
 ### Update ServiceNow Change Request
 
-Description: Updates the state of the ServiceNow Change Request, removes the CR artifact file if the state is changed to *closed* or *cancelled*.
+**Description:** Updates the state of the ServiceNow Change Request, removes the CR artifact file if the state is changed to *closed* or *cancelled*.
 
 | Parameter | Value |
 |-----|-----|
@@ -192,7 +192,7 @@ close_notes: "Canceled by the requester"
 
 ### Send SNOW success email
 
-Description: Sends an email to the requester if the ServiceNow Change Request is closed successfully.
+**Description:** Sends an email to the requester if the ServiceNow Change Request is closed successfully.
 
 | Parameter | Value |
 |-----|-----|
