@@ -82,6 +82,9 @@ Here are the details required for both questions:
 
 When setting up the Workflow Template visualizer, you can select the next step by clicking on the START button:
 
+<img src="images/workflow_start.jpg" alt="Workflow Start"
+	title="Workflow Start" width="800" />
+
 From there, you can choose the Job Template, when it runs (`Always` for the first selection, `Always`, `On Success`, or `On Failure` for subsequent Job Templates), convergence (`All` or `Any`), and any prompts if necessary. Each Job Template will give these details.
 
 <img src="images/provision_workflow_start.jpg" alt="Tower Project"
