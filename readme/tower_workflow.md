@@ -37,12 +37,48 @@ You can set up the Workflow Template by navigating to Resources --> Templates, a
 
 For the provisioner template, fill out the fields as follows:
 
+<img src="images/workflow_parameters.jpg" alt="Workflow Parameters"
+	title="Workflow Parameters" width="500" />
+
+  | Parameter | Value |
+  |-----|-----|
+  | Name  | How many instances should be spun up?  |
+  | Organization  | Please select no more than 10.  |
+  |  Inventory | Demo Inventory |
+
+  #### Extra Variables (check the box marked `PROMPT ON LAUNCH`)
+  ```
+  from_snow: no
+  ```
+
 For starting this Workflow Template from Ansible Tower, the Workflow requires two parameters, asking for the number of RHEL 8 instances the user wishes to deploy, and how big they need to be.
 
 The survey will look like this:
 
+<img src="images/tower_survey.jpg" alt="Tower Project"
+	title="Tower Survey" width="500" />
+
 Here are the details required for both questions:
 
+| Parameter | Value |
+|-----|-----|
+| Prompt  | How many instances should be spun up?  |
+| Description  | Please select no more than 10.  |
+|  Answer Variable Name | `num_instances` |
+|  Answer Type |  Integer |
+|  Minimum |  `1` |
+|  Maximum |  `10` |
+|  Default Answer |  `3` |
+|  Required |  Checkmark |
+
+| Parameter | Value |
+|-----|-----|
+| Prompt  | What size instance should be selected?  |
+|  Answer Variable Name | `instance_size` |
+|  Answer Type |  Multiple Choice (single select) |
+|  Multiple Choice Options |  `small`, `medium`, `large` |
+|  Default Answer |  `medium` |
+|  Required |  Checkmark |
 
 When setting up the Workflow Template visualizer, you can select the next step by clicking on the START button:
 
@@ -161,7 +197,6 @@ close_notes: 'Canceled by Ansible: Problem when trying to provision network reso
 
 **PROMPT:**
 ```
----
 ---
 close_state: 4
 close_code: unsuccessful
