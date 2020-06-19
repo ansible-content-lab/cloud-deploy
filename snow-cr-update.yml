@@ -32,14 +32,14 @@
     #   debug:
     #     var: change_request_status.record.state
 
-    block:
+    - block:
       - name: Remove Change Request Variable file
         file:
           path: "{{ working_dir }}/snow-change-request.yml"
           state: absent
         when: ((change_request_status.record.state == "3") or
               (change_request_status.record.state == "4"))
-    when: from_snow|bool
+      when: from_snow|bool
 
     #state
     # -5 is just created
