@@ -46,7 +46,7 @@ Once you have the Project and Credential set up, you can now move to setting up 
 
 ### Open ServiceNow Change Request and wait for Approval
 
-Description:
+Description: if `from_snow` is true, a ServiceNow Change Request is opened, and an email with an approval request link is sent to the approval group (for this demo, the recipient email is hardcoded). The playbook will wait until the Change Request has been approved, or will time out.
 
 | Parameter | Value |
 |-----|-----|
@@ -59,7 +59,7 @@ Description:
 
 ### Provision AWS resources
 
-Description:
+Description: This provisions all networking resources (private cloud, subnet, internet gateway) with a hardcoded RFC1918 IP subnet and adds metadata for identification and cleanup purposes.
 
 | Parameter | Value |
 |-----|-----|
@@ -81,7 +81,7 @@ ec2_vpc_cidr: "192.168.0.0/24"
 
 ### Provision AWS Linux Instances
 
-Description:
+Description: Provisions public/private SSH Key pair, and adds the private key as an Ansible Tower credential. Deploys the requested number of RHEL8 instances into the previously created subnet, plus an additional instance to host the Hashicorp vault secrets engine.
 
 | Parameter | Value |
 |-----|-----|
@@ -102,7 +102,7 @@ ec2_vpc_cidr: "192.168.0.0/24"
 
 ### Teardown AWS Linux Resources
 
-Description:
+Description: This tears down all networking resources (private cloud, subnet, internet gateway), indicated by the identifying metadata.
 
 | Parameter | Value |
 |-----|-----|
@@ -115,7 +115,7 @@ Description:
 
 ### Install Docker Engine on Linux Instances
 
-Description:
+Description: Installs Docker Engine on the additional Linux instance deployed.
 
 | Parameter | Value |
 |-----|-----|
@@ -129,7 +129,7 @@ Description:
 
 ### Install/configure vault on Linux Docker instance
 
-Description:
+Description: Deploys a dev Hashicorp vault container from the Dockerhub image. Sets a root token from the vault_creds.yml file, variable name `vault_root_token`.
 
 | Parameter | Value |
 |-----|-----|
@@ -142,7 +142,11 @@ Description:
 
 ### Provision RHEL8 on Linux Instances
 
-Description:
+Description: Performs the following functions on the requested RHEL 8 instances:
+- Registers with Red Hat Subscription Manager
+- Updates all packages and installs Apache Webserver
+- Registers with Red Hat Insights
+- Deploys a dynamically generated index.html page
 
 | Parameter | Value |
 |-----|-----|
@@ -155,7 +159,7 @@ Description:
 
 ### Add RHEL8 users to AWS Instances
 
-Description:
+Description: Creates a key-value secrets engine for vault, and adds all users/private keys to the secrets engine. The private keys are base64 encoded. Adds all users to the RHEL 8 servers, gives them privilege escalation without a password required, and forces them to create a password upon first login.
 
 | Parameter | Value |
 |-----|-----|
@@ -168,7 +172,7 @@ Description:
 
 ### Update ServiceNow Change Request
 
-Description:
+Description: Updates the state of the ServiceNow Change Request, removes the CR artifact file if the state is changed to *closed* or *cancelled*.
 
 | Parameter | Value |
 |-----|-----|
@@ -184,6 +188,24 @@ Description:
 close_state: 7
 close_code: "unsuccessful"
 close_notes: "Canceled by the requester"
+```
+
+### Send SNOW success email
+
+Description: Sends an email to the requester if the ServiceNow Change Request is closed successfully.
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Send SNOW success email  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy AWS Applications |
+|  Playbook |  `snow-cr-email.yml` |
+|  Credential |  `ansible-vault password` |
+
+#### Extra Variables
+```
+from_snow: no
 ```
 
 ## Next Steps
