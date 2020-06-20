@@ -304,21 +304,21 @@ Finally, let's walk through the teardown Workflow Template:
 
 ## 1) Teardown AWS Linux Instances
 
-	| Parameter | Value |
-	|-----|-----|
-	| Node Type  | Template  |
-	|  Template Name |  Teardown AWS Linux Instances |
-	|  Run |  Always |
-	|  Convergence |  Any |
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Template  |
+|  Template Name |  Teardown AWS Linux Instances |
+|  Run |  Always |
+|  Convergence |  Any |
 
 ## 2) Teardown AWS Linux Resources
 
-	| Parameter | Value |
-	|-----|-----|
-	| Node Type  | Template  |
-	|  Template Name |  Teardown AWS Linux Resources |
-	|  Run |  On Success |
-	|  Convergence |  Any |
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Template  |
+|  Template Name |  Teardown AWS Linux Resources |
+|  Run |  On Success |
+|  Convergence |  Any |
 
 Now, you're ready to run deploy your cloud resources.
 
