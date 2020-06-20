@@ -85,4 +85,4 @@ Of course, these compute resources do not exist in a vaccuum; the underlying vir
 
 ## Running the Teardown Template
 
-The Teardown Template is less involved to run. Simply click on the rocketship button next to the Workflow Template **Teardown AWS Linux Application, Instances and Resources**. The Workflow Template searches for the cloud resources based on metadata defined in the [default_vars.yml](../../vars/default_vars.yml) file, and will tear down all instances and resources without any further user input.
+The Teardown Template is less involved to run. Simply click on the rocketship button next to the Workflow Template **Teardown AWS Linux Application, Instances and Resources**. The Workflow Template searches for the cloud resources based on metadata defined in the [default_vars.yml](../../vars/default-vars.yml) file, and will tear down all instances and resources without any further user input.
