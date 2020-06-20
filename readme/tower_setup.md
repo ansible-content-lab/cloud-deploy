@@ -33,9 +33,34 @@ Under Resources --> Projects, create a new set of credentials of the appropriate
 <img src="images/cloud_credentials.jpg" alt="Cloud Credentials"
 	title="Cloud Credentials" width="500" />
 
+| Parameter | Value |
+|-----|-----|
+| Name  | Ansible Tiger Team AWS Programmatic Keys  |
+|  Organization |  Default |
+|  Credential Type |  Amazon Web Services |
+|  Access Key |  `AWS Access Key` |
+|  Secret Key |  `AWS Secret Key` |
+
+
 Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the cloud resources this demo generates.
 
 Lastly, Ansible Tower automatically encrypts any secrets, which in the case of AWS is the *Secret Key*. Ansible Tower users (with appropriate permissions) can use the credential without knowing its contents.
+
+## Cloud Instance Credentials
+
+Although this does not need to be populated, the Tower credential for your RHEL 8 instances must be present as the playbook will populate it. Under Resources --> Projects, create a new set of credentials of the type `machine`. Populate the following fields:
+
+<img src="images/machine_credentials.png" alt="Machine Credentials"
+	title="Machine Credentials" width="500" />
+
+| Parameter | Value |
+|-----|-----|
+| Name  | AWS Demo Instances Key  |
+|  Organization |  Default |
+|  Credential Type |  Machine |
+
+
+Click **Save**.
 
 ## Job Templates
 
