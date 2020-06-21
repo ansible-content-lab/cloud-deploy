@@ -22,13 +22,13 @@ This document lists the software requirements needed to set up this demonstratio
   - A 60-day, 100-node trial license can be generated here: [Ansible Tower 60-day trial license](https://www.redhat.com/en/technologies/management/ansible/try-it).
 - **ServiceNow Developer Instance**: Optionally, ServiceNow (or any ticketing system that can make outbound RESTful API calls) can be used to programmatically start this deployment. Many organizations use ServiceNow as a front-end for self-service IT, and Ansible Tower allows end-users to continue utilizing an interface they are accustomed to.
   - Instructions on how to set up a free developer instance of ServiceNow can be found [here](https://developer.servicenow.com/dev.do#!/guide/orlando/now-platform/pdi-guide/obtaining-a-pdi).
-- **Programmatic Cloud Credentials**: Ansible needs credentials to be able to talk to your cloud environment. Alternatively, if you deploy Ansible Tower in the same cloud environment where you plan to run this demo, you can give the instance permissions to access the necessary cloud resources. Currently, this demo deploys resources in AWS only, but will be expanding to include Azure and GCP.
+- **Programmatic Cloud Credentials**: Ansible needs credentials to be able to talk to your cloud environment. Alternatively, if you deploy Ansible Tower in the same cloud environment where you plan to run this demo, you can give the instance itself permissions (such as an AWS Identity Access Management Role) to access the necessary cloud resources. Currently, this demo deploys resources in AWS only, but will be expanding to include GCP and Azure.
 
 ## Variables
 
 ### default-variables
 
-The [default variables file](../vars/default-vars.yml) contains the basic variables needed to set up the cloud infrastructure. In some cases (such as VPC subnets), these variables are hard-coded for simplicity's sake; in production there would be logic to dynamically change the values.
+The [default variables file](../vars/default-vars.yml) contains the basic variables needed to set up the cloud infrastructure. In some cases (such as VPC subnets and the VM image ID), these variables are hard-coded for simplicity's sake; in production there would be logic to dynamically change the values. You can of course change these values yourself.
 
 
 - `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts are placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings:
@@ -71,7 +71,7 @@ gmail_password: password
 
 ### redhat-activation-key
 
-When provisioning RHEL instances, this activation key (generated at https://access.redhat.com) is used to subscribe instances using subscription-manager. Alternatively, you can elect to deploy non-RHEL linux instances (Centos is suggested).
+When provisioning RHEL instances, this activation key (generated at https://access.redhat.com) is used to subscribe instances using subscription-manager. <!-- Alternatively, you can elect to deploy non-RHEL linux instances (Centos is suggested). -->
 
 File format:
 ```
