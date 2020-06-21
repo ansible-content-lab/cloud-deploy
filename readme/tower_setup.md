@@ -24,7 +24,7 @@ Under Resources --> Projects, create a new Project with the following attributes
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Ansible Tiger Team AWS Programmatic Keys  |
+| Name  | Deploy AWS Applications  |
 |  Organization |  Default |
 |  SCM Type |  Git |
 |  SCM URL |  https://github.com/michaelford85/aws-deploy.git |
