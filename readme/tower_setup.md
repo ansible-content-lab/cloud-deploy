@@ -22,6 +22,14 @@ Under Resources --> Projects, create a new Project with the following attributes
 <img src="images/tower_project.jpg" alt="Tower Project"
 	title="Tower Project" width="500" />
 
+| Parameter | Value |
+|-----|-----|
+| Name  | Ansible Tiger Team AWS Programmatic Keys  |
+|  Organization |  Default |
+|  SCM Type |  Git |
+|  SCM URL |  https://github.com/michaelford85/aws-deploy.git |
+|  Clean |  Checkmark |
+
 I have elected to create a custom Python virtual environment that supports Python3. While this is not necessary for an Ansible Tower installation on Centos 8/RHEL 8 (which only comes with Python3), you can set up a custom Python virtual environent per [these instructions](https://docs.ansible.com/ansible-tower/latest/html/upgrade-migration-guide/virtualenv.html) (See section 4.1).
 
 
