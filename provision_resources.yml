@@ -157,6 +157,7 @@
               - name: External NAT
                 nat_ip: "{{ address }}"
                 type: ONE_TO_ONE_NAT
+            - subnetwork: "{{ gcp_subnet }}"
             zone: "{{ gcp_zone }}"
             state: present
 
