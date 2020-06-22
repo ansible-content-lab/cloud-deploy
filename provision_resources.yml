@@ -151,7 +151,7 @@
               application: "{{ application }}"
               demo: appdeployment
             network_interfaces:
-            - network: "{{ network }}"
+            - network: "{{ gcp_vpc }}"
               access_configs:
               - name: External NAT
                 nat_ip: "{{ address }}"
