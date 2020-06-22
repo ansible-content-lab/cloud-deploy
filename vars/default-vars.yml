@@ -1,5 +1,10 @@
 ---
 working_dir: /tmp
+
+#specifies which cloud to deploy resources to
+#acceptable options: aws, gcp
+cloud_provider: gcp
+
 ec2_region: us-east-1
 ec2_prefix: mford-linux
 application: apache
