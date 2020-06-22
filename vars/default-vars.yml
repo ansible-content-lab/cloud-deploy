@@ -23,3 +23,4 @@ instance_username: ec2-user
 
 #GCP parameters
 gcp_prefix: mford-linux
+gcp_region: us-central-1
