@@ -121,6 +121,7 @@
             network: "{{ gcp_vpc }}"
             ip_cidr_range: "{{ gcp_vpc_subnet }}"
             state: present
+          register: gcp_subnet
 
         - name: create a disk
           gcp_compute_disk:
@@ -151,7 +152,7 @@
               application: "{{ application }}"
               demo: appdeployment
             network_interfaces:
-            - network: "{{ gcp_vpc }}"
+            - network: "{{ gcp_subnet }}"
               access_configs:
               - name: External NAT
                 nat_ip: "{{ address }}"
