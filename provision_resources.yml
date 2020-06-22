@@ -111,8 +111,26 @@
             state: present
           register: gcp_vpc
 
-        - debug:
-            var: gcp_vpc
+        # - debug:
+        #     var: gcp_vpc
+
+
+        - name: "Create GCP Firewall for {{ gcp_prefix }}-vpc"
+          gcp_compute_firewall:
+            name: "{{ gcp_prefix }}-firewall"
+            allowed:
+            - ip_protocol: tcp
+              ports:
+              - '22'
+              - '80'
+              - '443'
+              - '8200'
+              - '3306'
+            target_tags:
+            - appdeployment
+            state: present
+          register: gcp_firewall
+
 
         - name: "Create GCP Subnet for {{ gcp_prefix }}-vpc"
           gcp_compute_subnetwork:
