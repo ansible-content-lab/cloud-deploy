@@ -100,7 +100,7 @@
         # - debug:
         #     var: subnet_info
 
-        - name: "Create webserver ec2 instance"
+        - name: "Create webserver ec2 instances"
           ec2:
             assign_public_ip: true
             key_name: "{{ ec2_prefix }}-key"
@@ -179,6 +179,52 @@
         - debug:
             var: ssh_key_output
 
+        - name: Gather Subnet Information
+          gcp_compute_subnetwork_info:
+            region: "{{ gcp_region }}"
+            filters:
+            - name = "{{ gcp_prefix }}-subnet"
+          register: subnetwork_info
+
+        - debug:
+            var: subnetwork_info
+
+        - name: Gather Network Information
+          gcp_compute_network_info:
+            region: "{{ gcp_region }}"
+            filters:
+            - name = "{{ gcp_prefix }}-vpc"
+          register: network_info
+
+        - debug:
+            var: network_info
+
         # - name: add ssh public key to GCP
+
+        # - name: "Create webserver GCP instances"
+        #   gcp_compute_instance:
+        #     name: ansible-rhel
+        #     machine_type: n1-standard-1
+        #     disks:
+        #     - auto_delete: 'true'
+        #       boot: 'true'
+        #       source: "{{ disk }}"
+        #     labels:
+        #       provisioner: mford
+        #       application: "{{ application }}"
+        #       demo: appdeployment
+        #     network_interfaces:
+        #     - network: "{{ gcp_vpc }}"
+        #       access_configs:
+        #       - name: External NAT
+        #         nat_ip: "{{ address }}"
+        #         type: ONE_TO_ONE_NAT
+        #       subnetwork: "{{ gcp_subnet }}"
+        #     zone: "{{ gcp_zone }}"
+        #     tags:
+        #       items:
+        #         - appdeployment
+        #         - "{{ application }}"
+        #     state: present
 
       when: cloud_provider == "gcp"

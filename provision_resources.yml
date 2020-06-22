@@ -106,7 +106,7 @@
        # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
         - name: "Create GCP VPC {{ gcp_prefix }}-vpc"
           gcp_compute_network:
-            name: test-network
+            name: "{{ gcp_prefix }}-vpc"
             auto_create_subnetworks: 'false'
             state: present
           register: gcp_vpc
