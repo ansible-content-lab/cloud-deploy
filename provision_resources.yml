@@ -126,35 +126,38 @@
           gcp_compute_disk:
             name: disk-instance
             size_gb: 50
-            source_image: projects/rhel-cloud/global/images/rhel-8-v20200618
+            source_image: "{{ gcp_disk_image }}"
             zone: "{{ gcp_zone }}"
             state: present
           register: disk
 
-        # - name: create a instance
-        #   gcp_compute_instance:
-        #     name: ansible-rhel
-        #     machine_type: n1-standard-1
-        #     disks:
-        #     - auto_delete: 'true'
-        #       boot: 'true'
-        #       source: "{{ disk }}"
-        #     metadata:
-        #       startup-script-url: gs:://graphite-playground/bootstrap.sh
-        #       cost-center: '12345'
-        #     labels:
-        #       environment: production
-        #     network_interfaces:
-        #     - network: "{{ network }}"
-        #       access_configs:
-        #       - name: External NAT
-        #         nat_ip: "{{ address }}"
-        #         type: ONE_TO_ONE_NAT
-        #     zone: us-central1-a
-        #     project: test_project
-        #     auth_kind: serviceaccount
-        #     service_account_file: "/tmp/auth.pem"
-        #     state: present
+        - name: create a address
+          gcp_compute_address:
+            name: address-instance
+            region: "{{ gcp_region }}"
+            state: present
+          register: address
+
+        - name: create a instance
+          gcp_compute_instance:
+            name: ansible-rhel
+            machine_type: n1-standard-1
+            disks:
+            - auto_delete: 'true'
+              boot: 'true'
+              source: "{{ disk }}"
+            labels:
+              provisioner: mford
+              application: "{{ application }}"
+              demo: appdeployment
+            network_interfaces:
+            - network: "{{ network }}"
+              access_configs:
+              - name: External NAT
+                nat_ip: "{{ address }}"
+                type: ONE_TO_ONE_NAT
+            zone: "{{ gcp_zone }}"
+            state: present
 
 
 
