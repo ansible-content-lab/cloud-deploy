@@ -118,7 +118,7 @@
           gcp_compute_subnetwork:
             name: "{{ gcp_prefix }}-subnet"
             region: "{{ gcp_region }}"
-            network: "{{ gcp_vpc.name }}"
+            network: "{{ gcp_vpc }}"
             ip_cidr_range: 172.16.0.0/16
             state: present
 
