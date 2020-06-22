@@ -158,8 +158,23 @@
       block:
         - name: Generate SSH Key pair
           openssh_keypair:
-            path: /tmp/id_ssh_rsa
+            path: "{{working_dir }}/id_ssh_rsa"
           register: ssh_key_output
+
+        - name: Update Ansible Tower Cloud SSH Credential
+          tower_credential:
+            name: Cloud Demo Instances Key
+            organization: Default
+            tower_host: "{{ tower_url }}"
+            tower_username: "{{ tower_user }}"
+            tower_password: "{{ tower_pass }}"
+            kind: ssh
+            username: awx
+            # ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+            ssh_key_data: "{{ lookup('file', '{{ working_dir }}/id_ssh_rsa') }}"
+            tower_verify_ssl: false
+          delegate_to: localhost
+          run_once: true
 
         - debug:
             var: ssh_key_output
