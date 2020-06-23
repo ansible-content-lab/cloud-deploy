@@ -111,6 +111,9 @@
         - name: "Delete GCP Subnet {{ gcp_prefix }}-subnet"
           gcp_compute_subnetwork:
             name: "{{ gcp_prefix }}-subnet"
+            ip_cidr_range: "{{ gcp_vpc_subnet }}"
+            network: "{{ gcp_prefix }}-vpc"
+            region: "{{ gcp_region }}"
             state: absent
 
         - name: "Delete GCP VPC {{ gcp_prefix }}-vpc"
