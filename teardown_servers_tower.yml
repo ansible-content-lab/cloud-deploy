@@ -11,46 +11,46 @@
   tasks:
 
 
-    # - name: Deploy AWS Instances
-    #   block:
-    #     - name: "Gather {{ application }} instance info"
-    #       ec2_instance_info:
-    #         region: "{{ ec2_region }}"
-    #         filters:
-    #           "tag:application": "{{ application }}"
-    #           "tag:provisioner": "mford"
-    #           instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
-    #       register: instance_info
-    #
-    #     - name: "Create a list of the {{ application }} Instances"
-    #       set_fact:
-    #         ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
-    #       loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
-    #
-    #     - name: "Terminate Instances for Application {{ application }}"
-    #       ec2:
-    #         state: absent
-    #         instance_ids: "{{ ec2_instance_ids }}"
-    #         wait: "{{ ec2_wait }}"
-    #         region: "{{ ec2_region }}"
-    #       when: ec2_instance_ids | length > 0
-    #
-    #     - name: Delete AWS SSH Public Key
-    #       ec2_key:
-    #         region: "{{ ec2_region }}"
-    #         name: "{{ ec2_prefix }}-key"
-    #         state: absent
-    #
-    #     - name: delete flat-file private key
-    #       file:
-    #         path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-    #         state: absent
-    #
-    #     - name: delete flat-file public key
-    #       file:
-    #         path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
-    #         state: absent
-    #   when: cloud_provider == "aws"
+    - name: Deploy AWS Instances
+      block:
+        - name: "Gather {{ application }} instance info"
+          ec2_instance_info:
+            region: "{{ ec2_region }}"
+            filters:
+              "tag:application": "{{ application }}"
+              "tag:provisioner": "mford"
+              instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
+          register: instance_info
+
+        - name: "Create a list of the {{ application }} Instances"
+          set_fact:
+            ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
+          loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
+
+        - name: "Terminate Instances for Application {{ application }}"
+          ec2:
+            state: absent
+            instance_ids: "{{ ec2_instance_ids }}"
+            wait: "{{ ec2_wait }}"
+            region: "{{ ec2_region }}"
+          when: ec2_instance_ids | length > 0
+
+        - name: Delete AWS SSH Public Key
+          ec2_key:
+            region: "{{ ec2_region }}"
+            name: "{{ ec2_prefix }}-key"
+            state: absent
+
+        - name: delete flat-file private key
+          file:
+            path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+            state: absent
+
+        - name: delete flat-file public key
+          file:
+            path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+            state: absent
+      when: cloud_provider == "aws"
 
     - name: Teardown GCP Instances
       block:
