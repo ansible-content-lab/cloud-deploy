@@ -1,0 +1,9 @@
+{
+{% for item in linux_users %}
+{% if not loop.last %}
+	"{{item.username}}_password": "{{ lookup('file', '/{{ working_dir }}/id_ssh_rsa') | b64encode }}",
+{% else %}
+	"{{item.username}}_password": "{{ lookup('file', '/{{ working_dir }}/id_ssh_rsa') | b64encode }}"
+{% endif %}
+{% endfor %}
+}

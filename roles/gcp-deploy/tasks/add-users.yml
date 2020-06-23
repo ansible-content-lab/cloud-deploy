@@ -30,7 +30,7 @@
 
 - name: Create linux_users.json template
   template:
-    src: ./templates/linux_users.j2
+    src: linux_users.j2
     dest: /tmp/linux_users.json
   delegate_to: localhost
   run_once: yes
