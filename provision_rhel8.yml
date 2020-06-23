@@ -7,33 +7,53 @@
 
   tasks:
 
-    - block:
-      - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
-        redhat_subscription:
-          state: present
-          activationkey: "{{ rhactivationkey }}"
-          org_id: "{{ rhorg_id }}"
-          auto_attach: true
-        become: yes
+    - name: Ensure Standard Linux Configuration on GCP
+      block:
 
-      - name: upgrade all packages
-        yum:
-          name: '*'
-          state: latest
-          disablerepo: rhel-7-server-htb-rpms
-        become: yes
+        - name: Ensure Standard Linux Configuration GCP
+          include_role:
+            name: gcp-deploy
+            tasks_from: provision-linux
 
-      - name: Install Apache
-        yum:
-          name: httpd
-          state: latest
-        become: yes
+      when: cloud_provider == "gcp"
 
-      - name: Register with Red Hat Insights
-        command: insights-client --register
-        become: yes
+    - name: Ensure Standard Linux Configuration on AWS
+      block:
 
-      - name: build report
-        include_role:
-          name: build_report
-      when: tags.group == "rhel"
+        - name: Ensure Standard Linux Configuration on AWS
+          include_role:
+            name: aws-deploy
+            tasks_from: provision-linux
+
+      when: cloud_provider == "aws"
+
+    # - block:
+    #   - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
+    #     redhat_subscription:
+    #       state: present
+    #       activationkey: "{{ rhactivationkey }}"
+    #       org_id: "{{ rhorg_id }}"
+    #       auto_attach: true
+    #     become: yes
+    #
+    #   - name: upgrade all packages
+    #     yum:
+    #       name: '*'
+    #       state: latest
+    #       disablerepo: rhel-7-server-htb-rpms
+    #     become: yes
+    #
+    #   - name: Install Apache
+    #     yum:
+    #       name: httpd
+    #       state: latest
+    #     become: yes
+    #
+    #   - name: Register with Red Hat Insights
+    #     command: insights-client --register
+    #     become: yes
+    #
+    #   - name: build report
+    #     include_role:
+    #       name: build_report
+    #   when: tags.group == "rhel"

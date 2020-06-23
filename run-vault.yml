@@ -1,6 +1,6 @@
 ---
 - name: Ensure vault is running
-  hosts: ec2
+  hosts: all
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
@@ -8,30 +8,22 @@
 
   tasks:
 
-    - block:
+    - name: Set up secrets engine on GCP
+      block:
 
-      - name: Ensure pip is installed
-        yum:
-          name: python3-pip
-          state: latest
-        become: yes
+        - name: Set up secrets engine on GCP
+          include_role:
+            name: gcp-deploy
+            tasks_from: install-vault
 
-      - name: Ensure docker python package is installed
-        pip:
-          name: docker
-          state: present
-        become: yes
+      when: cloud_provider == "gcp"
 
-      - name: Create vault container
-        docker_container:
-          name: vault
-          image: vault
-          env:
-            VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
-          published_ports:
-            - 8200:8200
+    - name: Set up secrets engine on AWS
+      block:
 
-      # - name: Create key-value pair secrets engine
+        - name: Set up secrets engine on  AWS
+          include_role:
+            name: aws-deploy
+            tasks_from: install-vault
 
-
-      when: tags.group == "webserver"
+      when: cloud_provider == "aws"

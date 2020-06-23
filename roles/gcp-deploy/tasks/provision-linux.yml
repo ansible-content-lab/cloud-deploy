@@ -1,0 +1,34 @@
+#How to install docker CE in RHEL8
+#https://linuxconfig.org/how-to-install-docker-in-rhel-8
+#Solves issue of containerd.io > 1.2.0-3.el7 dependency
+---
+- block:
+  - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
+    redhat_subscription:
+      state: present
+      activationkey: "{{ rhactivationkey }}"
+      org_id: "{{ rhorg_id }}"
+      auto_attach: true
+    become: yes
+
+  - name: upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+      disablerepo: rhel-7-server-htb-rpms
+    become: yes
+
+  - name: Install Apache
+    yum:
+      name: httpd
+      state: latest
+    become: yes
+
+  - name: Register with Red Hat Insights
+    command: insights-client --register
+    become: yes
+
+  - name: build report
+    include_role:
+      name: build_report
+  when: labels.group == "rhel"

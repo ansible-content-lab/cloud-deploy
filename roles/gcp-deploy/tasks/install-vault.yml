@@ -1,0 +1,26 @@
+#How to install docker CE in RHEL8
+#https://linuxconfig.org/how-to-install-docker-in-rhel-8
+#Solves issue of containerd.io > 1.2.0-3.el7 dependency
+---
+- block:
+    - name: Ensure pip is installed
+      yum:
+        name: python3-pip
+        state: latest
+      become: yes
+
+    - name: Ensure docker python package is installed
+      pip:
+        name: docker
+        state: present
+      become: yes
+
+    - name: Create vault container
+      docker_container:
+        name: vault
+        image: vault
+        env:
+          VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
+        published_ports:
+          - 8200:8200
+  when: labels.group == "webserver"

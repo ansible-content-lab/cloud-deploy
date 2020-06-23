@@ -1,0 +1,116 @@
+#How to install docker CE in RHEL8
+#https://linuxconfig.org/how-to-install-docker-in-rhel-8
+#Solves issue of containerd.io > 1.2.0-3.el7 dependency
+---
+- name: Create vault_hostname.yml template
+  template:
+    src: ./templates/vault_hostname.j2
+    dest: /tmp/vault_hostname.yml
+  delegate_to: localhost
+  run_once: yes
+
+- name: Include variable file for vault_hostname
+  include_vars:
+    file: /tmp/vault_hostname.yml
+  run_once: yes
+
+- name: Add key value pair secrets engine to vault
+  uri:
+    url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel"
+    method: POST
+    body_format: json
+    body:
+      {
+        "type": "kv"
+      }
+    headers:
+      X-Vault-Token: "{{ vault_root_token }}"
+    status_code: 200, 204
+  run_once: yes
+
+- name: Create linux_users.json template
+  template:
+    src: ./templates/linux_users.j2
+    dest: /tmp/linux_users.json
+  delegate_to: localhost
+  run_once: yes
+
+- name: Add user ssh keys to secrets engine
+  uri:
+    url: "http://{{ vault_hostname }}:8200/v1/rhel/users"
+    method: POST
+    src: /tmp/linux_users.json
+    headers:
+      X-Vault-Token: "{{ vault_root_token }}"
+    status_code: 200, 204
+  run_once: yes
+
+- name: Delete linux_users.json
+  file:
+    path: /tmp/linux_users.json
+    state: absent
+  delegate_to: localhost
+  run_once: yes
+
+- name: Delete vault_hostname.yml
+  file:
+    path: /tmp/vault_hostname.yml
+    state: absent
+  delegate_to: localhost
+  run_once: yes
+
+- block:
+  #Create users and force them to change password upon first login
+  #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
+  - name: Add users
+    user:
+      name: "{{ item.username }}"
+      groups: wheel
+    with_items: "{{ linux_users }}"
+    become: yes
+
+  - name: Add public ssh key to user
+    authorized_key:
+      user: "{{ item.username }}"
+      state: present
+      key: "{{ lookup('file', '{{ working_dir }}/{{ tags.ec2_prefix }}-key.pub') }}"
+      # key: "{{ lookup('file', '{{ working_dir }}/id_ssh_rsa.pub') }}"
+    with_items: "{{ linux_users }}"
+    become: yes
+
+  - name: Unlock password and set it to empty
+    command: "passwd -d {{ item.username }}"
+    with_items: "{{ linux_users }}"
+    become: yes
+
+  - name: Expire password
+    command: "chage -d 0 {{ item.username }}"
+    with_items: "{{ linux_users }}"
+    become: yes
+
+  - name: Allow newly added users to sudo without a password
+    template:
+      src: ./templates/sudoers.j2
+      dest: /etc/sudoers.d/sudoers
+      validate: 'visudo -cf %s'
+      mode: 0440
+    become: yes
+
+  #Instructions on how to change SSH PasswordAuthentication
+  #https://www.reddit.com/r/ansible/comments/8v943t/add_a_ansible_task_to_allow/
+  - name: update sshd config to allow for Password Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^PasswordAuthentication.*no'
+      line: 'PasswordAuthentication yes'
+    notify: restart_sshd
+    become: yes
+  when: tags.group == "rhel"
+
+handlers:
+- name: restart_sshd
+  service:
+    name: sshd
+    state: restarted
+  become: yes
+  when: tags.group == "rhel"
