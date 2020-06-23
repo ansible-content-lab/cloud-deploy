@@ -26,7 +26,6 @@
           set_fact:
             ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
           loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
-          when: cloud_provider == "aws"
 
         - name: "Terminate Instances for Application {{ application }}"
           ec2:
