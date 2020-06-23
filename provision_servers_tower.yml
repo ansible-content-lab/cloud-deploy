@@ -237,6 +237,7 @@
               application: "{{ application }}"
               demo: appdeployment
               group: rhel
+              cloud_provider: gcp
             network_interfaces:
             - network: "{{ network_info.resources[0] }}"
               access_configs:
@@ -272,6 +273,7 @@
               application: "{{ application }}"
               demo: appdeployment
               group: webserver
+              cloud_provider: gcp
             network_interfaces:
             - network: "{{ network_info.resources[0] }}"
               access_configs:
