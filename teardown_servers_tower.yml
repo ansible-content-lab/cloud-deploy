@@ -70,6 +70,7 @@
           - name: Teardown GCP instances
             gcp_compute_instance:
               name: "{{ item.name }}"
+              zone: "{{ gcp_zone }}"
               state: absent
             with_items: "{{ instance_info.resources }}"
 
