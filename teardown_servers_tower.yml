@@ -50,7 +50,7 @@
     #       file:
     #         path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
     #         state: absent
-    #   when: cloud_provider = "aws"
+    #   when: cloud_provider == "aws"
 
     - name: Teardown GCP Instances
       block:
@@ -67,4 +67,4 @@
           - debug:
               var: instance_info
 
-      when: cloud_provider = "gcp"
+      when: cloud_provider == "gcp"
