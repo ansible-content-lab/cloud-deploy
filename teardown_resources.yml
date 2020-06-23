@@ -102,6 +102,13 @@
     - name: Teardown GCP Resources
       block:
 
+        - name: "Delete GCP VPC {{ gcp_prefix }}-vpc"
+          gcp_compute_network_info:
+            name: "{{ gcp_prefix }}-vpc"
+          register: gcp_vpc
+
+        - debug: gcp_vpc
+
         - name: "Delete GCP Firewall for {{ gcp_prefix }}-vpc"
           gcp_compute_firewall:
             name: "{{ gcp_prefix }}-firewall"
@@ -112,7 +119,7 @@
           gcp_compute_subnetwork:
             name: "{{ gcp_prefix }}-subnet"
             ip_cidr_range: "{{ gcp_vpc_subnet }}"
-            network: "{{ gcp_prefix }}-vpc"
+            network: "{{ gcp_vpc.resources[0] }}"
             region: "{{ gcp_region }}"
             state: absent
 
