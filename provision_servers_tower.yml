@@ -254,7 +254,7 @@
 
         - debug:
             msg: "The item number is {{ item }}"
-          loop: "{{ range(0, 4)|list }}"
+          loop: "{{ range(1, 4)|list }}"
 
 
       when: cloud_provider == "gcp"
