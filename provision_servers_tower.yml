@@ -258,7 +258,7 @@
 
         - debug:
             msg: "The item number is {{ item|int }}"
-          with_sequence: count="{{the_count}}"
+          with_sequence: count="{{num_instances}}"
 
 
       when: cloud_provider == "gcp"
