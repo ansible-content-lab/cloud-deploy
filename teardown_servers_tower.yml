@@ -64,8 +64,8 @@
               - labels.demo = appdeployment
             register: instance_info
 
-          - debug:
-              var: instance_info
+          # - debug:
+          #     var: instance_info
 
           - name: Teardown GCP instances
             gcp_compute_instance:
@@ -73,6 +73,7 @@
               zone: "{{ gcp_zone }}"
               state: absent
             with_items: "{{ instance_info.resources }}"
+            no_log: true
 
 
 
