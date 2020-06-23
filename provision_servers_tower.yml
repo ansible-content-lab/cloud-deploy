@@ -254,11 +254,11 @@
 
 
         - set_fact:
-            count: '5'
+            the_count: 5
 
         - debug:
             msg: "The item number is {{ item }}"
-          loop: "{{ range(1, count) | list}}"
+          with_sequence: count=the_count
 
 
       when: cloud_provider == "gcp"
