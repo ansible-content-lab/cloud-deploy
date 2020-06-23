@@ -191,7 +191,6 @@
 
         - name: Gather Network Information
           gcp_compute_network_info:
-            region: "{{ gcp_region }}"
             filters:
             - name = "{{ gcp_prefix }}-vpc"
           register: network_info
