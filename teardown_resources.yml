@@ -102,7 +102,7 @@
     - name: Teardown GCP Resources
       block:
 
-        - name: "Delete GCP VPC {{ gcp_prefix }}-vpc"
+        - name: "Gather GCP VPC {{ gcp_prefix }}-vpc info"
           gcp_compute_network_info:
             filters:
             - name = "{{ gcp_prefix }}-vpc"
