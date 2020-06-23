@@ -252,9 +252,10 @@
         #         - "{{ application }}"
         #     state: present
 
+
         - debug:
             msg: "The item number is {{ item }}"
-          loop: "{{ range(1, [ num_instances | string ])}}"
+          loop: "{{ range(1, 5) | list}}"
 
 
       when: cloud_provider == "gcp"
