@@ -200,17 +200,17 @@
 
         # - name: add ssh public key to GCP
 
-        - name: create a disk
-          gcp_compute_disk:
-            name: disk-instance
-            size_gb: 50
-            source_image: "{{ gcp_disk_image }}"
-            zone: "{{ gcp_zone }}"
-            state: present
-          register: disk
-
-        - debug:
-            var: disk
+        # - name: create a disk
+        #   gcp_compute_disk:
+        #     name: disk-instance
+        #     size_gb: 50
+        #     source_image: "{{ gcp_disk_image }}"
+        #     zone: "{{ gcp_zone }}"
+        #     state: present
+        #   register: disk
+        #
+        # - debug:
+        #     var: disk
 
         - name: create a address
           gcp_compute_address:
