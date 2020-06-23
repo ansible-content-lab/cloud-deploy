@@ -257,7 +257,7 @@
             the_count: 5
 
         - debug:
-            msg: "The item number is {{ item }}"
+            msg: "The item number is {{ item|int }}"
           with_sequence: count=the_count
 
 
