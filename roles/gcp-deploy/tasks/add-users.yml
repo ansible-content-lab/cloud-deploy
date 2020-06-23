@@ -106,11 +106,3 @@
     notify: restart_sshd
     become: yes
   when: labels.group == "rhel"
-
-handlers:
-- name: restart_sshd
-  service:
-    name: sshd
-    state: restarted
-  become: yes
-  when: labels.group == "rhel"
