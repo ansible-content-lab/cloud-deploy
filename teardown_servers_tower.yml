@@ -11,75 +11,60 @@
   tasks:
 
 
-    # # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
-    # - name: "Get the VPC ID for {{ ec2_prefix }}-vpc"
-    #   ec2_vpc_net_info:
-    #     filters:
-    #       "tag:Name": "{{ ec2_prefix }}-vpc"
-    #     region: "{{ ec2_region }}"
-    #   register: vpc_net_facts
-    #
-    # - name: debug vpc_net_facts
-    #   debug:
-    #     var: vpc_net_facts
+    - name: Deploy AWS Instances
+      block:
+        - name: "Gather {{ application }} instance info"
+          ec2_instance_info:
+            region: "{{ ec2_region }}"
+            filters:
+              "tag:application": "{{ application }}"
+              "tag:provisioner": "mford"
+              instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
+          register: instance_info
 
-    - name: "Gather {{ application }} instance info"
-      ec2_instance_info:
-        region: "{{ ec2_region }}"
-        filters:
-          "tag:application": "{{ application }}"
-          "tag:provisioner": "mford"
-          instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
-      register: instance_info
+        - name: "Create a list of the {{ application }} Instances"
+          set_fact:
+            ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
+          loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
 
-    # - debug:
-    #     var: instance_info
-    #
-    # - debug:
-    #     var: instance_info.instances | length
+        - name: "Terminate Instances for Application {{ application }}"
+          ec2:
+            state: absent
+            instance_ids: "{{ ec2_instance_ids }}"
+            wait: "{{ ec2_wait }}"
+            region: "{{ ec2_region }}"
+          when: ec2_instance_ids | length > 0
 
-    # - debug:
-    #     var: instance_info | json_query('instances[*].instance_id')
+        - name: Delete AWS SSH Public Key
+          ec2_key:
+            region: "{{ ec2_region }}"
+            name: "{{ ec2_prefix }}-key"
+            state: absent
 
-    - name: "Create a list of the {{ application }} Instances"
-      set_fact:
-        ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
-      loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
+        - name: delete flat-file private key
+          file:
+            path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+            state: absent
 
-    - name: "Terminate Instances for Application {{ application }}"
-      ec2:
-        state: absent
-        instance_ids: "{{ ec2_instance_ids }}"
-        wait: "{{ ec2_wait }}"
-        region: "{{ ec2_region }}"
-      when: ec2_instance_ids | length > 0
+        - name: delete flat-file public key
+          file:
+            path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+            state: absent
+      when: cloud_provider = "aws"
 
-    - name: Delete AWS SSH Public Key
-      ec2_key:
-        region: "{{ ec2_region }}"
-        name: "{{ ec2_prefix }}-key"
-        state: absent
+    - name: Teardown GCP Instances
+      block:
 
-    - name: delete flat-file private key
-      file:
-        path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-        state: absent
+          - name: "Gather {{ application }} instance info"
+            gcp_compute_instance_info:
+              zone: "{{ gcp_zone }}"
+              filters:
+              - labels.provisioner = mford
+              - labels.application = "{{ application }}"
+              - labels.demo = appdeployment
+            register: instance_info
 
-    - name: delete flat-file public key
-      file:
-        path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
-        state: absent
+          - debug:
+              var: instance_info
 
-    # - name: update SSH key with latest
-    #   tower_credential:
-    #     name: AWS Demo Instances Key
-    #     state: absent
-    #     organization: Default
-    #     tower_host: "{{ tower_url }}"
-    #     tower_username: "{{ tower_user }}"
-    #     tower_password: "{{ tower_pass }}"
-    #     kind: ssh
-    #     ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-    #     tower_verify_ssl: false
-    #   delegate_to: localhost
-    #   run_once: true
+      when: cloud_provider = "gcp"
