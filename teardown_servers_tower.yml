@@ -71,7 +71,7 @@
             gcp_compute_instance:
               name: "{{ item.name }}"
               state: absent
-            with_items: instance_info.resources
+            with_items: "{{ instance_info.resources }}"
 
 
 
