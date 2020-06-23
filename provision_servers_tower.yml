@@ -200,30 +200,42 @@
 
         # - name: add ssh public key to GCP
 
-        # - name: "Create webserver GCP instances"
-        #   gcp_compute_instance:
-        #     name: ansible-rhel
-        #     machine_type: n1-standard-1
-        #     disks:
-        #     - auto_delete: 'true'
-        #       boot: 'true'
-        #       source: "{{ disk }}"
-        #     labels:
-        #       provisioner: mford
-        #       application: "{{ application }}"
-        #       demo: appdeployment
-        #     network_interfaces:
-        #     - network: "{{ gcp_vpc }}"
-        #       access_configs:
-        #       - name: External NAT
-        #         nat_ip: "{{ address }}"
-        #         type: ONE_TO_ONE_NAT
-        #       subnetwork: "{{ gcp_subnet }}"
-        #     zone: "{{ gcp_zone }}"
-        #     tags:
-        #       items:
-        #         - appdeployment
-        #         - "{{ application }}"
-        #     state: present
+        - name: create a disk
+          gcp_compute_disk:
+            name: disk-instance
+            size_gb: 50
+            source_image: "{{ gcp_disk_image }}"
+            zone: "{{ gcp_zone }}"
+            state: present
+          register: disk
+
+        - debug:
+            var: disk
+
+        - name: "Create webserver GCP instances"
+          gcp_compute_instance:
+            name: ansible-rhel
+            machine_type: n1-standard-1
+            disks:
+            - auto_delete: 'true'
+              boot: 'true'
+              source: "{{ disk }}"
+            labels:
+              provisioner: mford
+              application: "{{ application }}"
+              demo: appdeployment
+            network_interfaces:
+            - network: "{{ network_info.resources[0] }}"
+              access_configs:
+              - name: External NAT
+                nat_ip: "{{ address }}"
+                type: ONE_TO_ONE_NAT
+              subnetwork: "{{ subnetwork_info.resources[0 }}"
+            zone: "{{ gcp_zone }}"
+            tags:
+              items:
+                - appdeployment
+                - "{{ application }}"
+            state: present
 
       when: cloud_provider == "gcp"
