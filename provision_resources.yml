@@ -118,7 +118,9 @@
         - name: "Create GCP Firewall for {{ gcp_prefix }}-vpc"
           gcp_compute_firewall:
             name: "{{ gcp_prefix }}-firewall"
+            network: "{{ gcp_vpc }}"
             allowed:
+            - ip_protocol: icmp
             - ip_protocol: tcp
               ports:
               - '22'
@@ -142,47 +144,7 @@
             state: present
           register: gcp_subnet
 
-        # - name: create a disk
-        #   gcp_compute_disk:
-        #     name: disk-instance
-        #     size_gb: 50
-        #     source_image: "{{ gcp_disk_image }}"
-        #     zone: "{{ gcp_zone }}"
-        #     state: present
-        #   register: disk
-        #
-        # - name: create a address
-        #   gcp_compute_address:
-        #     name: address-instance
-        #     region: "{{ gcp_region }}"
-        #     state: present
-        #   register: address
-        #
-        # - name: create a instance
-        #   gcp_compute_instance:
-        #     name: ansible-rhel
-        #     machine_type: n1-standard-1
-        #     disks:
-        #     - auto_delete: 'true'
-        #       boot: 'true'
-        #       source: "{{ disk }}"
-        #     labels:
-        #       provisioner: mford
-        #       application: "{{ application }}"
-        #       demo: appdeployment
-        #     network_interfaces:
-        #     - network: "{{ gcp_vpc }}"
-        #       access_configs:
-        #       - name: External NAT
-        #         nat_ip: "{{ address }}"
-        #         type: ONE_TO_ONE_NAT
-        #       subnetwork: "{{ gcp_subnet }}"
-        #     zone: "{{ gcp_zone }}"
-        #     tags:
-        #       items:
-        #         - appdeployment
-        #         - "{{ application }}"
-        #     state: present
+
 
 
 
