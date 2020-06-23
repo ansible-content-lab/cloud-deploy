@@ -108,6 +108,11 @@
             # network: "{{ gcp_vpc }}"
             state: absent
 
+        - name: "Delete GCP Subnet {{ gcp_prefix }}-subnet"
+          gcp_compute_subnetwork:
+            name: "{{ gcp_prefix }}-subnet"
+            state: absent
+
         - name: "Delete GCP VPC {{ gcp_prefix }}-vpc"
           gcp_compute_network:
             name: "{{ gcp_prefix }}-vpc"
