@@ -104,7 +104,8 @@
 
         - name: "Delete GCP VPC {{ gcp_prefix }}-vpc"
           gcp_compute_network_info:
-            name: "{{ gcp_prefix }}-vpc"
+            filters:
+            - name = "{{ gcp_prefix }}-vpc"
           register: gcp_vpc
 
         - debug:
