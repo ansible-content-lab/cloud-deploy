@@ -240,7 +240,7 @@
               - name: External NAT
                 nat_ip: "{{ address }}"
                 type: ONE_TO_ONE_NAT
-              subnetwork: "{{ subnetwork_info.resources[0 }}"
+              subnetwork: "{{ subnetwork_info.resources[0] }}"
             zone: "{{ gcp_zone }}"
             tags:
               items:
