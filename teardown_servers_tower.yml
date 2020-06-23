@@ -22,10 +22,10 @@
               instance-state-name: [ "running", "shutting-down", "stopping", "stopped" ]
           register: instance_info
 
-        - name: "Create a list of the {{ application }} Instances"
-          set_fact:
-            ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
-          loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
+        # - name: "Create a list of the {{ application }} Instances"
+        #   set_fact:
+        #     ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
+        #   loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
 
         - name: "Terminate Instances for Application {{ application }}"
           ec2:
@@ -74,7 +74,5 @@
               state: absent
             with_items: "{{ instance_info.resources }}"
             no_log: true
-
-
 
       when: cloud_provider == "gcp"
