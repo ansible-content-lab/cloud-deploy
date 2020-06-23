@@ -1,5 +1,5 @@
 ---
-- name: Teardown AWS Instances
+- name: Teardown Cloud Instances
   hosts: localhost
   gather_facts: no
   vars_files:
