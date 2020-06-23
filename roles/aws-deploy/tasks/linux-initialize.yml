@@ -3,10 +3,10 @@
 #Solves issue of containerd.io > 1.2.0-3.el7 dependency
 ---
 - block:
-  - name: Wait for instances to be reachable
-    wait_for_connection:
-      sleep: 5
-      timeout: 600
+  # - name: Wait for instances to be reachable
+  #   wait_for_connection:
+  #     sleep: 5
+  #     timeout: 600
 
   - name: Install subscription-manager
     yum:
