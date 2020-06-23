@@ -253,9 +253,12 @@
         #     state: present
 
 
+        - set_fact:
+            count: '5'
+
         - debug:
             msg: "The item number is {{ item }}"
-          loop: "{{ range(1, 5) | list}}"
+          loop: "{{ range(1, count) | list}}"
 
 
       when: cloud_provider == "gcp"
