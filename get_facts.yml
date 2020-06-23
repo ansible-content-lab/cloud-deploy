@@ -1,0 +1,13 @@
+---
+- name: GCP Get Facts
+  hosts: all
+  gather_facts: yes
+  vars_files:
+
+  tasks:
+
+  - setup:
+    register: output
+
+  - debug:
+      var: output
