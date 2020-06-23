@@ -1,0 +1,26 @@
+---
+- name: Initialize Instances
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+  - name: Initialize GCP Instances
+    block:
+
+      - name: Set up Linux Instances
+        include_role:
+          name: gcp-deploy
+          tasks_from: linux-initialize
+
+    when: cloud_provider == "gcp"
+
+  - name: Initialize GCP Instances
+    block:
+
+      - name: Set up Linux Instances
+        include_role:
+          name: aws-deploy
+          tasks_from: linux-initialize
+
+    when: cloud_provider == "aws"

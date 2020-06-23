@@ -7,7 +7,7 @@
     wait_for_connection:
       sleep: 5
       timeout: 120
-      
+
   - name: Install subscription-manager
     yum:
       name: "{{ packages }}"
@@ -25,4 +25,4 @@
       org_id: "{{ rhorg_id }}"
       auto_attach: true
     become: yes
-  when: labels.cloud_provider == "gcp"
+  when: tags.cloud_provider == "aws"
