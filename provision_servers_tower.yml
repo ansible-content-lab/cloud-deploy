@@ -229,7 +229,11 @@
             disks:
             - auto_delete: 'true'
               boot: 'true'
-              source: "{{ disk }}"
+              initialize_params:
+                disk_name: disk-instance
+                disk_size_gb: 20
+                # disk_type:
+                source_image: "{{ gcp_disk_image }}"
             labels:
               provisioner: mford
               application: "{{ application }}"
@@ -247,5 +251,31 @@
                 - appdeployment
                 - "{{ application }}"
             state: present
+
+        # - name: "Create webserver GCP instances"
+        #   gcp_compute_instance:
+        #     name: ansible-rhel
+        #     machine_type: n1-standard-1
+        #     disks:
+        #     - auto_delete: 'true'
+        #       boot: 'true'
+        #       source: "{{ disk }}"
+        #     labels:
+        #       provisioner: mford
+        #       application: "{{ application }}"
+        #       demo: appdeployment
+        #     network_interfaces:
+        #     - network: "{{ network_info.resources[0] }}"
+        #       access_configs:
+        #       - name: External NAT
+        #         nat_ip: "{{ address }}"
+        #         type: ONE_TO_ONE_NAT
+        #       subnetwork: "{{ subnetwork_info.resources[0] }}"
+        #     zone: "{{ gcp_zone }}"
+        #     tags:
+        #       items:
+        #         - appdeployment
+        #         - "{{ application }}"
+        #     state: present
 
       when: cloud_provider == "gcp"
