@@ -252,7 +252,7 @@
                 - "{{ application }}"
             state: present
           with_sequence: count="{{ num_instances }}"
-          no_log: true
+          # no_log: true
 
         - name: "Create GCP secrets engine instance"
           gcp_compute_instance:
@@ -286,7 +286,7 @@
                 - appdeployment
                 - "{{ application }}"
             state: present
-          no_log: true
+          # no_log: true
 
         # #Sequence loop testing
         # - set_fact:
