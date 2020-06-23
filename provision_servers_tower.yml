@@ -230,6 +230,8 @@
                 disk_name: "{{ gcp_prefix}}-disk-{{ item|int }}"
                 disk_size_gb: 20
                 source_image: "{{ gcp_disk_image }}"
+            metadata:
+              ssh-keys: "awx:ssh-rsa "{{ ssh_key_output.public_key }}" awx"
             labels:
               provisioner: mford
               application: "{{ application }}"
