@@ -231,7 +231,7 @@
                 disk_size_gb: 20
                 source_image: "{{ gcp_disk_image }}"
             metadata:
-              ssh-keys: "awx:ssh-rsa "{{ ssh_key_output.public_key }}" awx"
+              ssh-keys: "awx:ssh-rsa {{ ssh_key_output.public_key }} awx"
             labels:
               provisioner: mford
               application: "{{ application }}"
@@ -264,6 +264,8 @@
                 disk_name: "{{ gcp_prefix}}-webserver-disk"
                 disk_size_gb: 20
                 source_image: "{{ gcp_disk_image }}"
+            metadata:
+              ssh-keys: "awx:ssh-rsa {{ ssh_key_output.public_key }} awx"
             labels:
               provisioner: mford
               application: "{{ application }}"
