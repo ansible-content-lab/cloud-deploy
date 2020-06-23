@@ -221,7 +221,7 @@
 
         - name: "Create GCP instances for {{ application }}"
           gcp_compute_instance:
-            name: "{{ gcp_prefix}}-webserver-{{ item|int }}"
+            name: "{{ application }}-server-{{ item|int }}"
             machine_type: "{{ machine_type }}"
             disks:
             - auto_delete: 'true'
