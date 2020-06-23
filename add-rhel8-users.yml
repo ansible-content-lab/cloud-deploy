@@ -4,7 +4,8 @@
   hosts: all
   gather_facts: no
   vars:
-    servers_to_monitor: "{{ groups['ec2'] }}"
+    servers_to_monitor: "{{ groups['all'] }}"
+    # servers_to_monitor: "{{ groups['ec2'] }}"
   vars_files:
     - ./vars/linux_users.yml
     - ./vars/default-vars.yml

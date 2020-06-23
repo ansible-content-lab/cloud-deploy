@@ -4,7 +4,7 @@
 ---
 - name: Create vault_hostname.yml template
   template:
-    src: ./templates/vault_hostname.j2
+    src: vault_hostname.j2
     dest: /tmp/vault_hostname.yml
   delegate_to: localhost
   run_once: yes
