@@ -70,13 +70,13 @@
 
         - name: Update Ansible Tower AWS SSH Credential
           tower_credential:
-            name: AWS Demo Instances Key
+            name: Cloud Demo Instances Key
             organization: Default
             tower_host: "{{ tower_url }}"
             tower_username: "{{ tower_user }}"
             tower_password: "{{ tower_pass }}"
             kind: ssh
-            username: "{{ instance_username }}"
+            username: ec2-user
             # ssh_key_data: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
             ssh_key_data: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key-private.pem') }}"
             tower_verify_ssl: false
