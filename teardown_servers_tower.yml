@@ -11,7 +11,7 @@
   tasks:
 
 
-    - name: Deploy AWS Instances
+    - name: Teardown AWS Instances
       block:
         - name: "Gather {{ application }} instance info"
           ec2_instance_info:
