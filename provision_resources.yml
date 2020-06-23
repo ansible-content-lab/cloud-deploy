@@ -8,140 +8,160 @@
 
   tasks:
 
-    - name: Deploy AWS Resources
+    - name: Provision Resources on GCP
       block:
-       # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
-        - name: "Create AWS VPC {{ ec2_prefix }}-vpc"
-          ec2_vpc_net:
-            region: "{{ ec2_region }}"
-            name: "{{ ec2_prefix }}-vpc"
-            cidr_block: "{{ ec2_vpc_cidr }}"
-            tags:
-              provisioner: mford
-              application: "{{ application }}"
-              demo: appdeployment
-          register: create_vpc
 
-        # If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
-        - name: "Create EC2 Security Group {{ec2_prefix }}-sg"
-          ec2_group:
-            region: "{{ ec2_region }}"
-            name: "{{ ec2_prefix }}-sg"
-            description: "Application VPC for {{ ec2_prefix }}"
-            vpc_id: "{{create_vpc.vpc.id}}"
-            tags:
-              provisioner: mford
-              Name: "{{ ec2_prefix }}-sg"
-              application: "{{ application }}"
-              demo: appdeployment
-            rules:
-              - proto: tcp
-                ports:
-                - 22
-                cidr_ip: 0.0.0.0/0
-              - proto: tcp
-                ports:
-                - 80
-                cidr_ip: 0.0.0.0/0
-              - proto: tcp
-                ports:
-                - 443
-                cidr_ip: 0.0.0.0/0
-              - proto: tcp
-                ports:
-                - 3306 # for mysql
-                cidr_ip: 0.0.0.0/0
-              - proto: tcp
-                ports:
-                - 8200 # Hashicorp vault
-                cidr_ip: 0.0.0.0/0
+        - name: Provision Resources on GCP
+          include_role:
+            name: gcp-deploy
+            tasks_from: provision-resources
 
-        # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
-        - name: "Create Subnet for {{ ec2_prefix }}-vpc"
-          ec2_vpc_subnet:
-            region: "{{ ec2_region }}"
-            vpc_id: "{{ create_vpc.vpc.id }}"
-            map_public: yes
-            cidr: "{{ ec2_vpc_subnet }}"
-            tags:
-              provisioner: mford
-              application: "{{ application }}"
-              demo: appdeployment
-          register: create_subnet
+      when: cloud_provider == "gcp"
 
-        - name: Set ec2_subnet_id fact
-          set_fact:
-            ec2_vpc_subnet_id: "{{ create_subnet.subnet.id }}"
+    - name: Provision Resources on AWS
+      block:
 
-        # Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
-        - name: "Create VPC Internet Gateway for {{ ec2_prefix }}-vpc"
-          ec2_vpc_igw:
-            region: "{{ ec2_region }}"
-            vpc_id: "{{ create_vpc.vpc.id }}"
-            tags:
-              provisioner: mford
-              application: "{{ application }}"
-              demo: appdeployment
-          register: igw
-
-        # This task adds a route to the internet from the subnet through the IGW
-        - name: Create a Default Route for the Subnet
-          ec2_vpc_route_table:
-            region: "{{ ec2_region }}"
-            vpc_id: "{{ create_vpc.vpc.id }}"
-            subnets:
-              - "{{ create_subnet.subnet.id }}"
-            routes:
-              - dest: 0.0.0.0/0
-                gateway_id: "{{ igw.gateway_id }}"
-            tags:
-              provisioner: mford
-              application: "{{ application }}"
-              demo: appdeployment
+        - name: Provision Resources on AWS
+          include_role:
+            name: aws-deploy
+            tasks_from: provision-resources
 
       when: cloud_provider == "aws"
 
-    - name: Deploy GCP Resources
-      block:
-       # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
-        - name: "Create GCP VPC {{ gcp_prefix }}-vpc"
-          gcp_compute_network:
-            name: "{{ gcp_prefix }}-vpc"
-            auto_create_subnetworks: 'false'
-            state: present
-          register: gcp_vpc
-
-        # - debug:
-        #     var: gcp_vpc
-
-
-        - name: "Create GCP Firewall for {{ gcp_prefix }}-vpc"
-          gcp_compute_firewall:
-            name: "{{ gcp_prefix }}-firewall"
-            network: "{{ gcp_vpc }}"
-            allowed:
-            - ip_protocol: icmp
-            - ip_protocol: tcp
-              ports:
-              - '22'
-              - '80'
-              - '443'
-              - '8200'
-              - '3306'
-            target_tags:
-            - appdeployment
-            - "{{ application }}"
-            state: present
-          register: gcp_firewall
-
-
-        - name: "Create GCP Subnet for {{ gcp_prefix }}-vpc"
-          gcp_compute_subnetwork:
-            name: "{{ gcp_prefix }}-subnet"
-            region: "{{ gcp_region }}"
-            network: "{{ gcp_vpc }}"
-            ip_cidr_range: "{{ gcp_vpc_subnet }}"
-            state: present
-          register: gcp_subnet
-
-      when: cloud_provider == "gcp"
+    # - name: Deploy AWS Resources
+    #   block:
+    #    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
+    #     - name: "Create AWS VPC {{ ec2_prefix }}-vpc"
+    #       ec2_vpc_net:
+    #         region: "{{ ec2_region }}"
+    #         name: "{{ ec2_prefix }}-vpc"
+    #         cidr_block: "{{ ec2_vpc_cidr }}"
+    #         tags:
+    #           provisioner: mford
+    #           application: "{{ application }}"
+    #           demo: appdeployment
+    #       register: create_vpc
+    #
+    #     # If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
+    #     - name: "Create EC2 Security Group {{ec2_prefix }}-sg"
+    #       ec2_group:
+    #         region: "{{ ec2_region }}"
+    #         name: "{{ ec2_prefix }}-sg"
+    #         description: "Application VPC for {{ ec2_prefix }}"
+    #         vpc_id: "{{create_vpc.vpc.id}}"
+    #         tags:
+    #           provisioner: mford
+    #           Name: "{{ ec2_prefix }}-sg"
+    #           application: "{{ application }}"
+    #           demo: appdeployment
+    #         rules:
+    #           - proto: tcp
+    #             ports:
+    #             - 22
+    #             cidr_ip: 0.0.0.0/0
+    #           - proto: tcp
+    #             ports:
+    #             - 80
+    #             cidr_ip: 0.0.0.0/0
+    #           - proto: tcp
+    #             ports:
+    #             - 443
+    #             cidr_ip: 0.0.0.0/0
+    #           - proto: tcp
+    #             ports:
+    #             - 3306 # for mysql
+    #             cidr_ip: 0.0.0.0/0
+    #           - proto: tcp
+    #             ports:
+    #             - 8200 # Hashicorp vault
+    #             cidr_ip: 0.0.0.0/0
+    #
+    #     # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
+    #     - name: "Create Subnet for {{ ec2_prefix }}-vpc"
+    #       ec2_vpc_subnet:
+    #         region: "{{ ec2_region }}"
+    #         vpc_id: "{{ create_vpc.vpc.id }}"
+    #         map_public: yes
+    #         cidr: "{{ ec2_vpc_subnet }}"
+    #         tags:
+    #           provisioner: mford
+    #           application: "{{ application }}"
+    #           demo: appdeployment
+    #       register: create_subnet
+    #
+    #     - name: Set ec2_subnet_id fact
+    #       set_fact:
+    #         ec2_vpc_subnet_id: "{{ create_subnet.subnet.id }}"
+    #
+    #     # Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
+    #     - name: "Create VPC Internet Gateway for {{ ec2_prefix }}-vpc"
+    #       ec2_vpc_igw:
+    #         region: "{{ ec2_region }}"
+    #         vpc_id: "{{ create_vpc.vpc.id }}"
+    #         tags:
+    #           provisioner: mford
+    #           application: "{{ application }}"
+    #           demo: appdeployment
+    #       register: igw
+    #
+    #     # This task adds a route to the internet from the subnet through the IGW
+    #     - name: Create a Default Route for the Subnet
+    #       ec2_vpc_route_table:
+    #         region: "{{ ec2_region }}"
+    #         vpc_id: "{{ create_vpc.vpc.id }}"
+    #         subnets:
+    #           - "{{ create_subnet.subnet.id }}"
+    #         routes:
+    #           - dest: 0.0.0.0/0
+    #             gateway_id: "{{ igw.gateway_id }}"
+    #         tags:
+    #           provisioner: mford
+    #           application: "{{ application }}"
+    #           demo: appdeployment
+    #
+    #   when: cloud_provider == "aws"
+    #
+    # - name: Deploy GCP Resources
+    #   block:
+    #    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
+    #     - name: "Create GCP VPC {{ gcp_prefix }}-vpc"
+    #       gcp_compute_network:
+    #         name: "{{ gcp_prefix }}-vpc"
+    #         auto_create_subnetworks: 'false'
+    #         state: present
+    #       register: gcp_vpc
+    #
+    #     # - debug:
+    #     #     var: gcp_vpc
+    #
+    #
+    #     - name: "Create GCP Firewall for {{ gcp_prefix }}-vpc"
+    #       gcp_compute_firewall:
+    #         name: "{{ gcp_prefix }}-firewall"
+    #         network: "{{ gcp_vpc }}"
+    #         allowed:
+    #         - ip_protocol: icmp
+    #         - ip_protocol: tcp
+    #           ports:
+    #           - '22'
+    #           - '80'
+    #           - '443'
+    #           - '8200'
+    #           - '3306'
+    #         target_tags:
+    #         - appdeployment
+    #         - "{{ application }}"
+    #         state: present
+    #       register: gcp_firewall
+    #
+    #
+    #     - name: "Create GCP Subnet for {{ gcp_prefix }}-vpc"
+    #       gcp_compute_subnetwork:
+    #         name: "{{ gcp_prefix }}-subnet"
+    #         region: "{{ gcp_region }}"
+    #         network: "{{ gcp_vpc }}"
+    #         ip_cidr_range: "{{ gcp_vpc_subnet }}"
+    #         state: present
+    #       register: gcp_subnet
+    #
+    #   when: cloud_provider == "gcp"
