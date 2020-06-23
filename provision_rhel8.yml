@@ -1,6 +1,6 @@
 ---
 - name: Ensure Standard RHEL8 Configuration
-  hosts: ec2
+  hosts: all
   gather_facts: yes
   vars_files:
     - ./credentials/redhat-activation-key.yml
