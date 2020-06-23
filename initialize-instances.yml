@@ -2,6 +2,9 @@
 - name: Initialize Instances
   hosts: all
   gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+    - ./credentials/redhat-activation-key.yml
 
   tasks:
 
