@@ -46,7 +46,7 @@
           copy:
             content: "{{ create_key.key.private_key }}"
             dest: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-            mode: '0400'
+            mode: '0777'
           when: create_key.changed
           no_log: yes
 
