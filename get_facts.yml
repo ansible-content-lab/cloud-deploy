@@ -6,7 +6,13 @@
 
   tasks:
 
-  - setup:
+  - name: Wait for instances to be reachable
+    wait_for_connection:
+      sleep: 5
+      timeout: 120
+
+  - name: Gather GCP instance facts
+    setup:
     register: output
 
   - debug:
