@@ -25,7 +25,8 @@
         - name: "Create a list of the {{ application }} Instances"
           set_fact:
             ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
-          loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
+          # loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
+          with_items: "{{ instance_info | json_query('instances[*].instance_id')  }}"
 
         - name: "Terminate Instances for Application {{ application }}"
           ec2:
