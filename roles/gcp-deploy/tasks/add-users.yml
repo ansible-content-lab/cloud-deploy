@@ -90,7 +90,7 @@
 
   - name: Allow newly added users to sudo without a password
     template:
-      src: ./templates/sudoers.j2
+      src: sudoers.j2
       dest: /etc/sudoers.d/sudoers
       validate: 'visudo -cf %s'
       mode: 0440

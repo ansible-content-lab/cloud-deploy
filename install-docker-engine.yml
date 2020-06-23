@@ -14,13 +14,22 @@
     - name: Install Docker Engine on GCP
       block:
 
-        - name: Run tasks/other.yaml instead of 'main'
+        - name: Install Docker Engine on GCP
           include_role:
             name: gcp-deploy
             tasks_from: install-docker-engine
 
       when: cloud_provider == "gcp"
 
+    - name: Install Docker Engine on AWS
+      block:
+
+        - name: Install Docker Engine on AWS
+          include_role:
+            name: aws-deploy
+            tasks_from: install-docker-engine
+
+      when: cloud_provider == "aws"
     # - block:
     #   - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
     #     redhat_subscription:

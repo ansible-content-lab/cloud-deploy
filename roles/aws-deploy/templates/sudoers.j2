@@ -1,0 +1,3 @@
+{% for item in linux_users %}
+{{ item.username }} ALL=(ALL:ALL) NOPASSWD:ALL
+{% endfor %}

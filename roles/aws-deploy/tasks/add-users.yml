@@ -4,7 +4,7 @@
 ---
 - name: Create vault_hostname.yml template
   template:
-    src: ./templates/vault_hostname.j2
+    src: vault_hostname.j2
     dest: /tmp/vault_hostname.yml
   delegate_to: localhost
   run_once: yes
@@ -30,7 +30,7 @@
 
 - name: Create linux_users.json template
   template:
-    src: ./templates/linux_users.j2
+    src: linux_users.j2
     dest: /tmp/linux_users.json
   delegate_to: localhost
   run_once: yes
@@ -90,7 +90,7 @@
 
   - name: Allow newly added users to sudo without a password
     template:
-      src: ./templates/sudoers.j2
+      src: sudoers.j2
       dest: /etc/sudoers.d/sudoers
       validate: 'visudo -cf %s'
       mode: 0440
@@ -105,12 +105,4 @@
       line: 'PasswordAuthentication yes'
     notify: restart_sshd
     become: yes
-  when: tags.group == "rhel"
-
-handlers:
-- name: restart_sshd
-  service:
-    name: sshd
-    state: restarted
-  become: yes
   when: tags.group == "rhel"

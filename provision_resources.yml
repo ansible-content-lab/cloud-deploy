@@ -144,8 +144,4 @@
             state: present
           register: gcp_subnet
 
-
-
-
-
       when: cloud_provider == "gcp"
