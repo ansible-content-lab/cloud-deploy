@@ -3,13 +3,23 @@
 #Solves issue of containerd.io > 1.2.0-3.el7 dependency
 ---
 - name: Ensure Docker Engine is installed on webserver
-  hosts: ec2
+  hosts: all
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
     - ./credentials/redhat-activation-key.yml
 
   tasks:
+
+    - name: Install Docker Engine on GCP
+      block:
+
+        - name: Run tasks/other.yaml instead of 'main'
+          include_role:
+            name: gcp-deploy
+            tasks_from: install-docker-engine
+
+      when: cloud_provider == "gcp"
 
     - block:
       - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
