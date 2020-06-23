@@ -212,6 +212,16 @@
         - debug:
             var: disk
 
+        - name: create a address
+          gcp_compute_address:
+            name: address-instance
+            region: "{{ gcp_region }}"
+            state: present
+          register: address
+
+        - debug:
+            var: address
+
         - name: "Create webserver GCP instances"
           gcp_compute_instance:
             name: ansible-rhel
