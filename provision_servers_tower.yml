@@ -212,12 +212,12 @@
         # - debug:
         #     var: disk
 
-        - name: create a address
-          gcp_compute_address:
-            name: address-instance
-            region: "{{ gcp_region }}"
-            state: present
-          register: address
+        # - name: create a address
+        #   gcp_compute_address:
+        #     name: address-instance
+        #     region: "{{ gcp_region }}"
+        #     state: present
+        #   register: address
 
         - debug:
             var: address
@@ -242,7 +242,8 @@
             - network: "{{ network_info.resources[0] }}"
               access_configs:
               - name: External NAT
-                nat_ip: "{{ address }}"
+                nat_ip:
+                  name: address-instance
                 type: ONE_TO_ONE_NAT
               subnetwork: "{{ subnetwork_info.resources[0] }}"
             zone: "{{ gcp_zone }}"
