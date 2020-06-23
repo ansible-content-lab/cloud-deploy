@@ -4,13 +4,13 @@ working_dir: /tmp
 #specifies which cloud to deploy resources to
 #acceptable options: aws, gcp
 cloud_provider: gcp
+num_instances: 3
 
 #AWS parameters
 ec2_region: us-east-1
 ec2_prefix: mford-linux
 application: apache
 # machine_type: t2.medium
-num_instances: 3
 # ec2_image_id: ami-02eac2c0129f6376b #Centos7
 # ec2_image_id: ami-07ebfd5b3428b6f4d #Ubuntu 18.04
 ec2_image_id: ami-098f16afa9edf40be #RHEL 8 HVM
