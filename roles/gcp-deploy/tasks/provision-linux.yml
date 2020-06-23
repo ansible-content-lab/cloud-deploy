@@ -3,12 +3,13 @@
 #Solves issue of containerd.io > 1.2.0-3.el7 dependency
 ---
 - block:
-  - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
-    redhat_subscription:
-      state: present
-      activationkey: "{{ rhactivationkey }}"
-      org_id: "{{ rhorg_id }}"
-      auto_attach: true
+
+  - name: Install insights-client
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - insights-client
     become: yes
 
   - name: upgrade all packages
