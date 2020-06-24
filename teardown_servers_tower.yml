@@ -65,6 +65,7 @@
               - labels.application = "{{ application }}"
               - labels.demo = appdeployment
             register: instance_info
+            no_log: true
 
           # - debug:
           #     var: instance_info
