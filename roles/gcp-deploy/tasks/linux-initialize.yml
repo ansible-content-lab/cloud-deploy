@@ -6,7 +6,7 @@
   - name: Wait for instances to be reachable
     wait_for_connection:
       sleep: 5
-      timeout: 120
+      timeout: 600
 
   - name: Install subscription-manager
     yum:
