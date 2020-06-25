@@ -31,7 +31,7 @@ This collection is already present in this repository and the above is the comma
 ### Preparing Ansible Tower
 
 #### 1)
-In Ansible Tower, navigate to Applications on the left side of the screen. Click the green plus button on the right, which will present you with a Create Application dialog screen. Fill in the following fields:
+In Ansible Tower, navigate to **Applications** on the left side of the screen. Click the **green plus button** on the right, which will present you with a Create Application dialog screen. Fill in the following fields:
 | Parameter | Value |
 |-----|-----|
 | Name  | Descriptive name of the application that will contact Ansible Tower  |
@@ -48,7 +48,7 @@ Click the green **Save** button on the right, at which point a window will pop u
 <img src="images/application_secrets.png" alt="Tower Application Secrets" title="Tower Application Secrets" width="1000" />
 
 #### 3)
-Next, navigate to Settings-->System on the left side of the screen. You’ll want to toggle the Allow External Users to Create Oauth2 Tokens option to on. Click the green Save button to commit the change.
+Next, navigate to **Settings-->System** on the left side of the screen. You’ll want to toggle the **Allow External Users to Create Oauth2 Tokens** option to ***on***. Click the green **Save** button to commit the change.
 
 <img src="images/tower_settings.png" alt="Tower Settings" title="Tower Settings" width="1000" />
 
@@ -58,7 +58,7 @@ The Orlando release of the ServiceNow developer instance does not seem to allow 
 ### Preparing ServiceNow
 
 #### 5)
-Moving over to ServiceNow, Navigate to System Definition-->Certificates. This will take you to a screen of all the certificates Service Now uses. Click on the blue New button, and fill in these details:
+Moving over to ServiceNow, Navigate to **System Definition-->Certificates**. This will take you to a screen of all the certificates Service Now uses. Click on the **blue New button**, and fill in these details:
 | Parameter | Value |
 |-----|-----|
 | Name  | Descriptive name of the certificate  |
