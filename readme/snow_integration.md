@@ -1,4 +1,4 @@
-# Bonus: Deploying Your Cloud Workload via ServiceNow
+# Bonus: Deploying Your Cloud Workload via ServiceNow (Documentation still in development)
 
 Although this demo now works in Ansible Tower, many end-users do not want to learn a new interface in order to perform their tasks. This is not a problem at all for Ansible Tower, which provides a RESTful API to allow 3rd-party platforms to kick of jobs programmatically. As ServiceNow is widely used in organizations, these instructions walk you through setting up ServiceNow to start this demonstration in Ansible Tower.
 
@@ -17,7 +17,7 @@ If you sign up for a ServiceNow Developer account, ServiceNow offers a free inst
 ```bash
 pip3 install pysnow
 ```
-This python package must be installed in the virtual environment that is used to run playbooks that communicate with ServiceNow
+This python package must be installed in the Ansible Tower Python virtual environment that is used to run playbooks that communicate with ServiceNow.
 
 ### Collections
 
@@ -26,7 +26,7 @@ ansible-galaxy collection install servicenow.servicenow
 ```
 This collection is already present in this repository and the above is the command that was run to retrieve it.
 
-## Instructions
+## ServiceNow/Ansible Tower Integration Instructions
 
 ### Preparing Ansible Tower
 
@@ -36,7 +36,7 @@ In Ansible Tower, navigate to **Applications** on the left side of the screen. C
 |-----|-----|
 | Name  | Descriptive name of the application that will contact Ansible Tower  |
 |  Organization |  `Default` |
-|  Authorization Grant Type |  Authorization code |
+|  Authorization Grant Type |  `Authorization code` |
 |  Redirect URIs |  `https://<snow_instance_id>.service-now.com/oauth_redirect.do` |
 |  Client Type |  `Confidential` |
 
