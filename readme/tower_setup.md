@@ -19,18 +19,18 @@ Once Ansible Tower is deployed, you need to do some initial setup in order to in
 
 Under Resources --> Projects, create a new Project with the following attributes:
 
-<img src="images/tower_project.jpg" alt="Tower Project"
-	title="Tower Project" width="500" />
+<img src="images/tower_project.png" alt="Tower Project"
+	title="Tower Project" width="800" />
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Deploy AWS Applications  |
+| Name  | Deploy Cloud Applications  |
 |  Organization |  Default |
 |  SCM Type |  Git |
-|  SCM URL |  https://github.com/michaelford85/aws-deploy.git |
+|  SCM URL |  https://github.com/michaelford85/cloud-deploy.git |
 |  Clean |  Checkmark |
 
-I have elected to create a custom Python virtual environment that supports Python3. While this is not necessary for an Ansible Tower installation on Centos 8/RHEL 8 (which only comes with Python3), you can set up a custom Python virtual environent per [these instructions](https://docs.ansible.com/ansible-tower/latest/html/upgrade-migration-guide/virtualenv.html) (See section 4.1).
+I have elected to create a custom Python virtual environment that supports Python3. While this is not necessary for an Ansible Tower installation on Centos 8/RHEL 8 (which only comes with Python3), you can set up a custom Python virtual environment per [these instructions](https://docs.ansible.com/ansible-tower/latest/html/upgrade-migration-guide/virtualenv.html) (See section 4.1).
 
 
 
@@ -38,8 +38,8 @@ I have elected to create a custom Python virtual environment that supports Pytho
 
 Under Resources --> Projects, create a new set of credentials of the appropriate type. The example below, is for AWS programmatic keys, which you can generate in the AWS console:
 
-<img src="images/cloud_credentials.jpg" alt="Cloud Credentials"
-	title="Cloud Credentials" width="500" />
+<img src="images/aws_credentials.jpg" alt="AWS Credentials"
+	title="AWS Credentials" width="800" />
 
 | Parameter | Value |
 |-----|-----|
@@ -49,26 +49,23 @@ Under Resources --> Projects, create a new set of credentials of the appropriate
 |  Access Key |  `AWS Access Key` |
 |  Secret Key |  `AWS Secret Key` |
 
+And now for the GCP Programmatic Key:
 
-Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the cloud resources this demo generates.
-
-Lastly, Ansible Tower automatically encrypts any secrets, which in the case of AWS is the *Secret Key*. Ansible Tower users (with appropriate permissions) can use the credential without knowing its contents.
-
-## Cloud Instance Credentials
-
-Although this does not need to be populated, the Tower credential for your RHEL 8 instances must be present as the playbook will populate it. Under Resources --> Projects, create a new set of credentials of the type `machine`. Populate the following fields:
-
-<img src="images/machine_credentials.png" alt="Machine Credentials"
-	title="Machine Credentials" width="500" />
+<img src="images/gcp_credentials.jpg" alt="GCP Credentials"
+	title="GCP Credentials" width="800" />
 
 | Parameter | Value |
 |-----|-----|
-| Name  | AWS Demo Instances Key  |
+| Name  | GCP Project Credentials  |
 |  Organization |  Default |
-|  Credential Type |  Machine |
+|  Credential Type |  Google Compute Engine |
+|  Service Account JSON File |  `service account json file` |
 
+In the case of GCP, you need not populate the **Service Account Email Address**, **Project**, and **RSA Private Key** fields. In your GCP Project, create a service account, and generate your key file. This file will contain all relevant information - when setting up your Tower GCP credential, pointing to the key file will automatically populate all this information.
 
-Click **Save**.
+Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the cloud resources this demo generates.
+
+Lastly, Ansible Tower automatically encrypts any secrets. Ansible Tower users (with appropriate permissions) can use the credential without knowing its contents.
 
 ## Job Templates
 
@@ -79,85 +76,103 @@ Once you have the Project and Credential set up, you can now move to setting up 
 
 ### Open ServiceNow Change Request and wait for Approval
 
-**Description:** if `from_snow` is true, a ServiceNow Change Request is opened, and an email with an approval request link is sent to the approval group (for this demo, the recipient email is hardcoded). The playbook will wait until the Change Request has been approved, or will time out.
+**Description:** if `from_snow` is true, a ServiceNow Change Request is opened, and an email with an approval request link is sent to the approval group (for this demo, the recipient email is hardcoded). The playbook will wait until the Change Request has been approved, or will time out. If `from_snow` is false, this playbook will do nothing, which helps if you choose to start the resulting Workflow Template from Ansible Tower and not ServiceNow.
 
 | Parameter | Value |
 |-----|-----|
 | Name  | Open ServiceNow Change Request and wait for Approval  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `snow-cr-open-and-wait.yml` |
 |  Credential |  `ansible-vault password` |
 
-### Provision AWS resources
+### Provision Cloud resources
 
 **Description:** This provisions all networking resources (private cloud, subnet, internet gateway) with a hardcoded RFC1918 IP subnet and adds metadata for identification and cleanup purposes.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Provision AWS resources  |
+| Name  | Provision Cloud resources  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `provision_resources.yml` |
-|  Credential |  `ansible-vault password`, `Cloud Programmatic Key` |
+|  Credential |  `ansible-vault password`, `AWS Programmatic Key`, `GCP Programmatic Key` |
 
 #### Extra Variables
 ```
+---
+#general
+cloud_provider: gcp
+
+#AWS
 ec2_region: us-east-1
-num_instances: 3
 ec2_wait: yes
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
+
+#GCP
+gcp_region: us-central1
+gcp_vpc_subnet: 192.168.0.0/28
 ```
 
-### Provision AWS Linux Instances
+### Provision Cloud Linux Instances
 
-**Description:** Provisions public/private SSH Key pair, and adds the private key as an Ansible Tower credential. Deploys the requested number of RHEL8 instances into the previously created subnet, plus an additional instance to host the Hashicorp vault secrets engine.
+**Description:** Provisions public/private SSH Key pair, and adds the private key as an Ansible Tower credential called **Cloud Demo Instances Key**. Deploys the requested number of RHEL8 instances into the previously created subnet, plus an additional instance to host the Hashicorp vault secrets engine.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Provision AWS Linux Instances  |
+| Name  | Provision Cloud Linux Instances  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `provision_servers_tower.yml` |
-|  Credential |  `ansible-vault password`, `Cloud Programmatic Key` |
+|  Credential |  `ansible-vault password`, `AWS Programmatic Key`, `GCP Programmatic Key` |
 
 #### Extra Variables
 ```
+---
+#general
+cloud_provider: gcp
+instance_size: small
+
+#AWS
 ec2_region: us-east-1
 ec2_wait: yes
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
+
+#GCP
+gcp_region: us-central1
+gcp_vpc_subnet: 192.168.0.0/28
 ```
 
-### Teardown AWS Linux Resources
+### Teardown Cloud Linux Resources
 
 **Description:** This tears down all networking resources (private cloud, subnet, internet gateway), indicated by the identifying metadata.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Teardown AWS Linux Resources  |
+| Name  | Teardown Cloud Linux Resources  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `teardown_resources.yml` |
-|  Credential |  `Cloud Programmatic Key` |
+|  Credential |  `AWS Programmatic Key`, `GCP Programmatic Key` |
 
-### Teardown AWS Linux Instances
+### Teardown Cloud Linux Instances
 
-**Description:** This tears down all RHEL 8 instances, indicated by the identifying metadata.
+**Description:** This tears down all Linux instances, indicated by the identifying metadata.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Teardown AWS Linux Resources  |
+| Name  | Teardown Cloud Linux Resources  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `teardown_servers_tower.yml` |
-|  Credential |  `Cloud Programmatic Key` |
+|  Credential |  `AWS Programmatic Key`, `GCP Programmatic Key` |
 
 ### Install Docker Engine on Linux Instances
 
@@ -168,30 +183,45 @@ ec2_vpc_cidr: "192.168.0.0/24"
 | Name  | Install Docker Engine on Linux Instances  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `install-docker-engine.yml` |
-|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+|  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
 
 
-### Install/configure vault on Linux Docker instance
+### Install/configure secrets engine
 
 **Description:** Deploys a dev Hashicorp vault container from the Dockerhub image. Sets a root token from the vault_creds.yml file, variable name `vault_root_token`.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Install/configure vault on Linux Docker instance  |
+| Name  | Install/configure secrets engine  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `run-vault.yml` |
-|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+|  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
+
+### Initialize Linux Instances
+
+**Description:** Performs the following functions on the requested RHEL 8 instances, plus the additional instance hosting the secrets engine:
+- Waits for SSH connection to be available
+- Registers with Red Hat Subscription Manager
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Initialize Linux Instances  |
+|  Job Type |  Run |
+|  Inventory |  Demo Inventory |
+|  Project |  Deploy Cloud Applications |
+|  Playbook |  `initialize-instances.yml` |
+|  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
+
 
 ### Provision RHEL8 on Linux Instances
 
 **Description:** Performs the following functions on the requested RHEL 8 instances:
-- Registers with Red Hat Subscription Manager
-- Updates all packages and installs Apache Webserver
 - Registers with Red Hat Insights
+- Updates all packages and installs Apache Webserver
 - Deploys a dynamically generated index.html page
 
 | Parameter | Value |
@@ -199,22 +229,22 @@ ec2_vpc_cidr: "192.168.0.0/24"
 | Name  | Provision RHEL8 on Linux Instances  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `provision_rhel8.yml` |
-|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+|  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
 
-### Add RHEL8 users to AWS Instances
+### Add RHEL8 users to Cloud Instances
 
-**Description:** Creates a key-value secrets engine for vault, and adds all users/private keys to the secrets engine. The private keys are base64 encoded. Adds all users to the RHEL 8 servers, gives them privilege escalation without a password required, and forces them to create a password upon first login.
+**Description:** Creates a key-value secrets engine for vault, and adds all users/private keys to the secrets engine. The private keys are base64 encoded. Adds all users to the RHEL8 servers, gives them privilege escalation without a password required, and forces them to create a password upon first login.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Add RHEL8 users to AWS Instances  |
+| Name  | Add RHEL8 users to Cloud Instances  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `add-rhel8-users.yml` |
-|  Credential |  `ansible-vault password`, `AWS Demo Instances Key` |
+|  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
 
 ### Update ServiceNow Change Request
 
@@ -225,7 +255,7 @@ ec2_vpc_cidr: "192.168.0.0/24"
 | Name  | Update ServiceNow Change Request  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `snow-cr-update.yml` |
 |  Credential |  `ansible-vault password` |
 
@@ -245,7 +275,7 @@ close_notes: "Canceled by the requester"
 | Name  | Send SNOW success email  |
 |  Job Type |  Run |
 |  Inventory |  Demo Inventory |
-|  Project |  Deploy AWS Applications |
+|  Project |  Deploy Cloud Applications |
 |  Playbook |  `snow-cr-email.yml` |
 |  Credential |  `ansible-vault password` |
 

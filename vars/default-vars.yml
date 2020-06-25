@@ -13,7 +13,7 @@ application: apache
 # machine_type: t2.medium
 # ec2_image_id: ami-02eac2c0129f6376b #Centos7
 # ec2_image_id: ami-07ebfd5b3428b6f4d #Ubuntu 18.04
-ec2_image_id: ami-098f16afa9edf40be #RHEL 8 HVM
+ec2_image_id: ami-098f16afa9edf40be #RHEL 8
 ec2_wait: yes #wait for newly created instances to reach desired state before returning
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
@@ -26,4 +26,4 @@ gcp_prefix: mford-linux
 gcp_region: us-central1
 gcp_zone: us-central1-a
 gcp_vpc_subnet: 192.168.0.0/28
-gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618
+gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618 #RHEL 8

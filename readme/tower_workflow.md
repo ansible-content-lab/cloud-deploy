@@ -8,14 +8,14 @@ In this demo, you will create two workflows; one for *provisioning* your cloud w
 
 **Cloud workload provisioning Workflow Template:**
 
-<img src="images/provision_workflow_full.jpg" alt="Tower Project"
+<img src="images/provision_workflow_full.png" alt="Tower Project"
 	title="Tower Project" width="800" />
 
 I will break this into two smaller images later in the documentation.
 
 **Cloud workload teardown Workflow Template:**
 
-<img src="images/teardown_workflow.jpg" alt="Tower Project"
+<img src="images/teardown_workflow.png" alt="Tower Project"
 	title="Tower Project" width="500" />
 
 In the Workflow Templates above, each box represents an invocation of one of the Job Templates we defined in the previous section. The lines represent contracts between those Job Templates, and are color-coded accordingly:
@@ -88,7 +88,7 @@ When setting up the Workflow Template visualizer, you can select the next step b
 
 From there, you can choose the Job Template, when it runs (`Always` for the first selection, `Always`, `On Success`, or `On Failure` for subsequent Job Templates), convergence (`All` or `Any`), and any prompts if necessary. Each Job Template will give these details.
 
-<img src="images/provision_workflow_start.jpg" alt="Tower Project"
+<img src="images/provision_workflow_start.png" alt="Tower Project"
 	title="Tower Project" width="800" />
 
 ## 1) Open ServiceNow Change Request and wait for Approval
@@ -188,7 +188,7 @@ close_notes: 'Canceled by Ansible: Problem when trying to provision network reso
 ```
 
 
-  <img src="images/provision_workflow_end.jpg" alt="Tower Project"
+  <img src="images/provision_workflow_end.png" alt="Tower Project"
   	title="Tower Project" width="800" />
 
 ## 9) Install Docker Engine on Linux Instances
