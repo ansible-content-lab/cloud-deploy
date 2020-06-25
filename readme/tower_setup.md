@@ -1,4 +1,4 @@
-# Preparing Ansible Tower Project and Cloud Credentials
+# Preparing Ansible Tower Project, Inventory and Cloud Credentials
 
 Once Ansible Tower is deployed, you need to do some initial setup in order to ingest playbooks and cloud credentials and make them available for use.
 
@@ -33,6 +33,75 @@ Under Resources --> Projects, create a new Project with the following attributes
 I have elected to create a custom Python virtual environment that supports Python3. While this is not necessary for an Ansible Tower installation on Centos 8/RHEL 8 (which only comes with Python3), you can set up a custom Python virtual environment per [these instructions](https://docs.ansible.com/ansible-tower/latest/html/upgrade-migration-guide/virtualenv.html) (See section 4.1).
 
 
+## Ansible Tower Inventory
+
+You will have to set up a Dynamic Inventory to allow Ansible to pull in instance information from your cloud provider after they are created.
+
+Under Resources --> Inventories, create a new Inventory with the following attributes:
+
+<img src="images/cloud_inventory.png" alt="Cloud Inventory"
+	title="Cloud Inventory" width="800" />
+
+| Parameter | Value |
+|-----|-----|
+| Name  | Cloud Application Servers  |
+|  Organization |  Default |
+
+You will not populate this inventory now as there are no Linux instances existing. Instead, you will create an inventory source for each cloud provider you plan to deploy into. From this inventory screen, click on the **Sources** tab, and the click on the green + button on the right in order to create a new source. As you will be creating multiple sources, here are the details for each:
+
+<img src="images/gcp_inventory_source.png" alt="Cloud Inventory" title="Cloud Inventory" width="800" />
+
+| Parameter | Value |
+|-----|-----|
+| Name  | GCP Application Instances  |
+| Source  | Google Compute Engine  |
+| Credential  | `GCP Programmatic Key`  |
+| Region  | `US Central(A)`  |
+|  Overwrite |  Checkmark |
+|  Overwrite Variables |  Checkmark |
+
+<img src="images/aws_inventory_source.png" alt="Cloud Inventory" title="Cloud Inventory" width="800" />
+
+| Parameter | Value |
+|-----|-----|
+| Name  | AWS Application Instances  |
+| Source  | Amazon EC2  |
+| Credential  | `AWS Programmatic Key`  |
+| Region  | `US East(Northern Virginia)`  |
+| Instance Filters  | `tag:provisioner=mford, tag:demo=appdeployment`  |
+|  Only Group By |  `Tags` |
+|  Overwrite |  Checkmark |
+|  Overwrite Variables |  Checkmark |
+
+Source Variables:
+
+```
+---
+group_by_instance_id: False
+group_by_region: False
+group_by_availability_zone: False
+group_by_aws_account: False
+group_by_ami_id: False
+group_by_instance_type: False
+group_by_instance_state: False
+group_by_platform: False
+group_by_key_pair: False
+group_by_vpc_id: False
+group_by_security_group: False
+group_by_tag_keys: False
+group_by_tag_none: False
+group_by_route53_names: False
+group_by_rds_engine: False
+group_by_rds_parameter_group: False
+group_by_elasticache_engine: False
+group_by_elasticache_cluster: False
+group_by_elasticache_parameter_group: False
+group_by_elasticache_replication_group: False
+```
+
+Two notes:
+- The regions for each source are hardcoded as the demo only provisions instances into these regions; if you fork this repository you can of course change this.
+- The instance filters in the AWS source are due to the tags specified in the instance creation task. You can change this as well.
 
 ## Cloud Provider Credentials
 
