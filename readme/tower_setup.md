@@ -120,7 +120,7 @@ Under Resources --> Projects, create a new set of credentials of the appropriate
 
 And now for the GCP Programmatic Key:
 
-<img src="images/gcp_credentials.jpg" alt="GCP Credentials"
+<img src="images/gcp_credentials.png" alt="GCP Credentials"
 	title="GCP Credentials" width="800" />
 
 | Parameter | Value |
