@@ -154,6 +154,7 @@ Under the HTTP Methods section at the bottom, click the blue New button. At the 
 	}
 }
 ```
+**NOTE** `from_snow` is hard coded to be true; we do not want the user to change this value as this request is in fact coming from ServiceNow.
 
 #### 15)
 As we user-provided parameters in the Content field, click on Auto-generate variables in order to generate variables for test runs. Populate the Test value column with some default values that you would like to test your call with (see below for an example). You can then kick off a RESTful call to Ansible Tower using these parameters with the **Test** link.
