@@ -328,7 +328,7 @@ Finally, let's walk through the teardown Workflow Template:
   | Organization  | Default  |
   |  Inventory | Demo Inventory |
 
-<img src="images/teardown_workflow_numbered.jpg" alt="Teardown Workflow Template" title="Teardown Workflow Template" width="800" />
+<img src="images/teardown_workflow_numbered.png" alt="Teardown Workflow Template" title="Teardown Workflow Template" width="800" />
 
 ## 1) Teardown Cloud Linux Instances
 
