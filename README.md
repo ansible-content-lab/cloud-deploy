@@ -3,7 +3,7 @@
 
 <!-- Cloud providers have developed mature, feature-rich platforms that allow organizations to develop innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation and is appreciated. Taking this one step further, taking the infrastructure  -->
 
-Everyone in the enterprise organization is taking advantage of public cloud to complete their respective jobs, and although they may not know it, the infrastructure they consume to do so is provisioned on-demand. For the enterprise, this lowers costs and increases business agility.
+Whether they know it or not, everyone in the enterprise organization is taking advantage of public cloud to complete their respective jobs, and in many cases the infrastructure they consume to do so is provisioned on-demand. For the enterprise, this lowers costs and increases business agility.
 
 End-users that are more directly interacting with public cloud to get work done may not have expertise in the cloud console and/or API(and in most cases should not be given access anyhow), but still need to be given a simple interface to provision and teardown on-demand workloads when needed. How can we do this?
 
