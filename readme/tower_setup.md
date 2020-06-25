@@ -143,7 +143,7 @@ Once you have the Project and Credential set up, you can now move to setting up 
 <img src="images/tower_job_template.jpg" alt="Tower Job Template"
 	title="Tower Job Template" width="1100" />
 
-Note that you can set a different python virtual environment for each job template; this is helpful for other projects if your Job Templates have conflicting python package requirements.
+Note that you can set a different python virtual environment (called *Ansible Environment*) for each job template; this is helpful for other projects if your Job Templates have conflicting python package requirements.
 
 ### Open ServiceNow Change Request and wait for Approval
 
