@@ -150,7 +150,7 @@ Under the HTTP Methods section at the bottom, click the blue New button. At the 
 		"num_instances": ${num_instances},
 		"instance_size": "${instance_size}",
 		"cloud_provider": "${cloud_provider}",
-    "from_snow": true
+		"from_snow": true
 	}
 }
 ```
