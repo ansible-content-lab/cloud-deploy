@@ -200,17 +200,26 @@ Everything else can be left alone. Click the **Submit** button.
 #### 20)
 The resulting Workflow Editor will have only a Begin and End box. Click on the line (it will turn blue to indicate it has been selected), then press **delete** to get rid of it.
 
+<img src="images/workflow_diagram_initial.png" alt="Workflow Diagram Initial" title="Workflow Diagram Initial" width="600" />
+
 #### 21)
 On the right side of the Workflow Editor Screen, select the Core tab and, under **Core Activities-->Utilities**, drag the Run Script option into the Workflow Editor. In the new dialog box that appears, type in a descriptive name, and paste in the script you captured from before. For each variable, replace the default values with ***current.variables.[variablename]*** (see example below). Click **Submit** to save the Script.
+
+<img src="images/workflow_script.png" alt="Workflow Script" title="Workflow Script" width="1000" />
 
 #### 22)
 Draw a connection from **Begin**, to the newly created Run Script Box, and another from the **Run Script** box to **End**. Afterward, click on the three horizontal lines to the left of the Workflow name, and select the **Publish** option. You are now ready to associate this workflow with a catalog item.
 
+<img src="images/workflow_final.png" alt="Workflow Final" title="Workflow Final" width="600" />
+
 #### 23)
 Navigate to **Service Catalog-->Catalog Definitions->Maintain Items**. Click the blue **New** button on the resulting item list. In the resulting dialog box, fill in the following fields:
+
+<img src="images/catalog_item.png" alt="Catalog Item" title="Catalog Item" width="1000" />
+
 | Parameter | Value |
 |-----|-----|
-| Name | Descriptive name of the Catalog Item |
+| Name | `Provision Cloud Webservers with Users` |
 | Catalog | The catalog that this item should be a part of |
 | Category | Required if you wish users to be able to search for this item |
 
@@ -218,13 +227,54 @@ Navigate to **Service Catalog-->Catalog Definitions->Maintain Items**. Click the
 In the Process Engine tab, populate the Workflow field with the Workflow you just created. Click the Submit Button. You’ve now created a new catalog item!
 
 #### 24)
-Navigate back to the Catalog Item settings, and at the bottom, click the **New** button under the variables tab. In the window that results, populate the question you want to present to the user, and the variable name. You can also put a default value under the Default Value Tab. If you select a variable type of Multiple Choice, after submitting the changes you can add options under the ***Question Choices*** section at the bottom of the Variable settings page.
+Navigate back to the Catalog Item settings, and at the bottom, click the **New** button under the variables tab. In the window that results, populate the question you want to present to the user, and the variable name. You can also put a default value under the Default Value Tab. If you select a variable type of `Multiple Choice`, after submitting the changes you can add options under the ***Question Choices*** section at the bottom of the Variable settings page.
+
+<img src="images/catalog_vars.png" alt="Catalog Vars" title="Catalog Vars" width="1000" />
+
+Here are the fields required for each variable in this demo:
+##### cloud_provider
+| Parameter | Value |
+|-----|-----|
+| Type | `Multiple Choice` |
+| Question | `Which Cloud provider to provision into?` |
+| Name | `cloud_provider` |
+| Default value | `aws` |
+
+###### variable options
+| Text | Value | Order |
+|-----|-----|-----|
+| `Amazon Web Services` | `aws` | `100` |
+| Google Cloud Platform | `gcp` | `200` |
+
+##### num_instances
+| Parameter | Value |
+|-----|-----|
+| Type | `Single Line Text` |
+| Question | `How many instances should be spun up? (Any value from 1 through 10)` |
+| Name | `num_instances` |
+| Default value | `3` |
+
+##### instance_size
+| Parameter | Value |
+|-----|-----|
+| Type | `Multiple Choice` |
+| Question | `What size instance should be selected?` |
+| Name | `instance_size` |
+| Default value | `small` |
+
+###### variable options
+| Text | Value | Order |
+|-----|-----|-----|
+| `small` | `small` | `100` |
+| `medium` | `medium` |  `200` |
+| `large` | `large` |  `300` |
 
 #### 25)
 Lastly, to run this catalog item, navigate to **Self-Service-->Homepage** and search for the catalog item you just created. Once found, click the **order now** button. You can see the results page pop up in ServiceNow, and you can confirm that the Job is being run in Ansible Tower.
 
+<img src="images/catalog_order.png" alt="Catalog Item" title="Catalog Item" width="1000" />
 
-Congratulations! After completing these steps, you can now use a ServiceNow Catalog Item to launch Job and Workflow Templates in Ansible Tower. This is ideal for allowing end users to use a front end they are familiar with in order to perform automated tasks of varying complexities. This familiarity goes a long way toward reducing the time to value for the enterprise as a whole, rather than just the teams responsible for writing the playbooks being used.
+Congratulations! After completing these steps, you can now use a ServiceNow Catalog Item to launch the AWS/GCP Workflow Template in Ansible Tower. This is ideal for allowing end users to use a front end they are familiar with in order to perform this, and other automated tasks of varying complexities. This goes a long way toward reducing the time to value for the enterprise as a whole, rather than just the teams responsible for writing the playbooks being used.
 
 
 <!-- # Table Of Contents
