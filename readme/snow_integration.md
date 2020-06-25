@@ -57,16 +57,14 @@ The Orlando release of the ServiceNow developer instance does not seem to allow 
 
 ### Preparing ServiceNow
 
-####5)
+#### 5)
 Moving over to ServiceNow, Navigate to System Definition-->Certificates. This will take you to a screen of all the certificates Service Now uses. Click on the blue New button, and fill in these details:
 | Parameter | Value |
 |-----|-----|
 | Name  | Descriptive name of the certificate  |
 |  Format |  `PEM` |
 |  Type |  `Trust Store Cert` |
-|  PEM Certificate |  The certificate to authenticate against Ansible Tower with. Use the certificate you just generated on your Tower server, located at /etc/tower/tower.cert. Copy the contents of this file (EXCLUDE the intermediate certificate) into the field in ServiceNow.
-Click the Submit button at the bottom. |
-|  Client Type |  `Confidential` |
+|  PEM Certificate |  The certificate to authenticate against Ansible Tower with. Use the certificate you just generated on your Tower server, located at `/etc/tower/tower.cert.` Copy the contents of this file (EXCLUDE the intermediate certificate) into the field in ServiceNow. |
 
 Click the **Submit** button at the bottom.
 
