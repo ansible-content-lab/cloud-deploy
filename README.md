@@ -5,7 +5,7 @@
 
 Whether they know it or not, everyone in the enterprise organization is taking advantage of public cloud to complete their respective jobs, and in many cases the infrastructure they consume to do so is provisioned on-demand. For the enterprise, this lowers costs and increases business agility.
 
-End-users that are more directly interacting with public cloud to get work done may not have expertise in the cloud console and/or API(and in most cases should not be given access anyhow), but still need to be given a simple interface to provision and teardown on-demand workloads when needed. How can we do this?
+End-users that are more directly interacting with public cloud to get work done may not have expertise in the cloud console and/or API(and in most cases should not be given access anyhow), but still need to be given a simple interface to provision and teardown on-demand workloads when needed. *How can we do this?*
 
 Combining peer-reviewed, Infrastructure-as-Code automation, least-privilege user access, and simple GUI interfaces, you can empower these end-users to set up the on-demand workloads that allow them to complete the tasks at hand, such as:
 - Setting up a sandbox environment for testing purposes
