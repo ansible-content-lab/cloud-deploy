@@ -1,24 +1,24 @@
-# Governing Self-Service Cloud Provisioning
+# Governing Self-Service On-Demand Cloud Provisioning
 
 
-Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation and is appreciated.
+<!-- Cloud providers have developed mature, feature-rich platforms that allow organizations to develop innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation and is appreciated. Taking this one step further, taking the infrastructure  -->
 
-<!-- There are several
-**Sandboxing** -->
+Everyone in the enterprise organization is taking advantage of public cloud to complete their respective jobs, and although they may not know it, the infrastructure they consume to complete their jobs is set up on-demand. For the enterprise, this lowers costs, increases business agility, and increases ease of use.
 
-Although these domain experts produce repeatable solutions to known business needs, they can add automation and self-service to make cloud provisioning accessible to a wider audience in the organization. There are a few reasons orgs would want to do this:
+End-users that are more directly interacting with public cloud to provision on-demand workloads may not have expertise in the cloud console and/or API(and in most cases should not be given access anyhow), but still need to be given a simple interface to provision and teardown when needed. How can we do this?
 
-- **Speed of Delivery:** Mature automation can be run by end-users with stripped-down options and less roadblocks, allowing business-critical applications/solutions to be delivered more quickly.
-- **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, application, database, etc.) to work together, preparing a holistic solution to a known business need.
-- **Enables Innovation:** When common cloud workloads are automated and presented with self-service delivery, domain experts are free to focus on the innovative solutions they were hired to develop.
+Combining peer-reviewed, Infrastructure-as-Code automation, least-privilege access, and simple GUI interfaces, you can empower these end-users to set up the on-demand workloads that allow them to complete the task at hand, such as:
+- Setting up a sandbox environment for testing purposes
+- Implementing disaster recovery of an application in a different public cloud region (this can also be automated)
+- Setting up infrastructure for on-demand data processing
 
-Self-service cloud automation allows end-users to easily create on-demand, ephemeral workloads. This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to accomplish the following:
+This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to accomplish the following:
 - Create a cloud virtual private cloud with a public subnet
 - Creates a number of Red Hat Enterprise Linux instances, with the following attributes:
   - Includes a set of pre-defined users, each with privilege-escalation rights and that must create a new password upon first login.
   - Hosts an Apache webserver and dynamically generated index.html page.
-  - Is registered with Red Hat Insights.
-- Creates a container-based secrets engine that holds the SSH private keys for the predefined linux user passwords
+  - Is registered with Red Hat Insights
+- Creates a container-based secrets engine that holds static SSH private keys for the predefined linux user passwords
 
 A visual representation of the final product can be seen here:
 
@@ -26,7 +26,6 @@ A visual representation of the final product can be seen here:
 <img src="images/cloud_infrastructure.png" alt="Cloud Infrastructure"
 	title="Cloud Infrastructure" width="500" />
 </p>
-<!--- ![Cloud Infrastructure](images/cloud_infrastructure.jpeg) --->
 
 The Ansible playbooks are implemented with the following Ansible Tower Workflow Template (for separation of responsibilities and error handling):
 
@@ -34,7 +33,6 @@ The Ansible playbooks are implemented with the following Ansible Tower Workflow 
 <img src="images/cloud_workflow.gif" alt="Cloud Provisioning Workflow"
 	title="Cloud Provisioning Workflow" width="700" />
 </p>
-<!--- ![Cloud Provisioning Workflow](images/cloud_workflow.gif) --->
 
 Finally, the end-user can accomplish all of this with a simplified interface, such as a ServiceNow catalog item:
 
@@ -42,7 +40,6 @@ Finally, the end-user can accomplish all of this with a simplified interface, su
 <img src="images/snow_cloud_catalog.png" alt="ServiceNow Catalog Item"
 	title="ServiceNow Catalog Item" width="500" />
 </p>
-<!--- ![ServiceNow Catalog Item](images/snow_cloud_catalog.png) --->
 
 Let's walk through the Ansible playbooks and 3rd-party integration instructions in this repository to see how this is accomplished.
 
