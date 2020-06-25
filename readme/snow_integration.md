@@ -45,7 +45,7 @@ In Ansible Tower, navigate to **Applications** on the left side of the screen. C
 #### 2)
 Click the green **Save** button on the right, at which point a window will pop up, presenting you with the Client ID and Client Secret needed for ServiceNow to make API calls into Ansible Tower. This will only be presented **ONCE**, so capture these values for later use.
 
-<img src="images/application_secrets.png" alt="Tower Application Secrets" title="Tower Application Secrets" width="1000" />
+<img src="images/application_secrets.png" alt="Tower Application Secrets" title="Tower Application Secrets" width="500" />
 
 #### 3)
 Next, navigate to **Settings-->System** on the left side of the screen. You’ll want to toggle the **Allow External Users to Create Oauth2 Tokens** option to ***on***. Click the green **Save** button to commit the change.
@@ -73,6 +73,8 @@ Click the **Submit** button at the bottom.
 #### 6)
 In ServiceNow, Navigate to **System OAuth-->Application Registry**. This will take you to a screen of all the Applications ServiceNow communicates with. Click on the **blue New button**, and you will be asked What kind of Oauth application you want to set up. Select **Connect to a third party Oauth Provider**.
 
+<img src="images/snow_app_reg.png" alt="SNOW Application Registry" title="SNOW Application Registry" width="800" />
+
 #### 7)
 On the new application screen, fill in these details:
 | Parameter | Value |
@@ -84,10 +86,14 @@ On the new application screen, fill in these details:
 |  Token URL |  `https://<tower_url>/api/o/token/` |
 |  Redirect URL |  `https://<snow_instance_id>.service-now.com/oauth_redirect.do` |
 
+<img src="images/snow_app_reg_deets.png" alt="SNOW Application Registry Details" title="SNOW Application Registry Details" width="800" />
+
 Click the **Submit** button at the bottom.
 
 #### 8)
 You should be taken out to the list of all Application Registries. Click back into the Application you just created. At the bottom, there should be two tabs: Click on the tab **Oauth Entity Scopes**. Under here, there is a section called **Insert a new row…**. Double click here, and fill in the field to say Writing Scope. Click on the **green check mark** to confirm this change. Then, right-click inside the grey area at the top where it says Application Registries and click Save in the menu that pops up.
+
+<img src="images/write_scope.png" alt="SNOW Write Scope" title="SNOW Write Scope" width="800" />
 
 #### 9)
 The writing scope should now be Clickable. Click on it, and in the dialog window that you are taken to, type **write** in the Oauth scope box. Click the **Update** button at the bottom.
