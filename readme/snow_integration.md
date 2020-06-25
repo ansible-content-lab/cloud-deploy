@@ -1,4 +1,4 @@
-# Bonus: Deploying Your Cloud Workload via ServiceNow (Documentation still in development)
+# Bonus: Deploying Your Cloud Workload via ServiceNow
 
 Although this demo now works in Ansible Tower, many end-users do not want to learn a new interface in order to perform their tasks. This is not a problem at all for Ansible Tower, which provides a RESTful API to allow 3rd-party platforms to kick of jobs programmatically. As ServiceNow is widely used in organizations, these instructions walk you through setting up ServiceNow to start this demonstration in Ansible Tower.
 
@@ -198,12 +198,12 @@ In the New Workflow dialog box that appears, fill in the following options:
 Everything else can be left alone. Click the **Submit** button.
 
 #### 20)
-The resulting Workflow Editor will have only a Begin and End box. Click on the line (it will turn blue to indicate it has been selected), then press **delete** to get rid of it.
+The resulting Workflow Editor will have only a Begin and End box. Click on the line (it will turn blue to indicate it has been selected), then press **delete** on your keyboard to get rid of it.
 
 <img src="images/workflow_diagram_initial.png" alt="Workflow Diagram Initial" title="Workflow Diagram Initial" width="600" />
 
 #### 21)
-On the right side of the Workflow Editor Screen, select the Core tab and, under **Core Activities-->Utilities**, drag the Run Script option into the Workflow Editor. In the new dialog box that appears, type in a descriptive name, and paste in the script you captured from before. For each variable, replace the default values with ***current.variables.[variablename]*** (see example below). Click **Submit** to save the Script.
+On the right side of the Workflow Editor Screen, select the Core tab and, under **Core Activities-->Utilities**, drag the Run Script option into the Workflow Editor. In the new dialog box that appears, type in a descriptive name (the name of the RESTful call will suffice, `Provision Webservers with Users`), and paste in the script you captured from before. For each variable, replace the default values with ***current.variables.[variablename]*** (see example below). Click **Submit** to save the Script.
 
 <img src="images/workflow_script.png" alt="Workflow Script" title="Workflow Script" width="1000" />
 
