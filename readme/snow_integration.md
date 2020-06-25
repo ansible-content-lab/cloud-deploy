@@ -182,6 +182,8 @@ Navigate to **Service Catalog-->Catalog Definitions->Maintain Items**. Click the
 | Name | Descriptive name of the Catalog Item |
 | Catalog | The catalog that this item should be a part of |
 | Category | Required if you wish users to be able to search for this item |
+
+
 In the Process Engine tab, populate the Workflow field with the Workflow you just created. Click the Submit Button. You’ve now created a new catalog item!
 
 #### 24)
