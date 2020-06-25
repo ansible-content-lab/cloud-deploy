@@ -132,6 +132,9 @@ Click the **Get Oauth Token** button on the REST Message screen. This will gener
 
 #### 14)
 Under the HTTP Methods section at the bottom, click the blue New button. At the new dialog window that appears, fill in the following fields:
+
+<img src="images/snow_http_method.png" alt="SNOW HTTP Method" title="SNOW HTTP" width="1000" />
+
 - **HTTP Method**: `POST`
 - **Name**: Descriptive HTTP Method Name
 - **Endpoint**: The url endpoint of the Ansible Tower action you wish to do. This can be taken from the browsable API at `https://<tower_url>/api`
