@@ -40,17 +40,17 @@ In Ansible Tower, navigate to Applications on the left side of the screen. Click
 |  Redirect URIs |  `https://<snow_instance_id>.service-now.com/oauth_redirect.do` |
 |  Client Type |  `Confidential` |
 
-<img src="../images/create_application.png" alt="Tower Create Application" title="Tower Create Application" width="1000" />
+<img src="images/create_application.png" alt="Tower Create Application" title="Tower Create Application" width="1000" />
 
 #### 2)
 Click the green **Save** button on the right, at which point a window will pop up, presenting you with the Client ID and Client Secret needed for ServiceNow to make API calls into Ansible Tower. This will only be presented **ONCE**, so capture these values for later use.
 
-<img src="../images/application_secrets.png" alt="Tower Application Secrets" title="Tower Application Secrets" width="1000" />
+<img src="images/application_secrets.png" alt="Tower Application Secrets" title="Tower Application Secrets" width="1000" />
 
 #### 3)
 Next, navigate to Settings-->System on the left side of the screen. You’ll want to toggle the Allow External Users to Create Oauth2 Tokens option to on. Click the green Save button to commit the change.
 
-<img src="../images/tower_settings.png" alt="Tower Settings" title="Tower Settings" width="1000" />
+<img src="images/tower_settings.png" alt="Tower Settings" title="Tower Settings" width="1000" />
 
 #### 4)
 The Orlando release of the ServiceNow developer instance does not seem to allow for the self-signed certificate provided by Ansible Tower. We need to equip our Tower instance with a certificate from a trusted Certificate Authority. The easiest way to accomplish this to run the Certbot ACME client in order to generate a certificate from LetsEncrypt (instructions can be found [here](https://letsencrypt.org/getting-started/)). It is important to place the contents of the certificate you generate, followed by the LetsEncrypt intermediate certificate (starting on a new line) at location Tower places its self-signed certificate, /etc/tower/tower.cert. The LetsEncrypt intermediate certificate can be found [here](https://letsencrypt.org/certificates/). Be sure to restart the nginx service on your Tower server after updating the certificate.
