@@ -109,12 +109,12 @@ Back in the Application Settings page, scroll back to the bottom and click the *
 #### 11)
 You will be taken to the Oauth Entity Profile Window. At the bottom, Type Writing Scope into the Oauth Entity Scope field. Click the green check mark and **update**.
 
-<img src="images/oauth_entity_deets.png" alt="Oauth Entity" title="Oauth Entity" width="500" />
+<img src="images/oauth_entity_deets.png" alt="Oauth Entity" title="Oauth Entity" width="800" />
 
 #### 12)
 Navigate to **System Web Services-->Outbound-->REST Messages**. Click the blue **New** button. In the resulting dialog window, fill in the following fields:
 
-<img src="images/rest_message.png" alt="REST Message" title="REST Message" width="500" />
+<img src="images/rest_message.png" alt="REST Message" title="REST Message" width="800" />
 
 | Parameter | Value |
 |-----|-----|
