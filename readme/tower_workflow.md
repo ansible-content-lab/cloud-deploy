@@ -9,14 +9,14 @@ In this demo, you will create two workflows; one for *provisioning* your cloud w
 **Cloud workload provisioning Workflow Template:**
 
 <img src="images/provision_workflow_full.png" alt="Tower Project"
-	title="Tower Project" width="800" />
+	title="Tower Project" width="1000" />
 
 I will break this into two smaller images later in the documentation.
 
 **Cloud workload teardown Workflow Template:**
 
 <img src="images/teardown_workflow.png" alt="Tower Project"
-	title="Tower Project" width="500" />
+	title="Tower Project" width="800" />
 
 In the Workflow Templates above, each box represents an invocation of one of the Job Templates we defined in the previous section. The lines represent contracts between those Job Templates, and are color-coded accordingly:
 - A **blue** line means that the Job Template to the right of it will always run.
@@ -27,7 +27,7 @@ In cases where a Job Template has two green lines leading to it, like so:
 <img src="images/provision_workflow_two_conditions.jpg" alt="Tower Project"
 	title="Tower Project" width="500" />
 
-Set the `Convergence` parameter of the resulting Workflow Node (in this case, *Send SNOW success email*). This way, *both* of the previous Job Templates must succeed in order to proceed upon the success path, which is the desired behavior.
+Set the `Convergence` parameter of the resulting Workflow Node (in this case, *Send SNOW success email*) to **ALL**. This way, *both* of the previous Job Templates must succeed in order to proceed upon the success path, which is the desired behavior.
 
 # Provisioner Workflow Template
 
@@ -37,12 +37,12 @@ You can set up the Workflow Template by navigating to Resources --> Templates, a
 
 For the provisioner template, fill out the fields as follows:
 
-<img src="images/workflow_parameters.jpg" alt="Workflow Parameters"
+<img src="images/workflow_parameters.png" alt="Workflow Parameters"
 	title="Workflow Parameters" width="800" />
 
   | Parameter | Value |
   |-----|-----|
-  | Name  | Provision AWS Linux Webserver with Users  |
+  | Name  | Provision Cloud Linux Servers with Users  |
   | Organization  | Default  |
   |  Inventory | Demo Inventory |
 
@@ -56,7 +56,7 @@ For starting this Workflow Template from Ansible Tower, the Workflow requires tw
 
 The survey will look like this:
 
-<img src="images/tower_survey.jpg" alt="Tower Project"
+<img src="images/tower_survey.png" alt="Tower Project"
 	title="Tower Survey" width="500" />
 
 Here are the details required for both questions:
@@ -81,6 +81,14 @@ Here are the details required for both questions:
 |  Default Answer |  `medium` |
 |  Required |  Checkmark |
 
+| Parameter | Value |
+|-----|-----|
+| Prompt  | Which Cloud provider to provision into?  |
+|  Answer Variable Name | `cloud_provider` |
+|  Answer Type |  Multiple Choice (single select) |
+|  Multiple Choice Options |  `aws`, `gcp` |
+|  Required |  Checkmark |
+
 When setting up the Workflow Template visualizer, you can select the next step by clicking on the START button:
 
 <img src="images/workflow_start.jpg" alt="Workflow Start"
@@ -100,12 +108,12 @@ From there, you can choose the Job Template, when it runs (`Always` for the firs
 |  Run |  Always |
 |  Convergence |  Any |
 
-## 2) Provision AWS Resources
+## 2) Provision Cloud Resources
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Provision AWS Resources |
+|  Template Name |  Provision Cloud Resources |
 |  Run |  On Success |
 |  Convergence |  Any |
 
@@ -126,47 +134,39 @@ close_code: unsuccessful
 close_notes: 'Canceled by Ansible: Approval not given within allotted time.'
 ```
 
-## 4) Provision AWS Linux Instances
+## 4) Provision Cloud Linux Instances
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Provision AWS Linux Instances |
+|  Template Name |  Provision Cloud Linux Instances |
 |  Run |  On Success |
 |  Convergence |  Any |
 
-## 5) Teardown AWS Linux Resources
+## 5) Teardown Cloud Linux Resources
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Teardown AWS Linux Resources |
+|  Template Name |  Teardown Cloud Linux Resources |
 |  Run |  On Failure |
 |  Convergence |  Any |
 
-## 6) Update ServiceNow Change Request
-
-| Parameter | Value |
-|-----|-----|
-| Node Type  | Template  |
-|  Template Name |  Update ServiceNow Change Request |
-|  Run |  Always |
-|  Convergence |  Any |
-
-**PROMPT:**
-```
----
-close_state: 4
-close_code: unsuccessful
-close_notes: 'Canceled by Ansible: Linux instances not created successfully.'
-```
-
-## 7) AWS Application Servers
+## 6) AWS Application Instances
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Inventory Sync  |
-|  Inventory Name |  AWS Application Servers |
+|  Inventory Name |  AWS Application Instances |
+|  Run |  On Success |
+|  Convergence |  Any |
+
+## 7) GCP Application Instances
+
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Inventory Sync  |
+|  Inventory Name |  GCP Application Instances |
 |  Run |  On Success |
 |  Convergence |  Any |
 
@@ -184,23 +184,58 @@ close_notes: 'Canceled by Ansible: Linux instances not created successfully.'
 ---
 close_state: 4
 close_code: unsuccessful
-close_notes: 'Canceled by Ansible: Problem when trying to provision network resources.'
+close_notes: 'Canceled by Ansible: Linux instances not created successfully.'
 ```
 
-
-  <img src="images/provision_workflow_end.png" alt="Tower Project"
-  	title="Tower Project" width="800" />
-
-## 9) Install Docker Engine on Linux Instances
+## 9) Update ServiceNow Change Request
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
 |  Template Name |  Update ServiceNow Change Request |
+|  Run |  Always |
+|  Convergence |  Any |
+
+**PROMPT:**
+```
+---
+close_state: 4
+close_code: unsuccessful
+close_notes: 'Canceled by Ansible: Problem when trying to provision network resources.'
+```
+
+## 10) Initialize Linux Instances
+
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Template  |
+|  Template Name |  Initialize Linux Instances |
+|  Run |  On Success |
+|  Convergence |  All |
+
+
+  <img src="images/provision_workflow_end.png" alt="Tower Project"
+  	title="Tower Project" width="800" />
+
+## 11) Install Docker Engine on Linux Instances
+
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Template  |
+|  Template Name |  Install Docker Engine on Linux Instances |
 |  Run |  On Success |
 |  Convergence |  Any |
 
-## 10) Update ServiceNow Change Request
+## 12) Install/configure secrets engine
+
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Template  |
+|  Template Name |  Install/configure secrets engine |
+|  Run |  On Success |
+|  Convergence |  Any |
+
+## 13) Update ServiceNow Change Request
 
 | Parameter | Value |
 |-----|-----|
@@ -217,16 +252,9 @@ close_code: unsuccessful
 close_notes: 'Canceled by Ansible: Error when trying to install Docker.'
 ```
 
-## 11) Install/configure vault on Linux Docker instance
 
-| Parameter | Value |
-|-----|-----|
-| Node Type  | Template  |
-|  Template Name |  Install/configure vault on Linux Docker instance |
-|  Run |  On Success |
-|  Convergence |  Any |
 
-## 12) Provision RHEL8 on Linux Instances
+## 14) Provision RHEL8 on Linux Instances
 
 | Parameter | Value |
 |-----|-----|
@@ -235,16 +263,25 @@ close_notes: 'Canceled by Ansible: Error when trying to install Docker.'
 |  Run |  On Success |
 |  Convergence |  Any |
 
-## 13) Add RHEL8 users to AWS Instances
+## 15) Add RHEL8 users to Linux Instances
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Add RHEL8 users to AWS Instances |
+|  Template Name |  Add RHEL8 users to Linux Instances |
 |  Run |  On Success |
 |  Convergence |  Any |
 
-## 14) Update ServiceNow Change Request
+## 16) Send SNOW success email
+
+| Parameter | Value |
+|-----|-----|
+| Node Type  | Template  |
+|  Template Name |  Send SNOW success email |
+|  Run |  On Success |
+|  Convergence |  All |
+
+## 17) Update ServiceNow Change Request
 
 | Parameter | Value |
 |-----|-----|
@@ -261,16 +298,7 @@ close_code: unsuccessful
 close_notes: 'Canceled by Ansible: Error in provisioning RHEL8 application and users.'
 ```
 
-## 15) Send SNOW success email
-
-| Parameter | Value |
-|-----|-----|
-| Node Type  | Template  |
-|  Template Name |  Send SNOW success email |
-|  Run |  On Success |
-|  Convergence |  All |
-
-## 16) Update ServiceNow Change Request
+## 18) Update ServiceNow Change Request
 
 | Parameter | Value |
 |-----|-----|
@@ -291,32 +319,32 @@ close_notes: Linux Instances deployed successfully!
 
 Finally, let's walk through the teardown Workflow Template:
 
-<img src="images/teardown_workflow_parameters.jpg" alt="Teardown Workflow Parameters"
+<img src="images/teardown_workflow_parameters.png" alt="Teardown Workflow Parameters"
 	title="Teardown Workflow Parameters" width="800" />
 
   | Parameter | Value |
   |-----|-----|
-  | Name  | Teardown AWS Linux Application, Instances and Resources  |
+  | Name  | Teardown Cloud Linux Application, Instances and Resources  |
   | Organization  | Default  |
   |  Inventory | Demo Inventory |
 
 <img src="images/teardown_workflow_numbered.jpg" alt="Teardown Workflow Template" title="Teardown Workflow Template" width="800" />
 
-## 1) Teardown AWS Linux Instances
+## 1) Teardown Cloud Linux Instances
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Teardown AWS Linux Instances |
+|  Template Name |  Teardown Cloud Linux Instances |
 |  Run |  Always |
 |  Convergence |  Any |
 
-## 2) Teardown AWS Linux Resources
+## 2) Teardown Cloud Linux Resources
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Teardown AWS Linux Resources |
+|  Template Name |  Teardown Cloud Linux Resources |
 |  Run |  On Success |
 |  Convergence |  Any |
 
