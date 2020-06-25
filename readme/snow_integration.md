@@ -77,6 +77,9 @@ In ServiceNow, Navigate to **System OAuth-->Application Registry**. This will ta
 
 #### 7)
 On the new application screen, fill in these details:
+
+<img src="images/snow_app_reg_deets.png" alt="SNOW Application Registry Details" title="SNOW Application Registry Details" width="800" />
+
 | Parameter | Value |
 |-----|-----|
 | Name  | Descriptive Application Name  |
@@ -85,8 +88,6 @@ On the new application screen, fill in these details:
 |  Default Grant Type |  `Authorization Code` |
 |  Token URL |  `https://<tower_url>/api/o/token/` |
 |  Redirect URL |  `https://<snow_instance_id>.service-now.com/oauth_redirect.do` |
-
-<img src="images/snow_app_reg_deets.png" alt="SNOW Application Registry Details" title="SNOW Application Registry Details" width="800" />
 
 Click the **Submit** button at the bottom.
 
@@ -98,17 +99,26 @@ You should be taken out to the list of all Application Registries. Click back in
 #### 9)
 The writing scope should now be Clickable. Click on it, and in the dialog window that you are taken to, type **write** in the Oauth scope box. Click the **Update** button at the bottom.
 
+<img src="images/write_scope_deets.png" alt="SNOW Write Scope" title="SNOW Write Scope" width="800" />
+
 #### 10)
 Back in the Application Settings page, scroll back to the bottom and click the **Oauth Entity Profiles** tab. There should be an entity profile populated - click into it.
+
+<img src="images/oauth_entity.png" alt="Oauth Entity" title="Oauth Entity" width="500" />
 
 #### 11)
 You will be taken to the Oauth Entity Profile Window. At the bottom, Type Writing Scope into the Oauth Entity Scope field. Click the green check mark and **update**.
 
+<img src="images/oauth_entity_deets.png" alt="Oauth Entity" title="Oauth Entity" width="500" />
+
 #### 12)
 Navigate to **System Web Services-->Outbound-->REST Messages**. Click the blue **New** button. In the resulting dialog window, fill in the following fields:
+
+<img src="images/rest_message.png" alt="REST Message" title="REST Message" width="500" />
+
 | Parameter | Value |
 |-----|-----|
-| Name  | Descriptive REST Message Name  |
+| Name  | `Provision Cloud Webservers with Users`  |
 |  Endpoint |  The url endpoint of the Ansible Tower action you wish to do. This can be taken from the browsable API at `https://<tower_url>/api` |
 |  Authentication Type |  `Oauth 2.0` |
 |  Oauth Profile |  Select the Oauth profile you created |
@@ -117,6 +127,8 @@ Right-click inside the grey area at the top; click **Save**.
 
 #### 13)
 Click the **Get Oauth Token** button on the REST Message screen. This will generate a pop-up window asking to authorize ServiceNow against your Ansible Tower instance/cluster. Click Authorize. ServiceNow will now have an Oauth2 token to authenticate against your Ansible Tower server.
+
+<img src="images/snow_authorize.png" alt="SNOW Authorize" title="SNOW Authorize" width="500" />
 
 #### 14)
 Under the HTTP Methods section at the bottom, click the blue New button. At the new dialog window that appears, fill in the following fields:
