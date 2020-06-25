@@ -66,6 +66,8 @@ Moving over to ServiceNow, Navigate to **System Definition-->Certificates**. Thi
 |  Type |  `Trust Store Cert` |
 |  PEM Certificate |  The certificate to authenticate against Ansible Tower with. Use the certificate you just generated on your Tower server, located at `/etc/tower/tower.cert.` Copy the contents of this file (EXCLUDE the intermediate certificate) into the field in ServiceNow. |
 
+<img src="images/tower_cert.png" alt="Tower Certificate" title="Tower Certificate" width="1000" />
+
 Click the **Submit** button at the bottom.
 
 #### 6)
