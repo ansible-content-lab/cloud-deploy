@@ -4,14 +4,14 @@ Now that you have created your two Workflow Templates, you can use them to both 
 
 ## Running the Provisioner Template
 
-Under Resources --> Templates, click on the rocket ship button next to the Workflow Template, **Provision AWS Linux Webserver with Users**. You will be presented with two boxes for options. First, as the **Extra Variables** section has been set to `PROMPT ON LAUNCH`, you will be given the opportunity to change the `from_snow` variable to `yes` or `no`. Leave this value as `no`; this value should only be set to yes when the request for the WorkflowTemplate comes from ServiceNow (which will be covered in the next section):
+Under Resources --> Templates, click on the rocket ship button next to the Workflow Template, **Provision Cloud Linux Servers with Users**. You will be presented with two boxes for options. First, as the **Extra Variables** section has been set to `PROMPT ON LAUNCH`, you will be given the opportunity to change the `from_snow` variable to `yes` or `no`. Leave this value as `no`; this value should only be set to yes when the request for the Workflow Template comes from ServiceNow (which will be covered in the next section):
 
 <img src="images/provision_extra_vars.png" alt="Provisioner Extra Vars"
 	title="Provisioner Extra Vars" width="800" />
 
 Click **Next**.
 
-Second, you will be presented with a survey, asking how many instances you would like to spin up (this must be between 1 and 10), and how large you would like them to be:
+Second, you will be presented with a survey, asking how many instances you would like to spin up (this must be between 1 and 10), how large you would like them to be, and which public cloud to provision into:
 
 <img src="images/provision_survey.png" alt="Provisioner Survey"
 	title="Provisioner Survey" width="800" />
@@ -34,16 +34,16 @@ The playbooks have been architected in such a way that any function of ServiceNo
 
 ### Results of the Provisioner Template
 
-RHEL 8 instances of the size and number specified in the Workflow Template are created. An additional instance that hosts the secrets engine is also created. If you look at the results of the **Add RHEL8 users** Job Template, you can see all these instances:
+RHEL8 instances of the size and number specified in the Workflow Template are created. An additional instance that hosts the secrets engine is also created. If you look at the results of the **Add RHEL8 users** Job Template, you can see all these instances:
 
 <img src="images/all_instances.png" alt="All Instances"
 	title="All Instances" width="800" />
 
-The instances have metadata applied that ensures that the vault instance is untouched when running a Job Template only intended to run against the requested RHEL 8 instances.
+The instances have metadata applied that ensures that the vault instance is untouched when running a Job Template only intended to run against the requested RHEL8 instances.
 
-### RHEL 8 Instances
+### RHEL8 Instances
 
-RHEL 8 instances of the size and number specified in the Workflow Template are created, each with Apache installed, and a dynamically generated web page inserted. You can plug the IP address of any of these instances into your browser and see the following:
+RHEL8 instances of the size and number specified in the Workflow Template are created, each with Apache installed, and a dynamically generated web page inserted. You can plug the IP address of any of these instances into your browser and see the following:
 
 <img src="images/apache_index.png" alt="Apache Index"
 	title="Apache Index" width="800" />
@@ -85,7 +85,7 @@ Of course, these compute resources do not exist in a vaccuum; the underlying vir
 
 ## Running the Teardown Template
 
-The Teardown Template is less involved to run. Simply click on the rocketship button next to the Workflow Template **Teardown AWS Linux Application, Instances and Resources**. The Workflow Template searches for the cloud resources based on metadata defined in the [default-vars.yml](../vars/default-vars.yml) file, and will tear down all instances and resources without any further user input.
+The Teardown Template is less involved to run. Simply click on the rocketship button next to the Workflow Template **Teardown Cloud Linux Application, Instances and Resources**. The Workflow Template searches for the cloud resources based on metadata defined in the [default-vars.yml](../vars/default-vars.yml) file, and will tear down all instances and resources without any further user input.
 
 ## Next Steps
 
