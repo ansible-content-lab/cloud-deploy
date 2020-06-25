@@ -14,11 +14,11 @@ Combining peer-reviewed, Infrastructure-as-Code automation, least-privilege user
 
 This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to accomplish the following:
 - Create a cloud virtual private cloud with a public subnet in either **AWS** or **GCP**
-- Creates a number of Red Hat Enterprise Linux instances, with the following attributes:
+- Create a number of Red Hat Enterprise Linux instances, with the following attributes:
   - Includes a set of pre-defined users, each with privilege-escalation rights and that must create a new password upon first login.
   - Hosts an Apache webserver and dynamically generated index.html page.
   - Is registered with Red Hat Insights
-- Creates a container-based secrets engine that holds static SSH private keys for the predefined linux user passwords
+- Create a container-based secrets engine that holds static SSH private keys for the predefined linux user passwords
 
 A visual representation of the final product can be seen here:
 
@@ -38,7 +38,7 @@ Finally, the end-user can accomplish all of this with a simplified interface, su
 
 <p align="center">
 <img src="images/snow_cloud_catalog.png" alt="ServiceNow Catalog Item"
-	title="ServiceNow Catalog Item" width="500" />
+	title="ServiceNow Catalog Item" width="800" />
 </p>
 
 Let's walk through the Ansible playbooks and 3rd-party integration instructions in this repository to see how this is accomplished.
