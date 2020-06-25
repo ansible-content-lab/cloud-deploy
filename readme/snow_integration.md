@@ -158,7 +158,7 @@ Under the HTTP Methods section at the bottom, click the blue New button. At the 
 #### 15)
 As we user-provided parameters in the Content field, click on Auto-generate variables in order to generate variables for test runs. Populate the Test value column with some default values that you would like to test your call with (see below for an example). You can then kick off a RESTful call to Ansible Tower using these parameters with the **Test** link.
 
-<img src="images/snow_test_vars.png" alt="SNOW Test Vars" title="SNOW Test Vars" width="1000" />
+<img src="images/snow_test_vars.png" alt="SNOW Test Vars" title="SNOW Test Vars" width="700" />
 
 ### Testing connectivity between ServiceNow and Ansible Tower
 
@@ -167,7 +167,7 @@ Clicking the **Test** link will take you to a results screen, which should indic
 
 <img src="images/test_job_snow.png" alt="SNOW Test Job" title="SNOW Test Job" width="800" />
 
-You can confirm that this Job Template was in fact started by going back to Ansible Tower and clicking the **Jobs** section on the left side of the screen; a Job with the same ID should be in the list (and, depending on the playbook size, may still be in process). In the below picture, the job failed because the F5 appliance was not turned on but, we can confirm that ServiceNow is able to send the RESTful call to Tower:
+You can confirm that this Job Template was in fact started by going back to Ansible Tower and clicking the **Jobs** section on the left side of the screen; a Job with the same ID should be in the list (and, depending on the playbook size, may still be in process). In the below picture, the job is still in progress, and we can confirm that ServiceNow is able to send the RESTful call to Tower:
 
 <img src="images/test_job_tower.png" alt="Tower Test Job" title="Tower Test Job" width="800" />
 
@@ -176,18 +176,23 @@ You can confirm that this Job Template was in fact started by going back to Ansi
 #### 17)
 Now that you are able to make outbound RESTful calls from ServiceNow to Ansible Tower, it’s time to create a catalog item for users to select in ServiceNow in a production self-service fashion. While in the HTTP Method options, click the **Preview Script Usage** link:
 
-<!-- image -->
+<img src="images/api_script.png" alt="Tower API Script" title="Tower API Script" width="800" />
 
 Copy the resulting script the appears, and paste it into a text editor to reference later.
 
 #### 18)
 In ServiceNow, navigate to **Workflow-->Workflow Editor**. This will open a new tab with a list of all existing ServiceNow workflows. Click on the blue **New Workflow** button:
 
+<img src="images/workflow_editor.png" alt="Workflow Editor" title="Workflow Editor" width="800" />
+
 #### 19)
 In the New Workflow dialog box that appears, fill in the following options:
+
+<img src="images/new_workflow.png" alt="Workflow" title="Workflow" width="800" />
+
 | Parameter | Value |
 |-----|-----|
-| Name | A descriptive name of the workflow |
+| Name | `Provision Cloud Webservers with Users` |
 | Table | `Requested Item [sc_req_item]` |
 
 Everything else can be left alone. Click the **Submit** button.
