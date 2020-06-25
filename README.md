@@ -3,17 +3,17 @@
 
 <!-- Cloud providers have developed mature, feature-rich platforms that allow organizations to develop innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation and is appreciated. Taking this one step further, taking the infrastructure  -->
 
-Everyone in the enterprise organization is taking advantage of public cloud to complete their respective jobs, and although they may not know it, the infrastructure they consume to complete their jobs is set up on-demand. For the enterprise, this lowers costs, increases business agility, and increases ease of use.
+Everyone in the enterprise organization is taking advantage of public cloud to complete their respective jobs, and although they may not know it, the infrastructure they consume to do so is provisioned on-demand. For the enterprise, this lowers costs and increases business agility.
 
-End-users that are more directly interacting with public cloud to provision on-demand workloads may not have expertise in the cloud console and/or API(and in most cases should not be given access anyhow), but still need to be given a simple interface to provision and teardown when needed. How can we do this?
+End-users that are more directly interacting with public cloud to get work done may not have expertise in the cloud console and/or API(and in most cases should not be given access anyhow), but still need to be given a simple interface to provision and teardown on-demand workloads when needed. How can we do this?
 
-Combining peer-reviewed, Infrastructure-as-Code automation, least-privilege access, and simple GUI interfaces, you can empower these end-users to set up the on-demand workloads that allow them to complete the task at hand, such as:
+Combining peer-reviewed, Infrastructure-as-Code automation, least-privilege user access, and simple GUI interfaces, you can empower these end-users to set up the on-demand workloads that allow them to complete the tasks at hand, such as:
 - Setting up a sandbox environment for testing purposes
-- Implementing disaster recovery of an application in a different public cloud region (this can also be automated)
+- Implementing disaster recovery of an application in a different public cloud region (this can also be automated based on a monitoring event)
 - Setting up infrastructure for on-demand data processing
 
 This repository contains an 'art-of-the-possible' demonstration of this very concept. Ansible playbooks are run to accomplish the following:
-- Create a cloud virtual private cloud with a public subnet
+- Create a cloud virtual private cloud with a public subnet in either **AWS** or **GCP**
 - Creates a number of Red Hat Enterprise Linux instances, with the following attributes:
   - Includes a set of pre-defined users, each with privilege-escalation rights and that must create a new password upon first login.
   - Hosts an Apache webserver and dynamically generated index.html page.
