@@ -141,7 +141,7 @@ Lastly, Ansible Tower automatically encrypts any secrets. Ansible Tower users (w
 Once you have the Project and Credential set up, you can now move to setting up the individual Job Templates that will do the work against your cloud environment. Below is a description of each Job Template, and its required parameters. In general, you can expect a Job Template to look similar to this picture:
 
 <img src="images/tower_job_template.jpg" alt="Tower Job Template"
-	title="Tower Job Template" width="800" />
+	title="Tower Job Template" width="1100" />
 
 Note that you can set a different python virtual environment for each job template; this is helpful for other projects if your Job Templates have conflicting python package requirements.
 
