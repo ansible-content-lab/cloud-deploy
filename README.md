@@ -1,9 +1,12 @@
 # Governing Self-Service Cloud Provisioning
 
 
-Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation.
+Cloud providers have developed mature, feature-rich platforms that allow organizations to deploy innovative applications and services. For domain experts(network, database, linux/windows administration, etc.), this high level of control fosters innovation and is appreciated.
 
-As these domain experts produce repeatable solutions to known business needs, they can add automation and self-service to make cloud provisioning accessible to a wider audience in the organization. There are a few reasons orgs would want to do this:
+<!-- There are several
+**Sandboxing** -->
+
+Although these domain experts produce repeatable solutions to known business needs, they can add automation and self-service to make cloud provisioning accessible to a wider audience in the organization. There are a few reasons orgs would want to do this:
 
 - **Speed of Delivery:** Mature automation can be run by end-users with stripped-down options and less roadblocks, allowing business-critical applications/solutions to be delivered more quickly.
 - **Silo breakdown:** Automation of infrastructure/application provisioning encourages multiple teams of domain experts (network, application, database, etc.) to work together, preparing a holistic solution to a known business need.
