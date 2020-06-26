@@ -57,7 +57,7 @@ The Orlando release of the ServiceNow developer instance does not seem to allow 
 
 An example pf the generated certificate with the intermediate certificate appended (what needs to be place in `/etc/tower/tower.cert`) is pictured below:
 
-<img src="images/fullchain_cert.png" alt="Tower Cert" title="Tower Cert" width="800" />
+<img src="images/fullchain_cert.png" alt="Tower Cert" title="Tower Cert" width="500" />
 
 ### Preparing ServiceNow
 
