@@ -140,7 +140,7 @@ Lastly, Ansible Tower automatically encrypts any secrets. Ansible Tower users (w
 
 Under Resources --> Credentials, create a new set Ansible Vault Credentials so that your encrypted files can be accessed at runtime.
 
-<img src="images/ansible_vault.jpg" alt="Vault Credentials"
+<img src="images/ansible_vault.png" alt="Vault Credentials"
 	title="Vault Credentials" width="800" />
 
 | Parameter | Value |
