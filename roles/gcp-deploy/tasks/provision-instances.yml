@@ -32,7 +32,7 @@
     tower_username: "{{ tower_user }}"
     tower_password: "{{ tower_pass }}"
     kind: ssh
-    username: ec2-user
+    username: "{{ gcp_instance_username }}"
     ssh_key_data: "{{ lookup('file', '{{ working_dir }}/id_ssh_rsa') }}"
     tower_verify_ssl: false
   delegate_to: localhost

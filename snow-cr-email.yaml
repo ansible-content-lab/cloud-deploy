@@ -17,7 +17,7 @@
         port: 587
         username: "{{ gmail_username }}"
         password: "{{ gmail_password }}"
-        to: Michael Ford <mfordansible@gmail.com>
+        to: "Michael Ford <{{ approver_email }}>"
         subject: "Change Request {{ snow_cr_number }} Successful"
         body: "Your ServiceNow Change Request {{ snow_cr_number }} has been completed successfully!"
       delegate_to: localhost

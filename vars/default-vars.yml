@@ -5,6 +5,7 @@ working_dir: /tmp
 #acceptable options: aws, gcp
 cloud_provider: gcp
 num_instances: 3
+approver_email: mfordansible@gmail.com
 
 #AWS parameters
 ec2_region: us-east-1
@@ -19,7 +20,7 @@ ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
 ec2_root_volume_size: 10
 from_snow: false
-instance_username: ec2-user
+aws_instance_username: ec2-user
 
 #GCP parameters
 gcp_prefix: mford-linux
@@ -27,3 +28,4 @@ gcp_region: us-central1
 gcp_zone: us-central1-a
 gcp_vpc_subnet: 192.168.0.0/28
 gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618 #RHEL 8
+gcp_instance_username: ec2-user

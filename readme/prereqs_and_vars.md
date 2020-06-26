@@ -4,6 +4,7 @@ This document lists the software requirements needed to set up this demonstratio
 
 
 # Table Of Contents
+- [How to properly fork this demo for your own use](#how to fork)
 - [Software Requirements](#requirements)
 - [Variables](#variables)
   * [default-vars.yml](#default-variables)
@@ -14,6 +15,15 @@ This document lists the software requirements needed to set up this demonstratio
   * [snow_creds.yml](#servicenow-credentials)
   * [tower_creds.yml](#tower-credentials)
   * [vault_creds.yml](#hashicorp-vault-credentials)
+
+## How to Fork
+
+This demonstration is built with some credentials that have been encrypted - trying to run this repository directly will result in error. Although the instructions point to this repository directly, I suggest making a fork of this demonstration in order to change some of these values for your own purposes. Some of the values you should absolutely change:
+- All of the Credentials found in the [credentials directory](../credentials); these are covered in the later section [credentials](#credentials) on this very page.
+  - If you intend to host these credentials in a public repository, ansible-vault is strongly recommended to encrypt them, as has been done here. You can read instructions on how to encrypt your credentials [here](https://docs.ansible.com/ansible/latest/user_guide/vault.html#creating-encrypted-files), and you must add an Ansible-Vault credential to your Job Templates in Ansible Tower in order to decrypt them at runtime.
+- `approver_email`: Found in the default-vars.yml file, this is the email address that will receive a ServiceNow CR approval request. change this to an email address you own.
+- `gcp_instance_username`: Found in the default-vars.yml file, this is the initial username used to log into your Linux instances generated in GCP. As Ansible Tower generates the SSH Key pair that your instances will use, the username will be that of the Ansible Tower linux user that generates them.
+- `aws_instance_username`: Found in the default-vars.yml file, this is the initial username used to log into your Linux instances generated in AWS. This typically depends on what kind of Linux instance you provision. For RHEL8 (the Linux version this demonstration uses exclusively for the time being), this value is `ec2-user`.
 
 ## Requirements
 
@@ -34,12 +44,13 @@ The [default variables file](../vars/default-vars.yml) contains the basic variab
 - `working_dir`: Starting with Ansible Tower 3.6, Job and Workflow Templates are executed in a temporary directory. When running a Workflow Template, any artifact created in an individual Job Template will not persist by default. This is where the `working_dir` variable comes into play. `working_dir` defines a directory where artifacts are placed for the life of the workflow. It is important that this directory is made writable by Ansible Tower, and this can be done in the Ansible Tower settings:
 
 <img src="../images/tower_writable_paths.jpg" alt="Tower Job Path Settings"
-	title="Tower Job Path Settings" width="500" />
-<!-- ![Tower Job Path Settings](../images/tower_writable_paths.jpg) -->
+	title="Tower Job Path Settings" width="800" />
+
 - `cloud_provider`: Dictates which public cloud provider resources will be deployed in. Valid options are **aws** or **gcp**.
 - `num_instances`: The number of linux instances to deploy. This value will be overridden by the one specified in the Ansible Tower Workflow Template.
 - `application`: As this demo supports more applications, this variable will indicate which application was deployed. This value is used to mark newly created instances via AWS tags or GCP labels.
 - `from_snow`: This indicates whether or not the Workflow Template was called from ServiceNow, or Ansible Tower. When this value is `true`, a ServiceNow Change Request is created and modified/closed as the Workflow Template progresses.
+- `approver_email`: This is the email address that will receive a ServiceNow CR approval request. change this to an email address you own.
 
 ### AWS-specific variables (if `cloud_provider` is **aws**)
 - `ec2_region`: Dictates the AWS region in which all resources will be provisioned.
@@ -49,13 +60,15 @@ The [default variables file](../vars/default-vars.yml) contains the basic variab
 - `ec2_vpc_subnet`: The IP Subnet assigned to the AWS subnet that is created.
 - `ec2_vpc_cidr`: The IP Subnet assigned to the AWS VPC that is created.
 - `ec2_root_volume_size`: The size of the Elastic Block Store volumes tied to the linux instances created, in GB.
+- `aws_instance_username`: This is the initial username used to log into your Linux instances generated in AWS. This typically depends on what kind of Linux instance you provision. For RHEL8 (the Linux version this demonstration uses exclusively for the time being), this value is `ec2-user`.
 
 ### GCP-specific variables (if `cloud_provider` is **gcp**)
-`gcp_region`: Dictates the GCP region in which all resources will be provisioned.
-`gcp_zone`: Dictates the GCP zone in which all resources will be provisioned.
-`gcp_prefix`: The prefix that will appear in the names of all GCP resources (VPC, subnets, firewall, etc.) created in this demo.
-`gcp_disk_image`: The GCP image used to deploy linux. In the sample file, this is **RHEL 8**.
-`gcp_vpc_subnet`: The IP Subnet assigned to the GCP network that is created.
+- `gcp_region`: Dictates the GCP region in which all resources will be provisioned.
+- `gcp_zone`: Dictates the GCP zone in which all resources will be provisioned.
+- `gcp_prefix`: The prefix that will appear in the names of all GCP resources (VPC, subnets, firewall, etc.) created in this demo.
+- `gcp_disk_image`: The GCP image used to deploy linux. In the sample file, this is **RHEL 8**.
+- `gcp_vpc_subnet`: The IP Subnet assigned to the GCP network that is created.
+- `gcp_instance_username`: This is the initial username used to log into your Linux instances generated in GCP. As Ansible Tower generates the SSH Key pair that your instances will use, the username will be that of the Ansible Tower linux user that generates them.
 
 ### linux-users
 

@@ -53,7 +53,11 @@ Next, navigate to **Settings-->System** on the left side of the screen. You’ll
 <img src="images/tower_settings.png" alt="Tower Settings" title="Tower Settings" width="1000" />
 
 #### 4)
-The Orlando release of the ServiceNow developer instance does not seem to allow for the self-signed certificate provided by Ansible Tower. We need to equip our Tower instance with a certificate from a trusted Certificate Authority. The easiest way to accomplish this to run the Certbot ACME client in order to generate a certificate from LetsEncrypt (instructions can be found [here](https://letsencrypt.org/getting-started/)). It is important to place the contents of the certificate you generate, followed by the LetsEncrypt intermediate certificate (starting on a new line) at location Tower places its self-signed certificate, /etc/tower/tower.cert. The LetsEncrypt intermediate certificate can be found [here](https://letsencrypt.org/certificates/). Be sure to restart the nginx service on your Tower server after updating the certificate.
+The Orlando release of the ServiceNow developer instance does not seem to allow for the self-signed certificate provided by Ansible Tower. We need to equip our Tower instance with a certificate from a trusted Certificate Authority. The easiest way to accomplish this to SSH into Ansible Tower and run the Certbot ACME client in order to generate a certificate from LetsEncrypt (instructions can be found [here](https://letsencrypt.org/getting-started/)). It is important to place the contents of the certificate you generate, followed by the LetsEncrypt intermediate certificate (starting on a new line) at location Tower places its self-signed certificate, /etc/tower/tower.cert. The LetsEncrypt intermediate certificate can be found [here](https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt). Be sure to restart the nginx service on your Tower server after updating the certificate.
+
+An example pf the generated certificate with the intermediate certificate appended (what needs to be place in `/etc/tower/tower.cert`) is pictured below:
+
+<img src="images/tower_settings.png" alt="Tower Settings" title="Tower Settings" width="1000" />
 
 ### Preparing ServiceNow
 
