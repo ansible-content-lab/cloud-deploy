@@ -1,4 +1,4 @@
-# Preparing Ansible Tower Project, Inventory and Cloud Credentials
+# Preparing Ansible Tower Project, Inventory and Credentials
 
 Once Ansible Tower is deployed, you need to do some initial setup in order to ingest playbooks and cloud credentials and make them available for use.
 
@@ -105,7 +105,7 @@ Two notes:
 
 ## Cloud Provider Credentials
 
-Under Resources --> Projects, create a new set of credentials of the appropriate type. The example below, is for AWS programmatic keys, which you can generate in the AWS console:
+Under Resources --> Credentials, create a new set of credentials of the appropriate type. The example below, is for AWS programmatic keys, which you can generate in the AWS console:
 
 <img src="images/aws_credentials.jpg" alt="AWS Credentials"
 	title="AWS Credentials" width="800" />
@@ -135,6 +135,20 @@ In the case of GCP, you need not populate the **Service Account Email Address**,
 Of course, you must ensure that programmatic credentials you generate are for a user (or service account) that has permissions to create the cloud resources this demo generates.
 
 Lastly, Ansible Tower automatically encrypts any secrets. Ansible Tower users (with appropriate permissions) can use the credential without knowing its contents.
+
+## Ansible Vault Provider Credentials
+
+Under Resources --> Credentials, create a new set Ansible Vault Credentials so that your encrypted files can be accessed at runtime.
+
+<img src="images/ansible_vault.jpg" alt="Vault Credentials"
+	title="Vault Credentials" width="800" />
+
+| Parameter | Value |
+|-----|-----|
+| Name  | ansible-vault password  |
+|  Organization |  Default |
+|  Credential Type |  Vault |
+|  Vault Password |  The password you use to encrypt your repository credentials |
 
 ## Job Templates
 

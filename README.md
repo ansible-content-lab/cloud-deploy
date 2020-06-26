@@ -42,7 +42,7 @@ Let's walk through the Ansible playbooks and 3rd-party integration instructions 
 
 # Table Of Contents
 - [Demo Prerequisites and Required Variables](readme/prereqs_and_vars.md)
-- [Preparing Ansible Tower Project and Cloud Credentials](readme/tower_setup.md)
+- [Preparing Ansible Tower Project and Credentials](readme/tower_setup.md)
 - [Setting up the Ansible Tower Workflow](readme/tower_workflow.md)
 - [The Payoff: Deploying Your Cloud Workload](readme/workflow_kickoff.md)
 - [Bonus: Deploying Your Cloud Workload via ServiceNow](readme/snow_integration.md)
