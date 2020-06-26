@@ -4,7 +4,7 @@ This document lists the software requirements needed to set up this demonstratio
 
 
 # Table Of Contents
-- [How to properly fork this demo for your own use](#how to fork)
+- [How to properly fork this demo for your own use](#how_to_fork)
 - [Software Requirements](#requirements)
 - [Variables](#variables)
   * [default-vars.yml](#default-variables)
@@ -16,7 +16,7 @@ This document lists the software requirements needed to set up this demonstratio
   * [tower_creds.yml](#tower-credentials)
   * [vault_creds.yml](#hashicorp-vault-credentials)
 
-## How to Fork
+## How_to_Fork
 
 This demonstration is built with some credentials that have been encrypted - trying to run this repository directly will result in error. Although the instructions point to this repository directly, I suggest making a fork of this demonstration in order to change some of these values for your own purposes. Some of the values you should absolutely change:
 - All of the Credentials found in the [credentials directory](../credentials); these are covered in the later section [credentials](#credentials) on this very page.
