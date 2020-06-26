@@ -12,10 +12,15 @@ If you sign up for a ServiceNow Developer account, ServiceNow offers a free inst
 
 ## Dependencies:
 
+### Ansible Engine
+- ansible version >= 2.9
+
 ### Python libraries
 
 ```bash
 pip3 install pysnow
+pip3 install netaddr
+
 ```
 This python package must be installed in the Ansible Tower Python virtual environment that is used to run playbooks that communicate with ServiceNow.
 
