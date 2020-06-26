@@ -52,7 +52,7 @@ For the provisioner template, fill out the fields as follows:
   from_snow: no
   ```
 
-Starting this Workflow Template from Ansible Tower, requires three parameters, specified via survey, asking for the number of RHEL 8 instances the user wishes to deploy, how big they need to be, and which cloud provider to provision them into.
+Starting this Workflow Template from Ansible Tower requires three parameters, specified via survey, indicating the number of RHEL 8 instances the user wishes to deploy, how big they need to be, and which cloud provider to provision them into.
 
 The survey will look like this:
 
@@ -328,7 +328,7 @@ Finally, let's walk through the teardown Workflow Template:
   | Organization  | Default  |
   |  Inventory | Demo Inventory |
 
-Starting this Workflow Template from Ansible Tower, requires one parameter, specified via survey, asking which cloud provider to look into for the resources to tear down.
+Starting this Workflow Template from Ansible Tower requires one parameter, indicated via survey, asking which cloud provider to look into for the resources to tear down.
 
 The survey will look like this:
 
