@@ -18,7 +18,7 @@ This document lists the software requirements needed to set up this demonstratio
 
 ## How_to_Fork
 
-This demonstration is built with some credentials that have been encrypted - trying to run this repository directly will result in error. Although the instructions point to this repository directly, I suggest making a fork of this demonstration in order to change some of these values for your own purposes. Some of the values you should absolutely change:
+This demonstration is built with some credentials that have been encrypted - trying to run this repository directly will result in error. Although the instructions point to this repository directly, I suggest making a fork of this repository in order to change some of these values for your own purposes. Some of the values you should absolutely change:
 - All of the Credentials found in the [credentials directory](../credentials); these are covered in the later section [credentials](#credentials) on this very page.
   - If you intend to host these credentials in a public repository, ansible-vault is strongly recommended to encrypt them, as has been done here. You can read instructions on how to encrypt your credentials [here](https://docs.ansible.com/ansible/latest/user_guide/vault.html#creating-encrypted-files), and you must add an Ansible-Vault credential to your Job Templates in Ansible Tower in order to decrypt them at runtime.
 - `approver_email`: Found in the default-vars.yml file, this is the email address that will receive a ServiceNow CR approval request. change this to an email address you own.
