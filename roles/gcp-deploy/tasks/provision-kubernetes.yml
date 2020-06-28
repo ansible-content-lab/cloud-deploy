@@ -1,4 +1,5 @@
 ---
+
 - name: "Create GCP Kubernetes Cluster {{ gcp_prefix }}-cluster"
   gcp_container_cluster:
     name: "{{ gcp_prefix }}-cluster"
@@ -19,4 +20,14 @@
     initial_node_count: 3
     cluster: "{{ gcp_cluster }}"
     location: "{{ gcp_zone }}"
+    state: present
+
+- cmd: "gcloud container clusters get-credentials {{ gcp_prefix }}-cluster --zone {{ gcp_zone }} --project {{ lookup("env", "GCE_PROJECT") }}"
+  no_log: true
+
+- name: Create a k8s namespace
+  k8s:
+    name: testing
+    api_version: v1
+    kind: Namespace
     state: present
