@@ -12,3 +12,11 @@
     location: "{{ gcp_zone }}"
     state: present
   register: gcp_cluster
+
+- name: create a node pool
+  gcp_container_node_pool:
+    name: "{{ gcp_prefix }}-pool"
+    initial_node_count: 3
+    cluster: "{{ gcp_cluster }}"
+    location: "{{ gcp_zone }}"
+    state: present
