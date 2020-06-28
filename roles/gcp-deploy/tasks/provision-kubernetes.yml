@@ -1,0 +1,47 @@
+---
+- name: "Create GCP Kubernetes Cluster {{ gcp_prefix }}-cluster"
+  gcp_container_cluster:
+    name: "{{ gcp_prefix }}-cluster"
+    initial_node_count: 2
+    master_auth:
+      username: cluster_admin
+      password: my-secret-password
+    node_config:
+      machine_type: n1-standard-4
+      disk_size_gb: 50
+    location: "{{ gcp_zone }}"
+    state: present
+  register: gcp_cluster
+
+# - debug:
+#     var: gcp_vpc
+
+
+- name: "Create GCP Firewall for {{ gcp_prefix }}-vpc"
+  gcp_compute_firewall:
+    name: "{{ gcp_prefix }}-firewall"
+    network: "{{ gcp_vpc }}"
+    allowed:
+    - ip_protocol: icmp
+    - ip_protocol: tcp
+      ports:
+      - '22'
+      - '80'
+      - '443'
+      - '8200'
+      - '3306'
+    target_tags:
+    - appdeployment
+    - "{{ application }}"
+    state: present
+  register: gcp_firewall
+
+
+- name: "Create GCP Subnet for {{ gcp_prefix }}-vpc"
+  gcp_compute_subnetwork:
+    name: "{{ gcp_prefix }}-subnet"
+    region: "{{ gcp_region }}"
+    network: "{{ gcp_vpc }}"
+    ip_cidr_range: "{{ gcp_vpc_subnet }}"
+    state: present
+  register: gcp_subnet

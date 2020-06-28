@@ -1,0 +1,31 @@
+#How to install docker CE in RHEL8
+#https://linuxconfig.org/how-to-install-docker-in-rhel-8
+#Solves issue of containerd.io > 1.2.0-3.el7 dependency
+---
+- name: Provision Kubernetes Cluster on Cloud Provider
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+
+  tasks:
+
+    - name: Provision Kubernetes Cluster on GCP
+      block:
+
+        - name: Provision Kubernetes Cluster on GCP
+          include_role:
+            name: gcp-deploy
+            tasks_from: provision-kubernetes
+
+      when: cloud_provider == "gcp"
+
+    - name: Provision Kubernetes Cluster on AWS
+      block:
+
+        - name: Provision Kubernetes Cluster on AWS
+          include_role:
+            name: aws-deploy
+            tasks_from: provision-kubernetes
+
+      when: cloud_provider == "aws"
