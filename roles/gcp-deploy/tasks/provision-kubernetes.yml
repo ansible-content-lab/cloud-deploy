@@ -5,7 +5,7 @@
     initial_node_count: 3
     master_auth:
       username: admin
-      password: @gwC3aS25ztYsN9U*Y8
+      password: gwC3aS25ztYsN9U*Y8
     node_config:
       machine_type: n1-standard-1
       disk_size_gb: 100
