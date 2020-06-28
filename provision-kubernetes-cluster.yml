@@ -18,7 +18,9 @@
             name: gcp-deploy
             tasks_from: provision-kubernetes
 
-      when: cloud_provider == "gcp"
+      when:
+        - cloud_provider is defined
+        - cloud_provider == "gcp"
 
     - name: Provision Kubernetes Cluster on AWS
       block:
@@ -28,4 +30,6 @@
             name: aws-deploy
             tasks_from: provision-kubernetes
 
-      when: cloud_provider == "aws"
+      when:
+        - cloud_provider is defined
+        - cloud_provider == "aws"
