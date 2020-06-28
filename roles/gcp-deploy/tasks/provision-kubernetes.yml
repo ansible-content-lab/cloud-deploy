@@ -2,13 +2,13 @@
 - name: "Create GCP Kubernetes Cluster {{ gcp_prefix }}-cluster"
   gcp_container_cluster:
     name: "{{ gcp_prefix }}-cluster"
-    initial_node_count: 2
+    initial_node_count: 3
     master_auth:
       username: cluster_admin
       password: my-secret-password
     node_config:
       machine_type: n1-standard-1
-      disk_size_gb: 50
+      disk_size_gb: 100
     location: "{{ gcp_zone }}"
     state: present
   register: gcp_cluster
