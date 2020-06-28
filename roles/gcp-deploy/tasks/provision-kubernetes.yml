@@ -2,7 +2,7 @@
 - name: "Create GCP Kubernetes Cluster {{ gcp_prefix }}-cluster"
   gcp_container_cluster:
     name: "{{ gcp_prefix }}-cluster"
-    # initial_node_count: 3
+    initial_node_count: 3
     master_auth:
       username: admin
       password: gwC3aS25ztYsN9U*Y8
