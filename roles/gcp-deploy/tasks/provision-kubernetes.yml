@@ -26,7 +26,7 @@
     gcp_project: {{ lookup("env", "GCE_PROJECT") }}
   no_log: true
 
-- command: "gcloud container clusters get-credentials {{ gcp_prefix }}-cluster --zone {{ gcp_zone }} --project {{ gcp_project }}"
+- command: gcloud container clusters get-credentials {{ gcp_prefix }}-cluster --zone {{ gcp_zone }} --project {{ gcp_project }}
   no_log: true
 
 - name: Create a k8s namespace
