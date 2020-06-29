@@ -50,17 +50,17 @@
 #     # client_cert: "{{ working_dir }}/gcp_cert.crt"
 #     state: present
 
-- name: Create an nginx Pod
-  k8s:
-    host: "{{ gcp_cluster.endpoint }}"
-    kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        name: web
-      spec:
-        containers:
-          - name: nginx-container
-            image: nginx
+# - name: Create an nginx Pod
+#   k8s:
+#     host: "{{ gcp_cluster.endpoint }}"
+#     kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
+#     state: present
+#     definition:
+#       apiVersion: v1
+#       kind: Pod
+#       metadata:
+#         name: web
+#       spec:
+#         containers:
+#           - name: nginx-container
+#             image: nginx

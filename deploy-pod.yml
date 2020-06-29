@@ -1,0 +1,22 @@
+---
+- name: deploy nginx pod
+  hosts: 
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+
+  tasks:
+
+    - name: Create an nginx Pod
+      k8s:
+        kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: web
+          spec:
+            containers:
+              - name: nginx-container
+                image: nginx
