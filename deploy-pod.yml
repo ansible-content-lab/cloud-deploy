@@ -1,6 +1,6 @@
 ---
 - name: deploy nginx pod
-  hosts: 
+  hosts: k8s_master
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
