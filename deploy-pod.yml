@@ -17,6 +17,7 @@
           kind: Pod
           metadata:
             name: web
+            namespace: default
           spec:
             containers:
               - name: nginx-container
