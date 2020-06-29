@@ -7,8 +7,8 @@
     master_auth:
       client_certificate_config:
         issue_client_certificate: yes
-      # username: admin
-      # password: gwC3aS25ztYsN9U*Y8
+      username: admin
+      password: gwC3aS25ztYsN9U*Y8
     kubectl_path: "{{ working_dir }}/{{gcp_prefix}}-config"
     node_config:
       machine_type: n1-standard-1
