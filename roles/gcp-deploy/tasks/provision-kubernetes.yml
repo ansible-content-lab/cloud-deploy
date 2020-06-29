@@ -9,6 +9,7 @@
         issue_client_certificate: yes
       # username: admin
       # password: gwC3aS25ztYsN9U*Y8
+    kubectl_path: "{{ working_dir }}/{{gcp_prefix}}-config"
     node_config:
       machine_type: n1-standard-1
       disk_size_gb: 100
@@ -44,5 +45,7 @@
     api_version: v1
     kind: Namespace
     host: "{{ gcp_cluster.endpoint }}"
-    client_cert: "{{ working_dir }}/gcp_cert.crt"
+    kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
+    # context: "{{ gcp_cluster.kubectl_context }}"
+    # client_cert: "{{ working_dir }}/gcp_cert.crt"
     state: present
