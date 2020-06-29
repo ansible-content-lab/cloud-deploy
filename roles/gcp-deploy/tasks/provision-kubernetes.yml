@@ -39,13 +39,28 @@
 # - command: gcloud container clusters get-credentials {{ gcp_prefix }}-cluster --zone {{ gcp_zone }} --project {{ gcp_project }}
 #   no_log: true
 
-- name: Create a k8s namespace
+# - name: Create a k8s namespace
+#   k8s:
+#     name: testing
+#     api_version: v1
+#     kind: Namespace
+#     host: "{{ gcp_cluster.endpoint }}"
+#     kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
+#     # context: "{{ gcp_cluster.kubectl_context }}"
+#     # client_cert: "{{ working_dir }}/gcp_cert.crt"
+#     state: present
+
+- name: Create an nginx Pod
   k8s:
-    name: testing
-    api_version: v1
-    kind: Namespace
     host: "{{ gcp_cluster.endpoint }}"
     kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
-    # context: "{{ gcp_cluster.kubectl_context }}"
-    # client_cert: "{{ working_dir }}/gcp_cert.crt"
     state: present
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: web
+      spec:
+        containers:
+          - name: nginx-container
+            image: nginx
