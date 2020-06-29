@@ -1,6 +1,6 @@
 ---
 - name: deploy nginx pod
-  hosts: k8s_master
+  hosts: localhost
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
@@ -9,6 +9,7 @@
 
     - name: Create an nginx Pod
       k8s:
+        host: https://34.72.243.94
         kubeconfig: "{{ working_dir }}/{{gcp_prefix}}-config"
         state: present
         definition:
