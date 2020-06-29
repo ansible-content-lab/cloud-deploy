@@ -5,8 +5,10 @@
     name: "{{ gcp_prefix }}-cluster"
     initial_node_count: 3
     master_auth:
-      username: admin
-      password: gwC3aS25ztYsN9U*Y8
+      client_certificate_config:
+        issue_client_certificate: yes
+      # username: admin
+      # password: gwC3aS25ztYsN9U*Y8
     node_config:
       machine_type: n1-standard-1
       disk_size_gb: 100
@@ -22,16 +24,25 @@
     location: "{{ gcp_zone }}"
     state: present
 
-- set_fact:
-    gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
-  no_log: true
+- debug:
+    var: gcp_cluster
 
-- command: gcloud container clusters get-credentials {{ gcp_prefix }}-cluster --zone {{ gcp_zone }} --project {{ gcp_project }}
-  no_log: true
+- copy:
+    content: "{{ gcp_cluster.masterAuth.clientCertificate | b64decode }}"
+    dest: "{{ working_dir }}/gcp_cert.crt"
+
+# - set_fact:
+#     gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
+#   no_log: true
+#
+# - command: gcloud container clusters get-credentials {{ gcp_prefix }}-cluster --zone {{ gcp_zone }} --project {{ gcp_project }}
+#   no_log: true
 
 - name: Create a k8s namespace
   k8s:
     name: testing
     api_version: v1
     kind: Namespace
+    host: "{{ gcp_cluster.endpoint }}"
+    client_cert: "{{ working_dir }}/gcp_cert.crt"
     state: present
