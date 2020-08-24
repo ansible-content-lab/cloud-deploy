@@ -296,7 +296,7 @@ gcp_vpc_subnet: 192.168.0.0/28
 |-----|-----|
 | Name  | Initialize Linux Instances  |
 |  Job Type |  Run |
-|  Inventory |  Demo Inventory |
+|  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |
 |  Playbook |  `initialize-instances.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
