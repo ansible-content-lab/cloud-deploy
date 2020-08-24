@@ -267,7 +267,7 @@ gcp_vpc_subnet: 192.168.0.0/28
 |-----|-----|
 | Name  | Install Docker Engine on Linux Instances  |
 |  Job Type |  Run |
-|  Inventory |  Demo Inventory |
+|  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |
 |  Playbook |  `install-docker-engine.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
@@ -281,7 +281,7 @@ gcp_vpc_subnet: 192.168.0.0/28
 |-----|-----|
 | Name  | Install/configure secrets engine  |
 |  Job Type |  Run |
-|  Inventory |  Demo Inventory |
+|  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |
 |  Playbook |  `run-vault.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
@@ -313,7 +313,7 @@ gcp_vpc_subnet: 192.168.0.0/28
 |-----|-----|
 | Name  | Provision RHEL8 on Linux Instances  |
 |  Job Type |  Run |
-|  Inventory |  Demo Inventory |
+|  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |
 |  Playbook |  `provision_rhel8.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
@@ -326,7 +326,7 @@ gcp_vpc_subnet: 192.168.0.0/28
 |-----|-----|
 | Name  | Add RHEL8 users to Cloud Instances  |
 |  Job Type |  Run |
-|  Inventory |  Demo Inventory |
+|  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |
 |  Playbook |  `add-rhel8-users.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
