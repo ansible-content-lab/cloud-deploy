@@ -16,3 +16,11 @@
     dest: /var/www/html/index.html
   become: yes
   notify: restart_apache
+
+- name: update directory permissions
+  file`:
+    path: /var/www/html
+    recurse: yes
+    mode: '0755'
+  become: yes
+  notify: restart_apache
