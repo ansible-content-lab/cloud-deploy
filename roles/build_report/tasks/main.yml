@@ -20,6 +20,7 @@
 - name: update directory permissions
   file:
     path: /var/www/html
+    state: directory
     recurse: yes
     mode: '0755'
   become: yes
