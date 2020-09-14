@@ -9,12 +9,12 @@
       - insights-client
     become: yes
 
-  - name: upgrade all packages
-    yum:
-      name: '*'
-      state: latest
-      disablerepo: rhel-7-server-htb-rpms
-    become: yes
+  # - name: upgrade all packages
+  #   yum:
+  #     name: '*'
+  #     state: latest
+  #     disablerepo: rhel-7-server-htb-rpms
+  #   become: yes
 
   - name: Install Apache
     yum:
