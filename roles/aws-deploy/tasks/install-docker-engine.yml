@@ -86,7 +86,7 @@
     vars:
       packages:
         - docker-ce
-        # - docker-ce-cli
+        - docker-ce-cli
 
   # - name: Enable service firewalld
   #   service:
