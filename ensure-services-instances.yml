@@ -1,0 +1,29 @@
+---
+- name: Initialize Instances
+  hosts: all
+  gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
+    - ./credentials/redhat-activation-key.yml
+
+  tasks:
+
+  - name: Initialize GCP Instances
+    block:
+
+      - name: Set up Linux Instances on GCP
+        include_role:
+          name: gcp-deploy
+          tasks_from: linux-initialize
+
+    when: cloud_provider == "gcp"
+
+  - name: Initialize AWS Instances
+    block:
+
+      - name: Set up Linux Instances on AWS
+        include_role:
+          name: aws-deploy
+          tasks_from: linux-initialize
+
+    when: cloud_provider == "aws"
