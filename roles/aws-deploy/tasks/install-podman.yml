@@ -15,6 +15,24 @@
       state: absent
     become: yes
 
+  - name: Remove docker if installed from CentOS repo
+    yum:
+      name: "{{ packages }}"
+      state: removed
+    become: yes
+    vars:
+      packages:
+        - docker
+        - docker-client
+        - docker-client-latest
+        - docker-common
+        - docker-latest
+        - docker-latest-logrotate
+        - docker-logrotate
+        - docker-engine
+        - docker-ce
+        - docker-ce-cli
+
   - name: install the 'Container tools' package group
     yum:
       name: "@container-tools"
