@@ -16,9 +16,9 @@
     become: yes
 
   - name: install the 'Container tools' package group
-  yum:
-    name: "container-tools"
-    state: present
+    yum:
+      name: "@container-tools"
+      state: present
 
   # - name: Add Docker repo
   #   get_url:
