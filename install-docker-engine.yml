@@ -27,7 +27,7 @@
         - name: Install Docker Engine on AWS
           include_role:
             name: aws-deploy
-            tasks_from: install-docker-engine
+            tasks_from: install-podman
 
       when: cloud_provider == "aws"
     # - block:
