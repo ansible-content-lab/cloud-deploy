@@ -33,6 +33,12 @@
         - docker-ce
         - docker-ce-cli
 
+  - name: Uninstall the latest available containerd.io package manually
+    yum:
+      name: containerd.io-1.2.6-3.3.el7.x86_64
+      state: removed
+    become: yes
+
   - name: install the 'Container tools' package group
     yum:
       name: "@container-tools"
