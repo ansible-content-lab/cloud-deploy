@@ -24,6 +24,6 @@
         - name: Set up secrets engine on  AWS
           include_role:
             name: aws-deploy
-            tasks_from: install-vault
+            tasks_from: install-vault-podman
 
       when: cloud_provider == "aws"
