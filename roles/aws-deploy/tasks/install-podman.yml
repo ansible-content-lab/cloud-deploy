@@ -1,0 +1,128 @@
+#How to install docker CE in RHEL8
+#https://linuxconfig.org/how-to-install-docker-in-rhel-8
+#Solves issue of containerd.io > 1.2.0-3.el7 dependency
+---
+- block:
+  - name: Remove docker directory
+    file:
+      path: /var/lib/docker/
+      state: absent
+    become: yes
+
+  - name: Remove existing Docker repositories from /etc/yum.repos.d/
+    file:
+      path: /etc/yum.repos.d/docker*.repo
+      state: absent
+    become: yes
+
+  - name: install the 'Container tools' package group
+  yum:
+    name: "container-tools"
+    state: present
+
+  # - name: Add Docker repo
+  #   get_url:
+  #     url: https://download.docker.com/linux/centos/docker-ce.repo
+  #     dest: /etc/yum.repos.d/docer-ce.repo
+  #   become: yes
+  #
+  # - name: Enable Docker Edge repo
+  #   ini_file:
+  #     dest: /etc/yum.repos.d/docer-ce.repo
+  #     section: 'docker-ce-edge'
+  #     option: enabled
+  #     value: '0'
+  #   become: yes
+  #
+  # - name: Enable Docker Test repo
+  #   ini_file:
+  #     dest: /etc/yum.repos.d/docer-ce.repo
+  #     section: 'docker-ce-test'
+  #     option: enabled
+  #     value: '0'
+  #   become: yes
+
+  # - name: Remove docker if installed from CentOS repo
+  #   yum:
+  #     name: "{{ packages }}"
+  #     state: removed
+  #   become: yes
+  #   vars:
+  #     packages:
+  #       - docker
+  #       - docker-client
+  #       - docker-client-latest
+  #       - docker-common
+  #       - docker-latest
+  #       - docker-latest-logrotate
+  #       - docker-logrotate
+  #       - docker-engine
+  #       - docker-ce
+  #       - docker-ce-cli
+  #
+  # # - name: Uninstall the latest available containerd.io package manually
+  # #   yum:
+  # #     name: containerd.io-1.2.6-3.3.el7.x86_64
+  # #     state: removed
+  # #   become: yes
+  # #
+  # # - name: Install the latest available containerd.io package manually
+  # #   yum:
+  # #     name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+  # #     state: present
+  # #   become: yes
+  # #
+  # # - name: Install Docker
+  # #   yum:
+  # #     name: "{{ packages }}"
+  # #     state: latest
+  # #   become: yes
+  # #   vars:
+  # #     packages:
+  # #       # - docker-ce-3:18.09.1-3.el7
+  # #       - docker-ce
+  # #       - docker-ce-cli
+  #
+  # - name: Install podman-docker
+  #   yum:
+  #     name: "{{ packages }}"
+  #     state: latest
+  #   become: yes
+  #   vars:
+  #     packages:
+  #       # - docker-ce-3:18.09.1-3.el7
+  #       - podman-docker
+  #
+  # # - name: Enable service firewalld
+  # #   service:
+  # #     name: firewalld
+  # #     enabled: no
+  # #     state: stopped
+  #
+  # - name: Start Docker service
+  #   service:
+  #     name: docker
+  #     state: restarted
+  #     enabled: yes
+  #   become: yes
+  #
+  # - name: Create docker group
+  #   group:
+  #     name: docker
+  #     state: present
+  #
+  # - name: Add ec2-user to docker group
+  #   user:
+  #     name: ec2-user
+  #     append: yes
+  #     groups: docker
+  #   become: yes
+  #
+  # - name: restart docker instance
+  #   reboot:
+  #     msg: "Reboot initiated by Ansible"
+  #   become: yes
+  #
+  # - debug:
+  #     msg: "Reboot completed successfully"
+  when: tags.group == "webserver"
