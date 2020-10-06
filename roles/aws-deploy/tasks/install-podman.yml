@@ -45,6 +45,11 @@
       state: present
     become: yes
 
+  - name: install the podman-docker package group
+    yum:
+      name: podman-docker
+      state: present
+    become: yes
   # - name: Add Docker repo
   #   get_url:
   #     url: https://download.docker.com/linux/centos/docker-ce.repo
