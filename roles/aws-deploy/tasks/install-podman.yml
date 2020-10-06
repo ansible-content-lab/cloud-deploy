@@ -19,6 +19,7 @@
     yum:
       name: "@container-tools"
       state: present
+    become: yes
 
   # - name: Add Docker repo
   #   get_url:
