@@ -27,7 +27,7 @@
 - name: Update Ansible Tower Cloud SSH Credential
   tower_credential:
     name: Cloud Demo Instances Key
-    organization: Default
+    organization: "Cloud Organization"
     tower_host: "{{ tower_url }}"
     tower_username: "{{ tower_user }}"
     tower_password: "{{ tower_pass }}"
