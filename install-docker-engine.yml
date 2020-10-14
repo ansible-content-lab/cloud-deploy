@@ -11,20 +11,20 @@
 
   tasks:
 
-    - name: Install Docker Engine on GCP
+    - name: Install Container Engine on GCP
       block:
 
-        - name: Install Docker Engine on GCP
+        - name: Install Container Engine on GCP
           include_role:
             name: gcp-deploy
-            tasks_from: install-docker-engine
+            tasks_from: install-podman
 
       when: cloud_provider == "gcp"
 
-    - name: Install Docker Engine on AWS
+    - name: Install Container Engine on AWS
       block:
 
-        - name: Install Docker Engine on AWS
+        - name: Install Container Engine on AWS
           include_role:
             name: aws-deploy
             tasks_from: install-podman
