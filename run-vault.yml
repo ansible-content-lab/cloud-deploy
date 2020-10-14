@@ -14,7 +14,7 @@
         - name: Set up secrets engine on GCP
           include_role:
             name: gcp-deploy
-            tasks_from: install-vault
+            tasks_from: install-vault-podman
 
       when: cloud_provider == "gcp"
 
