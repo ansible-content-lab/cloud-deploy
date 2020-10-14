@@ -45,12 +45,6 @@
       state: present
     become: yes
 
-  - name: install pyyaml
-    yum:
-      name: pyyaml
-      state: present
-    become: yes
-
   - name: install the podman-docker package group
     yum:
       name: podman-docker
