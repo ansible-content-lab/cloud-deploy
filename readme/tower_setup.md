@@ -259,13 +259,13 @@ gcp_vpc_subnet: 192.168.0.0/28
 |  Playbook |  `teardown_servers_tower.yml` |
 |  Credential |  `AWS Programmatic Key`, `GCP Programmatic Key` |
 
-### Install Docker Engine on Linux Instances
+### Install Container Engine on Linux Instances
 
-**Description:** Installs Docker Engine on the additional Linux instance deployed.
+**Description:** Installs Container Engine on the additional Linux instance deployed.
 
 | Parameter | Value |
 |-----|-----|
-| Name  | Install Docker Engine on Linux Instances  |
+| Name  | Install Container Engine on Linux Instances  |
 |  Job Type |  Run |
 |  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |

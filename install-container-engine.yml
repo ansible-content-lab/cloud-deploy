@@ -2,7 +2,7 @@
 #https://linuxconfig.org/how-to-install-docker-in-rhel-8
 #Solves issue of containerd.io > 1.2.0-3.el7 dependency
 ---
-- name: Ensure Docker Engine is installed on webserver
+- name: Ensure Container Engine is installed on webserver
   hosts: all
   gather_facts: no
   vars_files:
