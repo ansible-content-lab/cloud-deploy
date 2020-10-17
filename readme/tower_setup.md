@@ -269,7 +269,7 @@ gcp_vpc_subnet: 192.168.0.0/28
 |  Job Type |  Run |
 |  Inventory |  Cloud Application Servers |
 |  Project |  Deploy Cloud Applications |
-|  Playbook |  `install-docker-engine.yml` |
+|  Playbook |  `install-container-engine.yml` |
 |  Credential |  `ansible-vault password`, `Cloud Demo Instances Key` |
 
 
