@@ -217,12 +217,12 @@ close_notes: 'Canceled by Ansible: Problem when trying to provision network reso
   <img src="images/provision_workflow_end.png" alt="Tower Project"
   	title="Tower Project" width="800" />
 
-## 11) Install Docker Engine on Linux Instances
+## 11) Install Container Engine on Linux Instances
 
 | Parameter | Value |
 |-----|-----|
 | Node Type  | Template  |
-|  Template Name |  Install Docker Engine on Linux Instances |
+|  Template Name |  Install Container Engine on Linux Instances |
 |  Run |  On Success |
 |  Convergence |  Any |
 
