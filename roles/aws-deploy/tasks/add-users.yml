@@ -84,7 +84,7 @@
     - --conf.password
     - "{{ tower_pass }}"
     - --inputs
-    - '{"url": http://"{{ vault_hostname }}":8200, "token": "{{ vault_root_token }}", "api_version": "v1"}'
+    - '{"url": "http://{{ vault_hostname }}:8200", "token": "{{ vault_root_token }}", "api_version": "v1"}'
 
 - block:
   #Create users and force them to change password upon first login
