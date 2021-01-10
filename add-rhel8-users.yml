@@ -10,6 +10,7 @@
     - ./vars/linux_users.yml
     - ./vars/default-vars.yml
     - ./credentials/vault_creds.yml
+    - ./credentials/tower_creds.yml
 
   tasks:
 
