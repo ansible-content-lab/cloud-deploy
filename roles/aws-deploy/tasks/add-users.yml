@@ -56,35 +56,35 @@
   delegate_to: localhost
   run_once: yes
 
-# ansible-tower-cli add hashicorp secrets engine command
-# NOTES:
-# - credential_type for hashicorp_kv is 21
-# - --inputs must include hashicorp vaule url, root login token, and api version
-# Example command
-#$ awx credential create --organization 2 --name test_hashicorp |
-# --credential_type 21  --conf.host https://ansibletower.mford.io |
-# --conf.username admin --conf.password gcW6v69ohp |
-# --inputs '{"url": "http://54.234.120.253:8200", "token": "ansible", "api_version": "v1"}'
-- name: Create Ansible Tower Secrets Engine Credential
-  command:
-    argv:
-    - awx
-    - credential
-    - create
-    - --name
-    - "Cloud Demo Secrets Engine"
-    - --organization
-    - "2"
-    - credential_type
-    - "21"
-    - --conf.host
-    - "{{ tower_url }}"
-    - --conf_username
-    - "{{ tower_user }}"
-    - --conf.password
-    - "{{ tower_pass }}"
-    - --inputs
-    - '{"url": "http://{{ vault_hostname }}:8200", "token": "{{ vault_root_token }}", "api_version": "v1"}'
+# # ansible-tower-cli add hashicorp secrets engine command
+# # NOTES:
+# # - credential_type for hashicorp_kv is 21
+# # - --inputs must include hashicorp vaule url, root login token, and api version
+# # Example command
+# #$ awx credential create --organization 2 --name test_hashicorp |
+# # --credential_type 21  --conf.host https://ansibletower.mford.io |
+# # --conf.username admin --conf.password gcW6v69ohp |
+# # --inputs '{"url": "http://54.234.120.253:8200", "token": "ansible", "api_version": "v1"}'
+# - name: Create Ansible Tower Secrets Engine Credential
+#   command:
+#     argv:
+#     - awx
+#     - credential
+#     - create
+#     - --name
+#     - "Cloud Demo Secrets Engine"
+#     - --organization
+#     - "2"
+#     - credential_type
+#     - "21"
+#     - --conf.host
+#     - "{{ tower_url }}"
+#     - --conf_username
+#     - "{{ tower_user }}"
+#     - --conf.password
+#     - "{{ tower_pass }}"
+#     - --inputs
+#     - '{"url": "http://{{ vault_hostname }}:8200", "token": "{{ vault_root_token }}", "api_version": "v1"}'
 
 - block:
   #Create users and force them to change password upon first login
