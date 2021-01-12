@@ -1,0 +1,82 @@
+---
+- name: Provision Cloud infrastructure via Terraform
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - name: Provision GCP infrastructure via Terraform
+      block:
+
+        - name: Initialize Terraform
+          command:
+            cmd: terraform init
+            chdir: ./terraform/cloud-deploy/gcp_deploy
+
+        - name: Provision GCP infrastructure via Terraform
+          terraform:
+            project_path: ./terraform/cloud-deploy/gcp_deploy
+            state: present
+            # force_init: yes
+            variables:
+              num_instances: 5
+              gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618
+              machine_type: f1-micro
+          register: terraform_output
+
+        - name: Debug Terraform output
+          debug:
+            var: terraform_output
+          tags:
+            - debug
+
+      when: cloud_provider == "gcp"
+
+    - name: Provision Resources on AWS
+      block:
+
+        - name: Initialize Terraform
+          command:
+            cmd: terraform init
+            chdir: ./terraform/cloud-deploy/aws_deploy
+
+        - name: Provision AWS infrastructure via Terraform
+          terraform:
+            project_path: ./terraform/cloud-deploy/aws_deploy
+            state: present
+            # force_init: yes
+            variables:
+              num_instances: 5
+              ec2_image_id: ami-098f16afa9edf40be
+              machine_type: t2.micro
+          register: terraform_output
+
+        - name: Debug Terraform output
+          debug:
+            var: terraform_output
+          tags:
+            - debug
+
+      when: cloud_provider == "aws"
+
+    # - name: Initialize Terraform
+    #   command:
+    #     cmd: terraform init
+    #     chdir: ./terraform/cloud-deploy/gcp_deploy
+    #
+    # - name: Provision AWS Instances/Resources via Terraform
+    #   terraform:
+    #     project_path: ./terraform/cloud-deploy/gcp_deploy
+    #     state: present
+    #     # force_init: yes
+    #     variables:
+    #       num_instances: 5
+    #       ec2_image_id: ami-098f16afa9edf40be
+    #       machine_type: t2.micro
+    #   register: terraform_output
+    #
+    # - name: Debug Terraform output
+    #   debug:
+    #     var: terraform_output
+    #   tags:
+    #     - debug

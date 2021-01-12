@@ -1,0 +1,40 @@
+---
+- name: Teardown AWS infrastructure via Terraform
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - name: Teardown GCP infrastructure via Terraform
+      block:
+
+        - name: Teardown GCP infrastructure via Terraform
+          terraform:
+            project_path: ./terraform/cloud-deploy/gcp_deploy
+            state: absent
+          register: terraform_output
+
+        - name: Debug Terraform output
+          debug:
+            var: terraform_output
+          tags:
+            - debug
+
+      when: cloud_provider == "gcp"
+
+    - name: Teardown AWS infrastructure via Terraform
+      block:
+
+        - name: Teardown AWS infrastructure via Terraform
+          terraform:
+            project_path: ./terraform/cloud-deploy/aws_deploy
+            state: absent
+          register: terraform_output
+
+        - name: Debug Terraform output
+          debug:
+            var: terraform_output
+          tags:
+            - debug
+
+      when: cloud_provider == "aws"
