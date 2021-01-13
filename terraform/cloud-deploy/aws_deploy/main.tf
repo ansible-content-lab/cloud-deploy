@@ -138,12 +138,12 @@ resource "aws_instance" "example" {
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
   tags = {
-    Name  = "mford-linux-instance-${count.index + 1}"
+    Name = "mford-linux-instance-${count.index + 1}"
     provisioner = "mford"
-    application "apache"
+    application = "apache"
     demo = "appdeployment"
     group = "rhel"
-    ec2_prefix + "mford-linux"
+    ec2_prefix = "mford-linux"
     cloud_provider = "aws"
   }
 }
@@ -157,7 +157,6 @@ resource "aws_instance" "secret_engine" {
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
   tags = {
-    Name  = "mford-linux-instance-${count.index + 1}"
     provisioner = "mford"
     application = "apache"
     Name = "secret-engine-server"
