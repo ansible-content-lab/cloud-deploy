@@ -16,7 +16,8 @@
         - name: Teardown GCP infrastructure via Terraform
           terraform:
             project_path: /tmp/gcp_deploy
-            gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
+            variables:
+              gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
             state: absent
           register: terraform_output
           when: gcp_deploy_directory.exists
