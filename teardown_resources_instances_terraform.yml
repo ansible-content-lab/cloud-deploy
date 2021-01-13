@@ -20,7 +20,7 @@
               gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
             state: absent
           register: terraform_output
-          when: gcp_deploy_directory.exists and gcp_deploy_directory.isdir
+          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
         - name: Debug Terraform output
           debug:
