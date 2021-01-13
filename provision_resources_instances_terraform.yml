@@ -27,10 +27,12 @@
 
         - name: create a service account key
           gcp_iam_service_account_key:
+            service_account: "{{ serviceaccount }}"
             private_key_type: TYPE_GOOGLE_CREDENTIALS_FILE
             path: "/tmp/google_svc_acct_key.json"
             auth_kind: serviceaccount
             service_account_file: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
+            project: '{{ lookup("env", "GCE_PROJECT") }}'
             state: present
           register: gcp_key_path
 
