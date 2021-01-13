@@ -25,6 +25,9 @@
             machine_type: n1-standard-2
           when: instance_size == "large"
 
+        - debug:
+            msg: '{{ lookup("env", "GCE_PEM_FILE_PATH") }}'
+
         - name: create a service account key
           gcp_iam_service_account_key:
             private_key_type: TYPE_GOOGLE_CREDENTIALS_FILE
