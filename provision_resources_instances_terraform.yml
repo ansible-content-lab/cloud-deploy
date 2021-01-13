@@ -26,7 +26,7 @@
           when: instance_size == "large"
 
         - debug:
-            msg: '{{ lookup("env", "GCE_PEM_FILE_PATH") }}'
+            msg: '{{ lookup("env", "GCE_PROJECT") }}'
 
         - name: create a service account key
           gcp_iam_service_account_key:
