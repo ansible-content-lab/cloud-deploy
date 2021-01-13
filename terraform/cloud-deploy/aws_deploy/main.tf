@@ -151,7 +151,7 @@ resource "aws_instance" "example" {
 resource "aws_instance" "secret_engine" {
   count         = 1
   ami           = var.ec2_image_id
-  instance_type = t2.medium
+  instance_type = "t2.medium"
   key_name      = aws_key_pair.mford-linux-key.key_name
   subnet_id     = aws_subnet.mford-linux-subnet.id
   associate_public_ip_address = "true"
