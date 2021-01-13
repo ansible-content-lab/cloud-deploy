@@ -1,6 +1,6 @@
 provider "google" {
   region     = "us-central1"
-  project    = "eloquent-theme-264620"
+  project    = "var.gcp_project"
   credentials = var.gcp_key
 }
 

@@ -21,12 +21,18 @@
             state: absent
           register: terraform_output
           when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
+          no_log: true
 
         - name: Debug Terraform output
           debug:
             var: terraform_output
-          tags:
-            - debug
+          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
+
+        - name: delete terraform directory
+          file:
+            path: /tmp/gcp_deploy
+            state: absent
+          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
       when: cloud_provider == "gcp"
 
@@ -40,15 +46,23 @@
 
         - name: Teardown AWS infrastructure via Terraform
           terraform:
+            access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
+            secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
             project_path: /tmp/aws_deploy
             state: absent
           register: terraform_output
-          when: aws_deploy_directory.exists
+          when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
+          no_log: true
 
         - name: Debug Terraform output
           debug:
             var: terraform_output
-          tags:
-            - debug
+          when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
+
+        - name: delete terraform directory
+          file:
+            path: /tmp/aws_deploy
+            state: absent
+          when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
 
       when: cloud_provider == "aws"

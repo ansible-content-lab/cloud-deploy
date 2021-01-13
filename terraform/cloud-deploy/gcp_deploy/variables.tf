@@ -21,3 +21,9 @@ variable "gcp_key" {
   type        = string
   default     = "xxxx"
 }
+
+variable "gcp_project" {
+  description = "The name of the GCP project that this script will operate on"
+  type        = string
+  default     = "xxxx"
+}

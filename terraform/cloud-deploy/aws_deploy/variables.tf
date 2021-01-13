@@ -15,3 +15,15 @@ variable "machine_type" {
   type        = string
   default     = "xxxx"
 }
+
+variable "access_key" {
+  description = "The access key associates with the AWS account"
+  type        = string
+  default     = "xxxx"
+}
+
+variable "secret_key" {
+  description = "The secret key associated with the AWS account"
+  type        = string
+  default     = "xxxx"
+}
