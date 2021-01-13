@@ -137,11 +137,34 @@ resource "aws_instance" "example" {
   subnet_id     = aws_subnet.mford-linux-subnet.id
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
-
-
   tags = {
     Name  = "mford-linux-instance-${count.index + 1}"
-    demo  = "appdeployment"
+    provisioner = "mford"
+    application "apache"
+    demo = "appdeployment"
+    group = "rhel"
+    ec2_prefix + "mford-linux"
+    cloud_provider = "aws"
+  }
+}
+
+resource "aws_instance" "secret_engine" {
+  count         = 1
+  ami           = var.ec2_image_id
+  instance_type = t2.medium
+  key_name      = aws_key_pair.mford-linux-key.key_name
+  subnet_id     = aws_subnet.mford-linux-subnet.id
+  associate_public_ip_address = "true"
+  vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
+  tags = {
+    Name  = "mford-linux-instance-${count.index + 1}"
+    provisioner = "mford"
+    application = "apache"
+    Name = "secret-engine-server"
+    demo = "appdeployment"
+    group = "webserver"
+    ec2_prefix = "mford-linux"
+    cloud_provider = "aws"
   }
 }
 
