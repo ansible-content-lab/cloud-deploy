@@ -52,7 +52,7 @@
             state: absent
           register: terraform_output
           when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
-          no_log: true
+          # no_log: true
 
         - name: Debug Terraform output
           debug:
