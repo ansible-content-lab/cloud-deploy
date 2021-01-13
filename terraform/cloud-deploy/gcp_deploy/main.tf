@@ -1,6 +1,6 @@
 provider "google" {
   region     = "us-central1"
-  project    = "var.gcp_project"
+  project    = var.gcp_project
   credentials = var.gcp_key
 }
 
