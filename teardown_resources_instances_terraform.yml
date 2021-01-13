@@ -46,13 +46,14 @@
 
         - name: Teardown AWS infrastructure via Terraform
           terraform:
-            access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
-            secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
+            variables:
+              access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
+              secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
             project_path: /tmp/aws_deploy
             state: absent
           register: terraform_output
           when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
-          # no_log: true
+          no_log: true
 
         - name: Debug Terraform output
           debug:
