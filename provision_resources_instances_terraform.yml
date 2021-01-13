@@ -7,6 +7,7 @@
     gce:
       email: '{{ lookup("env", "GCE_EMAIL") }}'
       project: '{{ lookup("env", "GCE_PROJECT") }}'
+      path: '{{ lookup("env", "GCE_PEM_FILE_PATH") }}'
 
   tasks:
 
@@ -30,8 +31,6 @@
 
         - debug:
             var: gce
-
-        - shell: 'cat {{ gce.pem_file_path }}'
 
         - name: create a service account key
           gcp_iam_service_account_key:
