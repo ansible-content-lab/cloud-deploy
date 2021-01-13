@@ -31,6 +31,8 @@
         - debug:
             var: gce
 
+        - shell: 'cat {{ gce.pem_file_path }}'
+
         - name: create a service account key
           gcp_iam_service_account_key:
             private_key_type: TYPE_GOOGLE_CREDENTIALS_FILE
