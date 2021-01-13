@@ -15,3 +15,9 @@ variable "machine_type" {
   type        = string
   default     = "xxxx"
 }
+
+variable "gcp_key" {
+  description = "The path to the service account key that will be used to authenticate with GCP"
+  type        = string
+  default     = "xxxx"
+}

@@ -1,6 +1,7 @@
 provider "google" {
   region     = "us-central1"
   project    = "eloquent-theme-264620"
+  credentials = var.gcp_key
 }
 
 resource "google_compute_network" "mford-linux-vpc" {
