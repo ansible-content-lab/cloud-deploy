@@ -2,26 +2,48 @@
 - name: Provision Cloud infrastructure via Terraform
   hosts: localhost
   gather_facts: no
+  vars:
+    machine_type: default
 
   tasks:
 
     - name: Provision GCP infrastructure via Terraform
       block:
 
+        - name: Set Machine Type to Small
+          set_fact:
+            machine_type: g1-small
+          when: instance_size == "small"
+
+        - name: Set Machine Type to Medium
+          set_fact:
+            machine_type: n1-standard-1
+          when: instance_size == "medium"
+
+        - name: Set Machine Type to large
+          set_fact:
+            machine_type: n1-standard-2
+          when: instance_size == "large"
+
+        - name: Copy GCP Terraform Directory
+          copy:
+            src: "{{ playbook_dir }}/terraform/cloud-deploy/gcp_deploy"
+            dest: /tmp
+
         - name: Initialize Terraform
           command:
             cmd: terraform init
-            chdir: ./terraform/cloud-deploy/gcp_deploy
+            chdir: /tmp/gcp_deploy
 
         - name: Provision GCP infrastructure via Terraform
           terraform:
-            project_path: ./terraform/cloud-deploy/gcp_deploy
+            project_path: /tmp/gcp_deploy
             state: present
-            # force_init: yes
             variables:
-              num_instances: 5
+              num_instances: "{{ num_instances }}"
+              #RHEL8
               gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618
-              machine_type: f1-micro
+              machine_type: "{{ machine_type }}"
           register: terraform_output
 
         - name: Debug Terraform output
@@ -35,20 +57,43 @@
     - name: Provision Resources on AWS
       block:
 
+        - name: Set Machine Type to Small
+          set_fact:
+            machine_type: t2.small
+            # ec2_root_volume_name: /dev/sda1
+          when: instance_size == "small"
+
+        - name: Set Machine Type to Medium
+          set_fact:
+            machine_type: t2.medium
+            # ec2_root_volume_name: /dev/sda1
+          when: instance_size == "medium"
+
+        - name: Set Machine Type to large
+          set_fact:
+            machine_type: t2.large
+            # ec2_root_volume_name: /dev/sda1
+          when: instance_size == "large"
+
+        - name: Copy AWS Terraform Directory
+          copy:
+            src: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
+            dest: /tmp
+
         - name: Initialize Terraform
           command:
             cmd: terraform init
-            chdir: ./terraform/cloud-deploy/aws_deploy
+            chdir: /tmp/aws_deploy
 
         - name: Provision AWS infrastructure via Terraform
           terraform:
-            project_path: ./terraform/cloud-deploy/aws_deploy
+            project_path: /tmp/aws_deploy
             state: present
-            # force_init: yes
             variables:
-              num_instances: 5
+              num_instances: "{{ num_instances }}"
+              #RHEL8
               ec2_image_id: ami-098f16afa9edf40be
-              machine_type: t2.micro
+              machine_type: "{{ machine_type }}"
           register: terraform_output
 
         - name: Debug Terraform output

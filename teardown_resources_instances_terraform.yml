@@ -8,11 +8,17 @@
     - name: Teardown GCP infrastructure via Terraform
       block:
 
+        - name: Ensure GCP Terraform Directory Exists
+          stat:
+            path: /tmp/gcp_deploy
+          register: gcp_deploy_directory
+
         - name: Teardown GCP infrastructure via Terraform
           terraform:
-            project_path: ./terraform/cloud-deploy/gcp_deploy
+            project_path: /tmp/gcp_deploy
             state: absent
           register: terraform_output
+          when: gcp_deploy_directory.exists
 
         - name: Debug Terraform output
           debug:
@@ -25,11 +31,17 @@
     - name: Teardown AWS infrastructure via Terraform
       block:
 
+        - name: Ensure AWS Terraform Directory Exists
+          stat:
+            path: /tmp/aws_deploy
+          register: aws_deploy_directory
+
         - name: Teardown AWS infrastructure via Terraform
           terraform:
-            project_path: ./terraform/cloud-deploy/aws_deploy
+            project_path: /tmp/aws_deploy
             state: absent
           register: terraform_output
+          when: aws_deploy_directory.exists
 
         - name: Debug Terraform output
           debug:
