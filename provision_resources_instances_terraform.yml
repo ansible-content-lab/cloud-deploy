@@ -102,7 +102,7 @@
               ec2_image_id: ami-098f16afa9edf40be
               machine_type: "{{ machine_type }}"
           register: terraform_output
-          # no_log: true
+          no_log: true
 
         - name: Debug Terraform output
           debug:
