@@ -4,6 +4,9 @@
   gather_facts: no
   vars:
     machine_type: default
+    gce:
+      email: '{{ lookup("env", "GCE_EMAIL") }}'
+      project: '{{ lookup("env", "GCE_PROJECT") }}'
 
   tasks:
 
@@ -26,7 +29,7 @@
           when: instance_size == "large"
 
         - debug:
-            msg: '{{ lookup("env", "GCE_PROJECT") }}'
+            var: gce
 
         - name: create a service account key
           gcp_iam_service_account_key:
