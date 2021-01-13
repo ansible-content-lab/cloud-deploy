@@ -7,7 +7,7 @@
     gce:
       email: '{{ lookup("env", "GCE_EMAIL") }}'
       project: '{{ lookup("env", "GCE_PROJECT") }}'
-      path: '{{ lookup("env", "GCE_PEM_FILE_PATH") }}'
+      path: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
 
   tasks:
 
