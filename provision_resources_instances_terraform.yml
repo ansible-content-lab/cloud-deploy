@@ -28,7 +28,7 @@
         - name: Copy GCP Terraform Directory
           copy:
             src: "{{ playbook_dir }}/terraform/cloud-deploy/gcp_deploy"
-            dest: /tmp/gcp_deploy
+            dest: /tmp
             mode: 0777
 
         - name: Initialize Terraform
@@ -79,7 +79,7 @@
         - name: Copy AWS Terraform Directory
           copy:
             src: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
-            dest: /tmp/aws_deploy
+            dest: /tmp
             mode: 0777
 
         - name: Initialize Terraform
