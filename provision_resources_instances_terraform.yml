@@ -25,16 +25,16 @@
             machine_type: n1-standard-2
           when: instance_size == "large"
 
-        - name: create a service account key
-          gcp_iam_service_account_key:
-            # service_account: "{{ serviceaccount }}"
-            private_key_type: TYPE_GOOGLE_CREDENTIALS_FILE
-            path: "/tmp/google_svc_acct_key.json"
-            auth_kind: serviceaccount
-            service_account_file: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
-            project: '{{ lookup("env", "GCE_PROJECT") }}'
-            state: present
-          register: gcp_key_path
+        # - name: create a service account key
+        #   gcp_iam_service_account_key:
+        #     # service_account: "{{ serviceaccount }}"
+        #     private_key_type: TYPE_GOOGLE_CREDENTIALS_FILE
+        #     path: "/tmp/google_svc_acct_key.json"
+        #     auth_kind: serviceaccount
+        #     service_account_file: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
+        #     project: '{{ lookup("env", "GCE_PROJECT") }}'
+        #     state: present
+        #   register: gcp_key_path
 
         - name: Copy GCP Terraform Directory
           copy:
@@ -52,7 +52,8 @@
             project_path: /tmp/gcp_deploy
             state: present
             variables:
-              gcp_key: "{{ gcp_key_path.path }}"
+              #gcp_key: "{{ gcp_key_path.path }}"
+              gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
               num_instances: "{{ num_instances }}"
               #RHEL8
               gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618
