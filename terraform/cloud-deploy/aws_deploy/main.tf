@@ -138,7 +138,7 @@ resource "aws_instance" "example" {
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
   tags = {
-    Name = "mford-linux-instance-${count.index + 1}"
+    Name = "apache-server-${count.index + 1}"
     provisioner = "mford"
     application = "apache"
     demo = "appdeployment"
