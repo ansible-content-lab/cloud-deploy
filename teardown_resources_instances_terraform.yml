@@ -2,6 +2,8 @@
 - name: Teardown AWS infrastructure via Terraform
   hosts: localhost
   gather_facts: no
+  vars_files:
+    - ./vars/default-vars.yml
 
   tasks:
 
