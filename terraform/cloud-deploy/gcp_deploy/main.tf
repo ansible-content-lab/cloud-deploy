@@ -4,7 +4,7 @@ provider "google" {
   credentials = var.gcp_key
 }
 
-resource "google_compute_network" "mford-linux-vpc" {
+resource "google_compute_network" "${gcp_prefix}-vpc" {
   auto_create_subnetworks = "false"
   name = "mford-linux-vpc"
 }
