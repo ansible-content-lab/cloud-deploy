@@ -167,8 +167,14 @@ resource "aws_instance" "secret_engine" {
   }
 }
 
-resource "local_file" "foo" {
+resource "local_file" "private_key" {
     content          = tls_private_key.mford-linux-tls-private-key.private_key_pem
     filename         = "/tmp/mford-linux-key-private.pem"
+    file_permission  = "0600"
+}
+
+resource "local_file" "public_key" {
+    content          = tls_private_key.mford-linux-tls-private-key.public_key_openssh
+    filename         = "/tmp/mford-linux-key.pub"
     file_permission  = "0600"
 }
