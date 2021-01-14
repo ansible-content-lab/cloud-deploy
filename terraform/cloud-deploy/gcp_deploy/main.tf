@@ -10,7 +10,7 @@ resource "google_compute_network" "cloud-deploy-vpc" {
 }
 
 
-resource "google_compute_firewall" "mford-linux-firewall" {
+resource "google_compute_firewall" "cloud-deploy-firewall" {
   name        = "${var.gcp_prefix}-firewall"
   network      = google_compute_network.cloud-deploy-vpc.name
 
@@ -26,20 +26,20 @@ resource "google_compute_firewall" "mford-linux-firewall" {
   target_tags = ["appdeployment", "apache"]
 }
 
-resource "google_compute_subnetwork" "mford-linux-subnet" {
+resource "google_compute_subnetwork" "cloud-deploy-subnet" {
   name = "${var.gcp_prefix}-subnet"
   network = google_compute_network.cloud-deploy-vpc.name
   ip_cidr_range = "192.168.0.0/28"
 }
 
-resource "tls_private_key" "mford-linux-tls-private-key" {
+resource "tls_private_key" "cloud-deploy-tls-private-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-resource "google_compute_instance" "webservers" {
+resource "google_compute_instance" "cloud-deploy-webservers" {
   count = var.num_instances
-  name         = "${var.gcp_prefix}-server-${count.index + 1}"
+  name         = "${var.gcp_prefix}-webserver-${count.index + 1}"
   machine_type = var.machine_type
   zone = "us-central1-a"
   tags = ["apache", "appdeployment"]
@@ -52,7 +52,7 @@ resource "google_compute_instance" "webservers" {
     }
   }
   metadata = {
-    ssh-keys = "ec2-user:${tls_private_key.mford-linux-tls-private-key.public_key_openssh} ec2-user"
+    ssh-keys = "ec2-user:${tls_private_key.cloud-deploy-tls-private-key.public_key_openssh} ec2-user"
   }
   labels = {
     provisioner = "mford"
@@ -62,12 +62,12 @@ resource "google_compute_instance" "webservers" {
     cloud_provider = "gcp"
   }
   network_interface {
-    subnetwork = google_compute_subnetwork.mford-linux-subnet.name
+    subnetwork = google_compute_subnetwork.cloud-deploy-subnet.name
     access_config {}
   }
 }
 
-resource "google_compute_instance" "secret_engine" {
+resource "google_compute_instance" "cloud-deploy-secrets-engine" {
   count = 1
   name         = "secret-engine-server"
   machine_type = "n1-standard-1"
@@ -82,7 +82,7 @@ resource "google_compute_instance" "secret_engine" {
     }
   }
   metadata = {
-    ssh-keys = "ec2-user:${tls_private_key.mford-linux-tls-private-key.public_key_openssh} ec2-user"
+    ssh-keys = "ec2-user:${tls_private_key.cloud-deploy-tls-private-key.public_key_openssh} ec2-user"
   }
   labels = {
     provisioner = "mford"
@@ -92,19 +92,19 @@ resource "google_compute_instance" "secret_engine" {
     cloud_provider = "gcp"
   }
   network_interface {
-    subnetwork = google_compute_subnetwork.mford-linux-subnet.name
+    subnetwork = google_compute_subnetwork.cloud-deploy-subnet.name
     access_config {}
   }
 }
 
-resource "local_file" "private_key" {
-    content          = tls_private_key.mford-linux-tls-private-key.private_key_pem
+resource "local_file" "cloud-deploy-local-private-key" {
+    content          = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
     filename         = "/tmp/id_ssh_rsa"
     file_permission  = "0600"
 }
 
-resource "local_file" "public_key" {
-    content          = tls_private_key.mford-linux-tls-private-key.public_key_openssh
+resource "local_file" "cloud-deploy-local-public-key" {
+    content          = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
     filename         = "/tmp/id_ssh_rsa.pub"
     file_permission  = "0600"
 }
