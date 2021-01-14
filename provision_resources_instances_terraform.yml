@@ -49,6 +49,7 @@
               gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
               gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
               num_instances: "{{ num_instances }}"
+              application: "{{ application }}"
               #RHEL8
               gcp_disk_image: "{{ gcp_disk_image }}"
               machine_type: "{{ machine_type }}"

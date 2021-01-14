@@ -23,7 +23,7 @@ resource "google_compute_firewall" "cloud-deploy-firewall" {
     ports    = ["22", "80", "443", "8200", "3306"]
   }
 
-  target_tags = ["appdeployment", "apache"]
+  target_tags = ["appdeployment", var.application]
 }
 
 resource "google_compute_subnetwork" "cloud-deploy-subnet" {
@@ -42,7 +42,7 @@ resource "google_compute_instance" "cloud-deploy-webservers" {
   name         = "${var.gcp_prefix}-webserver-${count.index + 1}"
   machine_type = var.machine_type
   zone = "us-central1-a"
-  tags = ["apache", "appdeployment"]
+  tags = [var.application, "appdeployment"]
   boot_disk {
     device_name = "${var.gcp_prefix}-disk-${count.index + 1}"
     auto_delete = "true"
@@ -56,7 +56,7 @@ resource "google_compute_instance" "cloud-deploy-webservers" {
   }
   labels = {
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     demo = "appdeployment"
     group = "rhel"
     cloud_provider = "gcp"
@@ -72,7 +72,7 @@ resource "google_compute_instance" "cloud-deploy-secrets-engine" {
   name         = "secret-engine-server"
   machine_type = "n1-standard-1"
   zone = "us-central1-a"
-  tags = ["apache", "appdeployment"]
+  tags = [var.application, "appdeployment"]
   boot_disk {
     device_name = "${var.gcp_prefix}-webserver-disk"
     auto_delete = "true"
@@ -86,7 +86,7 @@ resource "google_compute_instance" "cloud-deploy-secrets-engine" {
   }
   labels = {
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     demo = "appdeployment"
     group = "webserver"
     cloud_provider = "gcp"

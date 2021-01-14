@@ -21,6 +21,7 @@ variable "gcp_prefix" {
   type        = string
   default     = "xxxx"
 }
+
 variable "machine_type" {
   description = "The instance type to use for the cloud instance"
   type        = string
@@ -35,6 +36,12 @@ variable "gcp_key" {
 
 variable "gcp_project" {
   description = "The name of the GCP project that this script will operate on"
+  type        = string
+  default     = "xxxx"
+}
+
+variable "application" {
+  description = "The application being installed on the linux instances"
   type        = string
   default     = "xxxx"
 }
