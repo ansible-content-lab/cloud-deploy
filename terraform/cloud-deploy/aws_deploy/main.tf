@@ -4,20 +4,20 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
-resource "aws_vpc" "mford-linux-vpc" {
+resource "aws_vpc" "${var.ec2_prefix}-vpc" {
   cidr_block = "192.168.0.0/24"
 
   tags = {
     provisioner = "mford"
-    application  = "apache"
+    application  = var.application
     demo = "appdeployment"
   }
 }
 
 
-resource "aws_security_group" "mford-linux-sg" {
-  name        = "mford-linux-sg"
-  vpc_id      = aws_vpc.mford-linux-vpc.id
+resource "aws_security_group" "${var.ec2_prefix}-sg" {
+  name        = "${var.ec2_prefix}-sg"
+  vpc_id      = aws_vpc.${var.ec2_prefix}-vpc.id
 
   ingress {
     description = "Allow HTTP"
@@ -76,36 +76,36 @@ resource "aws_security_group" "mford-linux-sg" {
 
   tags = {
     provisioner = "mford"
-    Name = "mford-linux-sg"
-    application: "apache"
+    Name = "${var.ec2_prefix}-sg"
+    application: var.application
     demo: "appdeployment"
   }
 }
 
 resource "aws_subnet" "mford-linux-subnet" {
-  vpc_id            = aws_vpc.mford-linux-vpc.id
+  vpc_id            = aws_vpc.${var.ec2_prefix}-vpc.id
   cidr_block        = "192.168.0.0/28"
   map_public_ip_on_launch = "true"
 
   tags = {
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     demo = "appdeployment"
   }
 }
 
 resource "aws_internet_gateway" "mford-linux-igw" {
-  vpc_id = aws_vpc.mford-linux-vpc.id
+  vpc_id = aws_vpc.${var.ec2_prefix}-vpc.id
 
   tags = {
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     demo = "appdeployment"
   }
 }
 
 resource "aws_default_route_table" "mford-linux-route-table" {
-  default_route_table_id = aws_vpc.mford-linux-vpc.default_route_table_id
+  default_route_table_id = aws_vpc.${var.ec2_prefix}-vpc.default_route_table_id
   route {
     cidr_block                = "0.0.0.0/0"
     gateway_id                = aws_internet_gateway.mford-linux-igw.id
@@ -114,7 +114,7 @@ resource "aws_default_route_table" "mford-linux-route-table" {
 
   tags = {
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     demo = "appdeployment"
   }
 }
@@ -129,18 +129,18 @@ resource "aws_key_pair" "mford-linux-key" {
   public_key = tls_private_key.mford-linux-tls-private-key.public_key_openssh
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "cloud-deploy-webservers" {
   count         = var.num_instances
   ami           = var.ec2_image_id
   instance_type = var.machine_type
   key_name      = aws_key_pair.mford-linux-key.key_name
   subnet_id     = aws_subnet.mford-linux-subnet.id
   associate_public_ip_address = "true"
-  vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
+  vpc_security_group_ids = [aws_security_group.${var.ec2_prefix}-sg.id]
   tags = {
-    Name = "apache-server-${count.index + 1}"
+    Name = "${var.ec2_prefix}-webserver-${count.index + 1}"
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     demo = "appdeployment"
     group = "rhel"
     ec2_prefix = "mford-linux"
@@ -148,17 +148,17 @@ resource "aws_instance" "example" {
   }
 }
 
-resource "aws_instance" "secret_engine" {
+resource "aws_instance" "cloud-deploy-secrets-engine" {
   count         = 1
   ami           = var.ec2_image_id
   instance_type = "t2.medium"
   key_name      = aws_key_pair.mford-linux-key.key_name
   subnet_id     = aws_subnet.mford-linux-subnet.id
   associate_public_ip_address = "true"
-  vpc_security_group_ids = [aws_security_group.mford-linux-sg.id]
+  vpc_security_group_ids = [aws_security_group.${var.ec2_prefix}-sg.id]
   tags = {
     provisioner = "mford"
-    application = "apache"
+    application = var.application
     Name = "secret-engine-server"
     demo = "appdeployment"
     group = "webserver"

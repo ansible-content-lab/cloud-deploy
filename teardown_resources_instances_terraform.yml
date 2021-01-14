@@ -49,6 +49,8 @@
         - name: Teardown AWS infrastructure via Terraform
           terraform:
             variables:
+              ec2_region: "{{ ec2_region }}"
+              ec2_prefix: "{{ ec2_prefix }}"
               access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
               secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
             project_path: /tmp/aws_deploy
