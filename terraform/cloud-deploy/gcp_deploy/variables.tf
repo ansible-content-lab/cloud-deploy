@@ -10,6 +10,17 @@ variable "gcp_disk_image" {
   default     = "xxxx"
 }
 
+variable "gcp_region" {
+  description = "The GCP region to operate in"
+  type        = string
+  default     = "xxxx"
+}
+
+variable "gcp_prefix" {
+  description = "The prefix to place in front of all gcp resources"
+  type        = string
+  default     = "xxxx"
+}
 variable "machine_type" {
   description = "The instance type to use for the cloud instance"
   type        = string

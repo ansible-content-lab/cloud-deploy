@@ -44,11 +44,13 @@
             project_path: /tmp/gcp_deploy
             state: present
             variables:
+              gcp_region: "{{ gcp_region }}"
+              gcp_prefix: "{{ gcp_prefix }}"
               gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
               gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
               num_instances: "{{ num_instances }}"
               #RHEL8
-              gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618
+              gcp_disk_image: "{{ gcp_disk_image }}"
               machine_type: "{{ machine_type }}"
           register: terraform_output
           # no_log: true
@@ -114,7 +116,7 @@
               secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
               num_instances: "{{ num_instances }}"
               #RHEL8
-              ec2_image_id: ami-098f16afa9edf40be
+              ec2_image_id: "{{ ec2_image_id }}"
               machine_type: "{{ machine_type }}"
           register: terraform_output
           no_log: true
