@@ -126,7 +126,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
   rsa_bits  = 4096
 }
 
-resource "aws_key_pair" "${var.ec2_prefix}-key" {
+resource "aws_key_pair" "cloud-deploy-key" {
   key_name   = "${var.ec2_prefix}-key"
   public_key = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
 }
