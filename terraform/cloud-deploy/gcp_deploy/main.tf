@@ -99,12 +99,12 @@ resource "google_compute_instance" "secret_engine" {
 
 resource "local_file" "private_key" {
     content          = tls_private_key.mford-linux-tls-private-key.private_key_pem
-    filename         = "/tmp/mford-linux-key-private.pem"
+    filename         = "/tmp/id_ssh_rsa"
     file_permission  = "0600"
 }
 
 resource "local_file" "public_key" {
     content          = tls_private_key.mford-linux-tls-private-key.public_key_openssh
-    filename         = "/tmp/mford-linux-key.pub"
+    filename         = "/tmp/id_ssh_rsa.pub"
     file_permission  = "0600"
 }

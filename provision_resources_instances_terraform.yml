@@ -51,7 +51,7 @@
               gcp_disk_image: projects/rhel-cloud/global/images/rhel-8-v20200618
               machine_type: "{{ machine_type }}"
           register: terraform_output
-          no_log: true
+          # no_log: true
 
         - name: Debug Terraform output
           debug:
