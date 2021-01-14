@@ -4,6 +4,8 @@
   gather_facts: no
   vars:
     machine_type: default
+  vars_files:
+    - ./credentials/tower_creds.yml
 
   tasks:
 
@@ -111,6 +113,18 @@
             - debug
 
       when: cloud_provider == "aws"
+
+    - name: Update Ansible Tower Cloud SSH Credential
+      tower_credential:
+        name: Cloud Demo Instances Key
+        organization: "Cloud Organization"
+        tower_host: "{{ tower_url }}"
+        tower_username: "{{ tower_user }}"
+        tower_password: "{{ tower_pass }}"
+        kind: ssh
+        username: "{{ aws_instance_username }}"
+        ssh_key_data: "{{ lookup('file', '/tmp/mford-linux-key-private.pem') }}"
+        tower_verify_ssl: false
 
     # - name: Initialize Terraform
     #   command:
