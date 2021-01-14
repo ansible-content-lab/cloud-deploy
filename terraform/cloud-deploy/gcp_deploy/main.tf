@@ -5,13 +5,13 @@ provider "google" {
 }
 
 resource "google_compute_network" "mford-linux-vpc" {
-  name = "mford-linux-vpc"
+  name = "${var.gcp_prefix}-vpc"
   auto_create_subnetworks = "false"
 }
 
 
 resource "google_compute_firewall" "mford-linux-firewall" {
-  name        = "${gcp_prefix}-firewall"
+  name        = "${var.gcp_prefix}-firewall"
   network      = google_compute_network.mford-linux-vpc.name
 
   allow {
@@ -27,7 +27,7 @@ resource "google_compute_firewall" "mford-linux-firewall" {
 }
 
 resource "google_compute_subnetwork" "mford-linux-subnet" {
-  name = "${gcp_prefix}-subnet"
+  name = "${var.gcp_prefix}-subnet"
   network = google_compute_network.mford-linux-vpc.name
   ip_cidr_range = "192.168.0.0/28"
 }
@@ -39,12 +39,12 @@ resource "tls_private_key" "mford-linux-tls-private-key" {
 
 resource "google_compute_instance" "webservers" {
   count = var.num_instances
-  name         = "${gcp_prefix}-server-${count.index + 1}"
+  name         = "${var.gcp_prefix}-server-${count.index + 1}"
   machine_type = var.machine_type
   zone = "us-central1-a"
   tags = ["apache", "appdeployment"]
   boot_disk {
-    device_name = "${gcp_prefix}-disk-${count.index + 1}"
+    device_name = "${var.gcp_prefix}-disk-${count.index + 1}"
     auto_delete = "true"
     initialize_params {
       size = "20"
@@ -74,7 +74,7 @@ resource "google_compute_instance" "secret_engine" {
   zone = "us-central1-a"
   tags = ["apache", "appdeployment"]
   boot_disk {
-    device_name = "${gcp_prefix}-webserver-disk"
+    device_name = "${var.gcp_prefix}-webserver-disk"
     auto_delete = "true"
     initialize_params {
       size = "20"
