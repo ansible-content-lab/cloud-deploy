@@ -68,7 +68,7 @@
             tower_password: "{{ tower_pass }}"
             kind: ssh
             username: "{{ gcp_instance_username }}"
-            ssh_key_data: "{{ lookup('file', '/tmp/mford-linux-key-private.pem') }}"
+            ssh_key_data: "{{ lookup('file', '/tmp/id_ssh_rsa') }}"
             tower_verify_ssl: false
 
       when: cloud_provider == "gcp"
