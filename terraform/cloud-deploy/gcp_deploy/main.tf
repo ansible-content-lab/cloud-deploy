@@ -5,8 +5,8 @@ provider "google" {
 }
 
 resource "google_compute_network" "mford-linux-vpc" {
-  auto_create_subnetworks = "false"
   name = "${gcp_prefix}-vpc"
+  auto_create_subnetworks = "false"
 }
 
 
