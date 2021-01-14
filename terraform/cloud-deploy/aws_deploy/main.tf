@@ -117,7 +117,7 @@ resource "aws_default_route_table" "cloud-deploy-route-table" {
     provisioner = "mford"
     application = var.application
     demo = "appdeployment"
-    Name = ""${var.ec2_prefix}-route-table"
+    Name = "${var.ec2_prefix}-route-table"
   }
 }
 
