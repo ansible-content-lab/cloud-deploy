@@ -4,15 +4,15 @@ provider "google" {
   credentials = var.gcp_key
 }
 
-resource "google_compute_network" "${var.gcp_prefix}-vpc" {
-  name = "${var.gcp_prefix}-vpc"
+resource "google_compute_network" "cloud-deploy-vpc" {
+  name = "cloud-deploy-vpc"
   auto_create_subnetworks = "false"
 }
 
 
 resource "google_compute_firewall" "mford-linux-firewall" {
   name        = "${var.gcp_prefix}-firewall"
-  network      = google_compute_network.${var.gcp_prefix}-vpc.name
+  network      = google_compute_network.cloud-deploy-vpc.name
 
   allow {
     protocol = "icmp"
@@ -28,7 +28,7 @@ resource "google_compute_firewall" "mford-linux-firewall" {
 
 resource "google_compute_subnetwork" "mford-linux-subnet" {
   name = "${var.gcp_prefix}-subnet"
-  network = google_compute_network.${var.gcp_prefix}-vpc.name
+  network = google_compute_network.cloud-deploy-vpc.name
   ip_cidr_range = "192.168.0.0/28"
 }
 
