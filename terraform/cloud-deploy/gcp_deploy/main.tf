@@ -5,7 +5,7 @@ provider "google" {
 }
 
 resource "google_compute_network" "cloud-deploy-vpc" {
-  name = "cloud-deploy-vpc"
+  name = "${var.gcp_prefix}-vpc"
   auto_create_subnetworks = "false"
 }
 

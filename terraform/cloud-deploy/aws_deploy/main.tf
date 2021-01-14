@@ -82,7 +82,7 @@ resource "aws_security_group" "${var.ec2_prefix}-sg" {
   }
 }
 
-resource "aws_subnet" "mford-linux-subnet" {
+resource "aws_subnet" "${var.ec2_prefix}-subnet" {
   vpc_id            = aws_vpc.${var.ec2_prefix}-vpc.id
   cidr_block        = "192.168.0.0/28"
   map_public_ip_on_launch = "true"
@@ -94,7 +94,7 @@ resource "aws_subnet" "mford-linux-subnet" {
   }
 }
 
-resource "aws_internet_gateway" "mford-linux-igw" {
+resource "aws_internet_gateway" "${var.ec2_prefix}-igw" {
   vpc_id = aws_vpc.${var.ec2_prefix}-vpc.id
 
   tags = {
@@ -104,11 +104,11 @@ resource "aws_internet_gateway" "mford-linux-igw" {
   }
 }
 
-resource "aws_default_route_table" "mford-linux-route-table" {
+resource "aws_default_route_table" "${var.ec2_prefix}-route-table" {
   default_route_table_id = aws_vpc.${var.ec2_prefix}-vpc.default_route_table_id
   route {
     cidr_block                = "0.0.0.0/0"
-    gateway_id                = aws_internet_gateway.mford-linux-igw.id
+    gateway_id                = aws_internet_gateway.${var.ec2_prefix}-igw.id
 
   }
 
@@ -119,22 +119,22 @@ resource "aws_default_route_table" "mford-linux-route-table" {
   }
 }
 
-resource "tls_private_key" "mford-linux-tls-private-key" {
+resource "tls_private_key" "${var.ec2_prefix}-tls-private-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-resource "aws_key_pair" "mford-linux-key" {
-  key_name   = "mford-linux-key"
-  public_key = tls_private_key.mford-linux-tls-private-key.public_key_openssh
+resource "aws_key_pair" "${var.ec2_prefix}-key" {
+  key_name   = "${var.ec2_prefix}-key"
+  public_key = tls_private_key.${var.ec2_prefix}-tls-private-key.public_key_openssh
 }
 
 resource "aws_instance" "cloud-deploy-webservers" {
   count         = var.num_instances
   ami           = var.ec2_image_id
   instance_type = var.machine_type
-  key_name      = aws_key_pair.mford-linux-key.key_name
-  subnet_id     = aws_subnet.mford-linux-subnet.id
+  key_name      = aws_key_pair.${var.ec2_prefix}-key.key_name
+  subnet_id     = aws_subnet.${var.ec2_prefix}-subnet.id
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.${var.ec2_prefix}-sg.id]
   tags = {
@@ -143,7 +143,7 @@ resource "aws_instance" "cloud-deploy-webservers" {
     application = var.application
     demo = "appdeployment"
     group = "rhel"
-    ec2_prefix = "mford-linux"
+    ec2_prefix = var.ec2_prefix
     cloud_provider = "aws"
   }
 }
@@ -152,8 +152,8 @@ resource "aws_instance" "cloud-deploy-secrets-engine" {
   count         = 1
   ami           = var.ec2_image_id
   instance_type = "t2.medium"
-  key_name      = aws_key_pair.mford-linux-key.key_name
-  subnet_id     = aws_subnet.mford-linux-subnet.id
+  key_name      = aws_key_pair.${var.ec2_prefix}-key.key_name
+  subnet_id     = aws_subnet.${var.ec2_prefix}-subnet.id
   associate_public_ip_address = "true"
   vpc_security_group_ids = [aws_security_group.${var.ec2_prefix}-sg.id]
   tags = {
@@ -162,19 +162,19 @@ resource "aws_instance" "cloud-deploy-secrets-engine" {
     Name = "secret-engine-server"
     demo = "appdeployment"
     group = "webserver"
-    ec2_prefix = "mford-linux"
+    ec2_prefix = ${var.ec2_prefix}
     cloud_provider = "aws"
   }
 }
 
 resource "local_file" "private_key" {
-    content          = tls_private_key.mford-linux-tls-private-key.private_key_pem
-    filename         = "/tmp/mford-linux-key-private.pem"
+    content          = tls_private_key.${var.ec2_prefix}-tls-private-key.private_key_pem
+    filename         = "/tmp/${var.ec2_prefix}-key-private.pem"
     file_permission  = "0600"
 }
 
 resource "local_file" "public_key" {
-    content          = tls_private_key.mford-linux-tls-private-key.public_key_openssh
-    filename         = "/tmp/mford-linux-key.pub"
+    content          = tls_private_key.${var.ec2_prefix}-tls-private-key.public_key_openssh
+    filename         = "/tmp/${var.ec2_prefix}-key.pub"
     file_permission  = "0600"
 }
