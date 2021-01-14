@@ -118,6 +118,7 @@
               access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
               secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
               num_instances: "{{ num_instances }}"
+              application: "{{ application }}"
               #RHEL8
               ec2_image_id: "{{ ec2_image_id }}"
               machine_type: "{{ machine_type }}"
