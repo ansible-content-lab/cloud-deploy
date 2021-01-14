@@ -4,7 +4,7 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
-resource "aws_vpc" "${var.ec2_prefix}-vpc" {
+resource "aws_vpc" "cloud-deploy-vpc" {
   cidr_block = "192.168.0.0/24"
 
   tags = {
@@ -15,9 +15,9 @@ resource "aws_vpc" "${var.ec2_prefix}-vpc" {
 }
 
 
-resource "aws_security_group" "${var.ec2_prefix}-sg" {
+resource "aws_security_group" "cloud-deploy-sg" {
   name        = "${var.ec2_prefix}-sg"
-  vpc_id      = aws_vpc.${var.ec2_prefix}-vpc.id
+  vpc_id      = aws_vpc.cloud-deploy-vpc.id
 
   ingress {
     description = "Allow HTTP"
@@ -82,8 +82,8 @@ resource "aws_security_group" "${var.ec2_prefix}-sg" {
   }
 }
 
-resource "aws_subnet" "${var.ec2_prefix}-subnet" {
-  vpc_id            = aws_vpc.${var.ec2_prefix}-vpc.id
+resource "aws_subnet" "cloud-deploy-subnet" {
+  vpc_id            = aws_vpc.cloud-deploy-vpc.id
   cidr_block        = "192.168.0.0/28"
   map_public_ip_on_launch = "true"
 
@@ -94,21 +94,22 @@ resource "aws_subnet" "${var.ec2_prefix}-subnet" {
   }
 }
 
-resource "aws_internet_gateway" "${var.ec2_prefix}-igw" {
-  vpc_id = aws_vpc.${var.ec2_prefix}-vpc.id
+resource "aws_internet_gateway" "cloud-deploy-igw" {
+  vpc_id = aws_vpc.cloud-deploy-vpc.id
 
   tags = {
     provisioner = "mford"
     application = var.application
     demo = "appdeployment"
+    Name = "${var.ec2_prefix}-igw"
   }
 }
 
-resource "aws_default_route_table" "${var.ec2_prefix}-route-table" {
-  default_route_table_id = aws_vpc.${var.ec2_prefix}-vpc.default_route_table_id
+resource "aws_default_route_table" "cloud-deploy-route-table" {
+  default_route_table_id = aws_vpc.cloud-deploy-vpc.default_route_table_id
   route {
     cidr_block                = "0.0.0.0/0"
-    gateway_id                = aws_internet_gateway.${var.ec2_prefix}-igw.id
+    gateway_id                = aws_internet_gateway.cloud-deploy-igw.id
 
   }
 
@@ -116,27 +117,28 @@ resource "aws_default_route_table" "${var.ec2_prefix}-route-table" {
     provisioner = "mford"
     application = var.application
     demo = "appdeployment"
+    Name = ""${var.ec2_prefix}-route-table"
   }
 }
 
-resource "tls_private_key" "${var.ec2_prefix}-tls-private-key" {
+resource "tls_private_key" "cloud-deploy-tls-private-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
 resource "aws_key_pair" "${var.ec2_prefix}-key" {
   key_name   = "${var.ec2_prefix}-key"
-  public_key = tls_private_key.${var.ec2_prefix}-tls-private-key.public_key_openssh
+  public_key = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
 }
 
 resource "aws_instance" "cloud-deploy-webservers" {
   count         = var.num_instances
   ami           = var.ec2_image_id
   instance_type = var.machine_type
-  key_name      = aws_key_pair.${var.ec2_prefix}-key.key_name
-  subnet_id     = aws_subnet.${var.ec2_prefix}-subnet.id
+  key_name      = aws_key_pair.cloud-deploy-key.key_name
+  subnet_id     = aws_subnet.cloud-deploy-subnet.id
   associate_public_ip_address = "true"
-  vpc_security_group_ids = [aws_security_group.${var.ec2_prefix}-sg.id]
+  vpc_security_group_ids = [aws_security_group.cloud-deploy-sg.id]
   tags = {
     Name = "${var.ec2_prefix}-webserver-${count.index + 1}"
     provisioner = "mford"
@@ -152,10 +154,10 @@ resource "aws_instance" "cloud-deploy-secrets-engine" {
   count         = 1
   ami           = var.ec2_image_id
   instance_type = "t2.medium"
-  key_name      = aws_key_pair.${var.ec2_prefix}-key.key_name
-  subnet_id     = aws_subnet.${var.ec2_prefix}-subnet.id
+  key_name      = aws_key_pair.cloud-deploy-key.key_name
+  subnet_id     = aws_subnet.cloud-deploy-subnet.id
   associate_public_ip_address = "true"
-  vpc_security_group_ids = [aws_security_group.${var.ec2_prefix}-sg.id]
+  vpc_security_group_ids = [aws_security_group.cloud-deploy-sg.id]
   tags = {
     provisioner = "mford"
     application = var.application
@@ -167,14 +169,14 @@ resource "aws_instance" "cloud-deploy-secrets-engine" {
   }
 }
 
-resource "local_file" "private_key" {
-    content          = tls_private_key.${var.ec2_prefix}-tls-private-key.private_key_pem
+resource "local_file" "cloud-deploy-local-private-key" {
+    content          = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
     filename         = "/tmp/${var.ec2_prefix}-key-private.pem"
     file_permission  = "0600"
 }
 
-resource "local_file" "public_key" {
-    content          = tls_private_key.${var.ec2_prefix}-tls-private-key.public_key_openssh
+resource "local_file" "cloud-deploy-local-public-key" {
+    content          = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
     filename         = "/tmp/${var.ec2_prefix}-key.pub"
     file_permission  = "0600"
 }
