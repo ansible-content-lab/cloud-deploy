@@ -164,7 +164,7 @@ resource "aws_instance" "cloud-deploy-secrets-engine" {
     Name = "secret-engine-server"
     demo = "appdeployment"
     group = "webserver"
-    ec2_prefix = ${var.ec2_prefix}
+    ec2_prefix = var.ec2_prefix
     cloud_provider = "aws"
   }
 }
