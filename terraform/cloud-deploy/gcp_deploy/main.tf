@@ -52,7 +52,7 @@ resource "google_compute_instance" "webservers" {
     }
   }
   metadata = {
-    ssh-keys = "ec2-user:tls_private_key.mford-linux-tls-private-key.public_key_openssh ec2-user"
+    ssh-keys = "ec2-user:${tls_private_key.mford-linux-tls-private-key.public_key_openssh} ec2-user"
   }
   labels = {
     provisioner = "mford"
