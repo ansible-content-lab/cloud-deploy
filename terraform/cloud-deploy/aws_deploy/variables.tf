@@ -27,3 +27,21 @@ variable "secret_key" {
   type        = string
   default     = "xxxx"
 }
+
+variable "ec2_region" {
+  description = "The GCP region to operate in"
+  type        = string
+  default     = "xxxx"
+}
+
+variable "ec2_prefix" {
+  description = "The prefix to place in front of all gcp resources"
+  type        = string
+  default     = "xxxx"
+}
+
+variable "application" {
+  description = "The application being installed on the linux instances"
+  type        = string
+  default     = "xxxx"
+}
