@@ -140,8 +140,8 @@
             tower_password: "{{ tower_pass }}"
             kind: ssh
             username: "{{ aws_instance_username }}"
-            # ssh_key_data: "{{ lookup('file', '/tmp/[ ec2_prefix ]-key-private.pem') }}"
-            ssh_key_data: "{{ lookup('file', '/tmp/mford-linux-key-private.pem') }}"
+            ssh_key_data: "{{ lookup('file', '/tmp/' + ec2_prefix + '-key-private.pem') }}"
+            # ssh_key_data: "{{ lookup('file', '/tmp/mford-linux-key-private.pem') }}"
             tower_verify_ssl: false
 
       when: cloud_provider == "aws"
