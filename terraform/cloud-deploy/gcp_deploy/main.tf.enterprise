@@ -1,3 +1,13 @@
+terraform {
+  backend "remote" {
+    organization = "HashicorpAndRedHat"
+
+    workspaces {
+      name = "gcp-self-service-demo"
+    }
+  }
+}
+
 provider "google" {
   region     = var.gcp_region
   project    = var.gcp_project
