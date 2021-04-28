@@ -106,11 +106,13 @@
         - name: Initialize Terraform
           command:
             cmd: terraform init
-            chdir: /tmp/aws_deploy
+            # chdir: /tmp/aws_deploy
+            chdir: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
 
         - name: Provision AWS infrastructure via Terraform
           terraform:
-            project_path: /tmp/aws_deploy
+            # project_path: /tmp/aws_deploy
+            project_path: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
             state: present
             variables:
               ec2_region: "{{ ec2_region }}"
