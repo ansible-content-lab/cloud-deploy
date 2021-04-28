@@ -103,9 +103,9 @@
             dest: /tmp
             mode: 0777
 
-        - shell:
-            cmd: ansible-vault decrypt main.tf --vault-id ~/.ssh/.vault
-            chdir: /tmp/aws_deploy
+        # - shell:
+        #     cmd: ansible-vault decrypt main.tf --vault-id ~/.ssh/.vault
+        #     chdir: /tmp/aws_deploy
 
         - name: Initialize Terraform
           command:
@@ -137,9 +137,9 @@
           tags:
             - debug
 
-        - shell:
-            cmd: ansible-vault encrypt main.tf --vault-id ~/.ssh/.vault
-            chdir: /tmp/aws_deploy
+        # - shell:
+        #     cmd: ansible-vault encrypt main.tf --vault-id ~/.ssh/.vault
+        #     chdir: /tmp/aws_deploy
 
         - name: Update Ansible Tower Cloud SSH Credential
           tower_credential:
