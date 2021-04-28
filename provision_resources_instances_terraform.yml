@@ -103,16 +103,20 @@
             dest: /tmp
             mode: 0777
 
+        - shell:
+            cmd: ansible-vault decrypt main.tf --vault-id ~/.ssh/.vault
+            chdir: /tmp/aws_deploy
+
         - name: Initialize Terraform
           command:
             cmd: terraform init
-            # chdir: /tmp/aws_deploy
-            chdir: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
+            chdir: /tmp/aws_deploy
+            # chdir: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
 
         - name: Provision AWS infrastructure via Terraform
           terraform:
-            # project_path: /tmp/aws_deploy
-            project_path: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
+            project_path: /tmp/aws_deploy
+            # project_path: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
             state: present
             variables:
               ec2_region: "{{ ec2_region }}"
@@ -132,6 +136,10 @@
             var: terraform_output
           tags:
             - debug
+
+        - shell:
+            cmd: ansible-vault encrypt main.tf --vault-id ~/.ssh/.vault
+            chdir: /tmp/aws_deploy
 
         - name: Update Ansible Tower Cloud SSH Credential
           tower_credential:
