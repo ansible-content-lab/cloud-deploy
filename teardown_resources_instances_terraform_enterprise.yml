@@ -46,10 +46,10 @@
             path: /tmp/aws_deploy
           register: aws_deploy_directory
 
-       - name: Terraform Plan
-         command:
-           cmd: terraform destroy -auto-approve
-           chdir: /tmp/aws_deploy
+    - name: Terraform Plan
+        command:
+          cmd: terraform destroy -auto-approve
+          chdir: /tmp/aws_deploy
 
         # - name: Teardown AWS infrastructure via Terraform
         #   terraform:
