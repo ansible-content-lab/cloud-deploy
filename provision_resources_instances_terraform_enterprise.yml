@@ -154,6 +154,8 @@
         #     cmd: ansible-vault encrypt main.tf --vault-id ~/.ssh/.vault
         #     chdir: /tmp/aws_deploy
 
+        #TODO: https://registry.terraform.io/providers/nolte/awx/latest/docs/resources/credential_machine
+        
         - name: Update Ansible Tower Cloud SSH Credential
           tower_credential:
             name: Cloud Demo Instances Key
