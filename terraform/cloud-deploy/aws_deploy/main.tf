@@ -1,7 +1,15 @@
+terraform {
+  backend "remote" {
+    organization = "HashicorpAndRedHat"
+
+    workspaces {
+      name = "aws-self-service-demo"
+    }
+  }
+}
+
 provider "aws" {
   region     = var.ec2_region
-  access_key = var.access_key
-  secret_key = var.secret_key
 }
 
 resource "aws_vpc" "cloud-deploy-vpc" {
