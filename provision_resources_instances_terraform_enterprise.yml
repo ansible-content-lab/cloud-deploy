@@ -54,7 +54,7 @@
               gcp_disk_image: "{{ gcp_disk_image }}"
               machine_type: "{{ machine_type }}"
           register: terraform_output
-          no_log: true
+          no_log: false
 
         - name: Debug Terraform output
           debug:
@@ -155,7 +155,7 @@
         #     chdir: /tmp/aws_deploy
 
         #TODO: https://registry.terraform.io/providers/nolte/awx/latest/docs/resources/credential_machine
-        
+
         - name: Update Ansible Tower Cloud SSH Credential
           tower_credential:
             name: Cloud Demo Instances Key
