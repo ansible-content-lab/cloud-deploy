@@ -139,9 +139,9 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
     connection {
       type     = "ssh"
-      user     = var.tower_ssh_username
-      private_key = var.tower_ssh_key
-      host     = var.tower_hostname
+      user     = "${var.tower_ssh_username}"
+      private_key = "${var.tower_ssh_key}"
+      host     = "${var.tower_hostname}"
     }
   }
 }
