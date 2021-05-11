@@ -45,3 +45,15 @@ variable "application" {
   type        = string
   default     = "xxxx"
 }
+
+variable "tower_username" {
+  description = "The username to log into Ansible Tower"
+  type        = string
+  default     = "xxxx"
+}
+
+variable "tower_password" {
+  description = "The password to log into Ansible Tower"
+  type        = string
+  default     = "xxxx"
+}

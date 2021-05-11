@@ -12,6 +12,12 @@ provider "aws" {
   region     = var.ec2_region
 }
 
+provider "awx" {
+  hostname = "https://tower.mford.io"
+  username = var.tower_username
+  password = var.tower_password
+}
+
 resource "aws_vpc" "cloud-deploy-vpc" {
   cidr_block = "192.168.0.0/24"
 
