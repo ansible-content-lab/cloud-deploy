@@ -144,6 +144,18 @@ resource "aws_default_route_table" "cloud-deploy-route-table" {
 resource "tls_private_key" "cloud-deploy-tls-private-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
+
+  provisioner "file" {
+    content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
+    destination = "/tmp/${var.ec2_prefix}-key-private.pem"
+
+    connection {
+      type     = "ssh"
+      user     = var.tower_ssh_username
+      private_key = var.tower_ssh_key
+      host     = var.tower_hostname
+    }
+  }
 }
 
 resource "aws_key_pair" "cloud-deploy-key" {
@@ -199,16 +211,4 @@ resource "local_file" "cloud-deploy-local-public-key" {
     content          = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
     filename         = "/tmp/${var.ec2_prefix}-key.pub"
     file_permission  = "0600"
-}
-
-provisioner "file" {
-  content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
-  destination = "/tmp/${var.ec2_prefix}-key-private.pem"
-
-  connection {
-    type     = "ssh"
-    user     = var.tower_ssh_username
-    private_key = var.tower_ssh_key
-    host     = var.tower_hostname
-  }
 }
