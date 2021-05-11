@@ -1,10 +1,4 @@
 terraform {
-  required_providers {
-    awx = {
-      source = "nolte/awx"
-      version = "0.2.2"
-    }
-  }
   backend "remote" {
     organization = "HashicorpAndRedHat"
 
@@ -199,4 +193,11 @@ resource "local_file" "cloud-deploy-local-public-key" {
     content          = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
     filename         = "/tmp/${var.ec2_prefix}-key.pub"
     file_permission  = "0600"
+}
+
+resource "awx_credential_machine" "cloud_ssh_private_key" {
+  organisation_id = 2
+  name = "Cloud Demo Instances Key"
+  ssh_key_data = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
+  username = "ec2-user"
 }
