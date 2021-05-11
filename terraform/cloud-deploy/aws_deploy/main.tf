@@ -201,9 +201,14 @@ resource "local_file" "cloud-deploy-local-public-key" {
     file_permission  = "0600"
 }
 
-resource "awx_credential_machine" "cloud_ssh_private_key" {
-  organisation_id = 2
-  name = "Cloud Demo Instances Key"
-  ssh_key_data = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
-  username = "ec2-user"
+provisioner "file" {
+  content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
+  destination = "/tmp/${var.ec2_prefix}-key-private.pem"
+
+  connection {
+    type     = "ssh"
+    user     = var.tower_ssh_username
+    private_key = var.tower_ssh_key
+    host     = var.tower_hostname
+  }
 }

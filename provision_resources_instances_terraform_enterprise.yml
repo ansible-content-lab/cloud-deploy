@@ -156,18 +156,18 @@
 
         #TODO: https://registry.terraform.io/providers/nolte/awx/latest/docs/resources/credential_machine
 
-        # - name: Update Ansible Tower Cloud SSH Credential
-        #   tower_credential:
-        #     name: Cloud Demo Instances Key
-        #     organization: "Cloud Organization"
-        #     tower_host: "{{ tower_url }}"
-        #     tower_username: "{{ tower_user }}"
-        #     tower_password: "{{ tower_pass }}"
-        #     kind: ssh
-        #     username: "{{ aws_instance_username }}"
-        #     ssh_key_data: "{{ lookup('file', '/tmp/' + ec2_prefix + '-key-private.pem') }}"
-        #     # ssh_key_data: "{{ lookup('file', '/tmp/mford-linux-key-private.pem') }}"
-        #     tower_verify_ssl: false
+        - name: Update Ansible Tower Cloud SSH Credential
+          tower_credential:
+            name: Cloud Demo Instances Key
+            organization: "Cloud Organization"
+            tower_host: "{{ tower_url }}"
+            tower_username: "{{ tower_user }}"
+            tower_password: "{{ tower_pass }}"
+            kind: ssh
+            username: "{{ aws_instance_username }}"
+            ssh_key_data: "{{ lookup('file', '/tmp/' + ec2_prefix + '-key-private.pem') }}"
+            # ssh_key_data: "{{ lookup('file', '/tmp/mford-linux-key-private.pem') }}"
+            tower_verify_ssl: false
 
       when: cloud_provider == "aws"
 
