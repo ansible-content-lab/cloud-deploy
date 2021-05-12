@@ -10,8 +10,6 @@ terraform {
 
 provider "google" {
   region     = var.gcp_region
-  project    = var.gcp_project
-  credentials = var.gcp_key
 }
 
 resource "google_compute_network" "cloud-deploy-vpc" {
@@ -45,6 +43,30 @@ resource "google_compute_subnetwork" "cloud-deploy-subnet" {
 resource "tls_private_key" "cloud-deploy-tls-private-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
+
+  provisioner "file" {
+    content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
+    destination = "/tmp/${var.ec2_prefix}-key-private.pem"
+
+    connection {
+      type     = "ssh"
+      user     = "${var.tower_ssh_username}"
+      private_key = "${var.tower_ssh_key}"
+      host     = "${var.tower_hostname}"
+    }
+  }
+
+  provisioner "file" {
+    content      = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
+    destination = "/tmp/${var.ec2_prefix}-key.pub"
+
+    connection {
+      type     = "ssh"
+      user     = "${var.tower_ssh_username}"
+      private_key = "${var.tower_ssh_key}"
+      host     = "${var.tower_hostname}"
+    }
+  }
 }
 
 resource "google_compute_instance" "cloud-deploy-webservers" {
@@ -105,16 +127,4 @@ resource "google_compute_instance" "cloud-deploy-secrets-engine" {
     subnetwork = google_compute_subnetwork.cloud-deploy-subnet.name
     access_config {}
   }
-}
-
-resource "local_file" "cloud-deploy-local-private-key" {
-    content          = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
-    filename         = "/tmp/id_ssh_rsa"
-    file_permission  = "0600"
-}
-
-resource "local_file" "cloud-deploy-local-public-key" {
-    content          = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
-    filename         = "/tmp/id_ssh_rsa.pub"
-    file_permission  = "0600"
 }
