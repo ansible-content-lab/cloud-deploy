@@ -10,6 +10,7 @@ terraform {
 
 provider "google" {
   region     = var.gcp_region
+  project    = var.gcp_project
 }
 
 resource "google_compute_network" "cloud-deploy-vpc" {
@@ -46,7 +47,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
   provisioner "file" {
     content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
-    destination = "/tmp/${var.ec2_prefix}-key-private.pem"
+    destination = "/tmp/id_ssh_rsa"
 
     connection {
       type     = "ssh"
@@ -58,7 +59,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
   provisioner "file" {
     content      = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
-    destination = "/tmp/${var.ec2_prefix}-key.pub"
+    destination = "/tmp/id_ssh_rsa.pub"
 
     connection {
       type     = "ssh"

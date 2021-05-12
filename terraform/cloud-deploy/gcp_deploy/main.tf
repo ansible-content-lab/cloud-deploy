@@ -47,7 +47,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
   provisioner "file" {
     content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
-    destination = "/tmp/${var.gcp_prefix}-key-private.pem"
+    destination = "/tmp/id_ssh_rsa"
 
     connection {
       type     = "ssh"
@@ -59,7 +59,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
   provisioner "file" {
     content      = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
-    destination = "/tmp/${var.gcp_prefix}-key.pub"
+    destination = "/tmp/id_ssh_rsa.pub"
 
     connection {
       type     = "ssh"
