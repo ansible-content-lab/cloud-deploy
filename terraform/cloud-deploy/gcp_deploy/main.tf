@@ -46,7 +46,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
   provisioner "file" {
     content      = tls_private_key.cloud-deploy-tls-private-key.private_key_pem
-    destination = "/tmp/${var.ec2_prefix}-key-private.pem"
+    destination = "/tmp/${var.gcp_prefix}-key-private.pem"
 
     connection {
       type     = "ssh"
@@ -58,7 +58,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
 
   provisioner "file" {
     content      = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
-    destination = "/tmp/${var.ec2_prefix}-key.pub"
+    destination = "/tmp/${var.gcp_prefix}-key.pub"
 
     connection {
       type     = "ssh"
