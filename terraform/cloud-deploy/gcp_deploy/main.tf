@@ -10,6 +10,7 @@ terraform {
 
 provider "google" {
   region     = var.gcp_region
+  project    = var.gcp_project
 }
 
 resource "google_compute_network" "cloud-deploy-vpc" {
