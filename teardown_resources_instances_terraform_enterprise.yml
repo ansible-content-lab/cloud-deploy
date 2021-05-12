@@ -14,15 +14,15 @@
           set_fact:
             gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
 
-        - name: Delete local private key
-          file:
-            path: "{{ working_dir }}/id_ssh_rsa"
-            state: absent
-
-        - name: Delete local public key
-          file:
-            path: "{{ working_dir }}/id_ssh_rsa.pub"
-            state: absent
+        # - name: Delete local private key
+        #   file:
+        #     path: "{{ working_dir }}/id_ssh_rsa"
+        #     state: absent
+        #
+        # - name: Delete local public key
+        #   file:
+        #     path: "{{ working_dir }}/id_ssh_rsa.pub"
+        #     state: absent
 
         - name: Ensure GCP Terraform Directory Exists
           stat:
@@ -60,15 +60,15 @@
     - name: Teardown AWS infrastructure via Terraform
       block:
 
-        - name: Delete local private key
-          file:
-            path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-            state: absent
-
-        - name: Delete local public key
-          file:
-            path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
-            state: absent
+        # - name: Delete local private key
+        #   file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        #     state: absent
+        #
+        # - name: Delete local public key
+        #   file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+        #     state: absent
 
         - name: Ensure AWS Terraform Directory Exists
           stat:
