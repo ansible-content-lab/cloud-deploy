@@ -43,15 +43,15 @@
             name: "{{ ec2_prefix }}-key"
             state: absent
 
-        - name: delete flat-file private key
-          file:
-            path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-            state: absent
-
-        - name: delete flat-file public key
-          file:
-            path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
-            state: absent
+        # - name: delete flat-file private key
+        #   file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        #     state: absent
+        #
+        # - name: delete flat-file public key
+        #   file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+        #     state: absent
       when: cloud_provider == "aws"
 
     - name: Teardown GCP Instances
@@ -78,15 +78,15 @@
             with_items: "{{ instance_info.resources }}"
             no_log: true
 
-          - name: delete flat-file public key
-            file:
-              path: "{{ working_dir }}/id_ssh_rsa.pub"
-              state: absent
-
-          - name: delete flat-file private key
-            file:
-              path: "{{ working_dir }}/id_ssh_rsa"
-              state: absent
+          # - name: delete flat-file public key
+          #   file:
+          #     path: "{{ working_dir }}/id_ssh_rsa.pub"
+          #     state: absent
+          #
+          # - name: delete flat-file private key
+          #   file:
+          #     path: "{{ working_dir }}/id_ssh_rsa"
+          #     state: absent
 
 
       when: cloud_provider == "gcp"
