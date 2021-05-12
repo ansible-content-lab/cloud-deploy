@@ -34,33 +34,45 @@
             dest: /tmp
             mode: 0777
 
+        - name: Ensure Terraform Variables File Exists
+          template:
+            src: "{{ playbook_dir }}/templates/gcp.auto.tfvars.j2"
+            dest: /tmp/gcp_deploy/gcp.auto.tfvars
+            owner: awx
+            group: awx
+
         - name: Initialize Terraform
           command:
             cmd: terraform init
             chdir: /tmp/gcp_deploy
 
-        - name: Provision GCP infrastructure via Terraform
-          terraform:
-            project_path: /tmp/gcp_deploy
-            state: present
-            variables:
-              gcp_region: "{{ gcp_region }}"
-              gcp_prefix: "{{ gcp_prefix }}"
-              gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
-              gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
-              num_instances: "{{ num_instances }}"
-              application: "{{ application }}"
-              #RHEL8
-              gcp_disk_image: "{{ gcp_disk_image }}"
-              machine_type: "{{ machine_type }}"
-          register: terraform_output
-          no_log: false
+        - name: Terraform Plan
+          command:
+            cmd: terraform apply -auto-approve
+            chdir: /tmp/gcp_deploy
 
-        - name: Debug Terraform output
-          debug:
-            var: terraform_output
-          tags:
-            - debug
+        # - name: Provision GCP infrastructure via Terraform
+        #   terraform:
+        #     project_path: /tmp/gcp_deploy
+        #     state: present
+        #     variables:
+        #       gcp_region: "{{ gcp_region }}"
+        #       gcp_prefix: "{{ gcp_prefix }}"
+        #       gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
+        #       gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
+        #       num_instances: "{{ num_instances }}"
+        #       application: "{{ application }}"
+        #       #RHEL8
+        #       gcp_disk_image: "{{ gcp_disk_image }}"
+        #       machine_type: "{{ machine_type }}"
+        #   register: terraform_output
+        #   no_log: false
+        #
+        # - name: Debug Terraform output
+        #   debug:
+        #     var: terraform_output
+        #   tags:
+        #     - debug
 
         - name: Update Ansible Tower Cloud SSH Credential
           tower_credential:
