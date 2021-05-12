@@ -144,6 +144,18 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
       host     = "${var.tower_hostname}"
     }
   }
+
+  provisioner "file" {
+    content      = tls_private_key.cloud-deploy-tls-private-key.public_key_openssh
+    destination = "/tmp/${var.ec2_prefix}-key.pub"
+
+    connection {
+      type     = "ssh"
+      user     = "${var.tower_ssh_username}"
+      private_key = "${var.tower_ssh_key}"
+      host     = "${var.tower_hostname}"
+    }
+  }
 }
 
 resource "aws_key_pair" "cloud-deploy-key" {
