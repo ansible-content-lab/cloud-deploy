@@ -34,6 +34,9 @@
             dest: /tmp
             mode: 0777
 
+        - set_fact:
+            gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
+
         - name: Ensure Terraform Variables File Exists
           template:
             src: "{{ playbook_dir }}/templates/gcp.auto.tfvars.j2"
