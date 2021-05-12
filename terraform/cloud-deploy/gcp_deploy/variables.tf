@@ -13,13 +13,13 @@ variable "gcp_disk_image" {
 variable "gcp_region" {
   description = "The GCP region to operate in"
   type        = string
-  default     = "xxxx"
+  default     = "pppp"
 }
 
 variable "gcp_prefix" {
   description = "The prefix to place in front of all gcp resources"
   type        = string
-  default     = "xxxx"
+  default     = "ffff"
 }
 
 variable "machine_type" {
@@ -31,13 +31,13 @@ variable "machine_type" {
 variable "gcp_key" {
   description = "The path to the service account key that will be used to authenticate with GCP"
   type        = string
-  default     = "xxxx"
+  default     = "mmmm"
 }
 
 variable "gcp_project" {
   description = "The name of the GCP project that this script will operate on"
   type        = string
-  default     = "xxxx"
+  default     = "nnnn"
 }
 
 variable "application" {
