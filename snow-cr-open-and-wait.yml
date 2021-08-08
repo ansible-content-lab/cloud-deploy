@@ -17,7 +17,7 @@
         table: change_request
         state: present
         data:
-          short_description: "Deploy RHEL instances on AWS"
+          short_description: "Deploy Cloud RHEL Instances"
           severity: 3
           priority: 2
           assignment_group: "CAB Approval"

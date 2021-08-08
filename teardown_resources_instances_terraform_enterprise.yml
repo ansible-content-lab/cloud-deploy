@@ -10,25 +10,44 @@
     - name: Teardown GCP infrastructure via Terraform
       block:
 
+        - name: Set GCP Project Environment Variable
+          set_fact:
+            gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
+
+        # - name: Delete local private key
+        #   file:
+        #     path: "{{ working_dir }}/id_ssh_rsa"
+        #     state: absent
+        #
+        # - name: Delete local public key
+        #   file:
+        #     path: "{{ working_dir }}/id_ssh_rsa.pub"
+        #     state: absent
+
         - name: Ensure GCP Terraform Directory Exists
           stat:
             path: /tmp/gcp_deploy
           register: gcp_deploy_directory
 
         - name: Teardown GCP infrastructure via Terraform
-          terraform:
-            project_path: /tmp/gcp_deploy
-            variables:
-              gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
-            state: absent
-          register: terraform_output
-          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
-          no_log: true
+          command:
+            cmd: terraform apply -auto-approve
+            chdir: /tmp/gcp_deploy
 
-        - name: Debug Terraform output
-          debug:
-            var: terraform_output
-          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
+        # - name: Teardown GCP infrastructure via Terraform
+        #   terraform:
+        #     project_path: /tmp/gcp_deploy
+        #     variables:
+        #       gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
+        #     state: absent
+        #   register: terraform_output
+        #   when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
+        #   no_log: true
+        #
+        # - name: Debug Terraform output
+        #   debug:
+        #     var: terraform_output
+        #   when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
         - name: delete terraform directory
           file:
@@ -41,12 +60,22 @@
     - name: Teardown AWS infrastructure via Terraform
       block:
 
+        # - name: Delete local private key
+        #   file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        #     state: absent
+        #
+        # - name: Delete local public key
+        #   file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+        #     state: absent
+
         - name: Ensure AWS Terraform Directory Exists
           stat:
             path: /tmp/aws_deploy
           register: aws_deploy_directory
 
-        - name: Terraform Plan
+        - name: Teardown AWS infrastructure via Terraform
           command:
             cmd: terraform destroy -auto-approve
             chdir: /tmp/aws_deploy
@@ -74,5 +103,7 @@
             path: /tmp/aws_deploy
             state: absent
           when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
+
+
 
       when: cloud_provider == "aws"
