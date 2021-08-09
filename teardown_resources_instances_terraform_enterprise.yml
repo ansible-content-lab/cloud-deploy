@@ -1,5 +1,5 @@
 ---
-- name: Teardown AWS infrastructure via Terraform
+- name: Teardown Cloud Deploy infrastructure via Terraform
   hosts: automation-controller
   gather_facts: no
   vars_files:
@@ -41,6 +41,7 @@
           file:
             path: /tmp/gcp_deploy
             state: absent
+          become: true
           when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
       when: cloud_provider == "gcp"
@@ -74,6 +75,7 @@
           file:
             path: /tmp/aws_deploy
             state: absent
+          become: true
           when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
 
 
