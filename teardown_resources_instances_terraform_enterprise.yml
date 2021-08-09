@@ -33,11 +33,13 @@
           command:
             cmd: terraform plan -destroy -out=destroy.tfplan
             chdir: /tmp/gcp_deploy
+          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
         - name: Teardown GCP infrastructure via Terraform
           command:
             cmd: terraform apply destroy.tfplan
             chdir: /tmp/gcp_deploy
+          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
         # - name: Teardown GCP infrastructure via Terraform
         #   terraform:
