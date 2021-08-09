@@ -64,6 +64,12 @@ variable "tower_ssh_username" {
   default     = "xxxx"
 }
 
+variable "tower_ssh_password" {
+  description = "The ssh password for the Ansible Tower server"
+  type        = string
+  default     = "xxxx"
+}
+
 variable "tower_ssh_key" {
   description = "The ssh private key for the Ansible Tower server"
   type        = string

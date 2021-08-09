@@ -54,29 +54,6 @@
             cmd: terraform apply -auto-approve
             chdir: /tmp/gcp_deploy
 
-        # - name: Provision GCP infrastructure via Terraform
-        #   terraform:
-        #     project_path: /tmp/gcp_deploy
-        #     state: present
-        #     variables:
-        #       gcp_region: "{{ gcp_region }}"
-        #       gcp_prefix: "{{ gcp_prefix }}"
-        #       gcp_key: '{{ lookup("env", "GCE_CREDENTIALS_FILE_PATH") }}'
-        #       gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
-        #       num_instances: "{{ num_instances }}"
-        #       application: "{{ application }}"
-        #       #RHEL8
-        #       gcp_disk_image: "{{ gcp_disk_image }}"
-        #       machine_type: "{{ machine_type }}"
-        #   register: terraform_output
-        #   no_log: false
-        #
-        # - name: Debug Terraform output
-        #   debug:
-        #     var: terraform_output
-        #   tags:
-        #     - debug
-
         - name: Update Ansible Tower Cloud SSH Credential
           tower_credential:
             name: Cloud Demo Instances Key
@@ -141,34 +118,6 @@
             cmd: terraform apply -auto-approve
             chdir: /tmp/aws_deploy
 
-        # - name: Provision AWS infrastructure via Terraform
-        #   terraform:
-        #     project_path: /tmp/aws_deploy
-        #     # project_path: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
-        #     state: present
-        #     variables:
-        #       ec2_region: "{{ ec2_region }}"
-        #       ec2_prefix: "{{ ec2_prefix }}"
-        #       # access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
-        #       # secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
-        #       num_instances: "{{ num_instances }}"
-        #       application: "{{ application }}"
-        #       #RHEL8
-        #       ec2_image_id: "{{ ec2_image_id }}"
-        #       machine_type: "{{ machine_type }}"
-        #   register: terraform_output
-        #   # no_log: true
-
-        # - name: Debug Terraform output
-        #   debug:
-        #     var: terraform_output
-        #   tags:
-        #     - debug
-
-        # - shell:
-        #     cmd: ansible-vault encrypt main.tf --vault-id ~/.ssh/.vault
-        #     chdir: /tmp/aws_deploy
-
         #TODO: https://registry.terraform.io/providers/nolte/awx/latest/docs/resources/credential_machine
 
         - name: Update Ansible Tower Cloud SSH Credential
@@ -185,27 +134,3 @@
             tower_verify_ssl: false
 
       when: cloud_provider == "aws"
-
-
-
-    # - name: Initialize Terraform
-    #   command:
-    #     cmd: terraform init
-    #     chdir: ./terraform/cloud-deploy/gcp_deploy
-    #
-    # - name: Provision AWS Instances/Resources via Terraform
-    #   terraform:
-    #     project_path: ./terraform/cloud-deploy/gcp_deploy
-    #     state: present
-    #     # force_init: yes
-    #     variables:
-    #       num_instances: 5
-    #       ec2_image_id: ami-098f16afa9edf40be
-    #       machine_type: t2.micro
-    #   register: terraform_output
-    #
-    # - name: Debug Terraform output
-    #   debug:
-    #     var: terraform_output
-    #   tags:
-    #     - debug
