@@ -1,6 +1,6 @@
 ---
 - name: Teardown AWS infrastructure via Terraform
-  hosts: localhost
+  hosts: automation-controller
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
@@ -18,11 +18,13 @@
           file:
             path: "{{ working_dir }}/id_ssh_rsa"
             state: absent
+          become: true
         
         - name: Delete local public key
           file:
             path: "{{ working_dir }}/id_ssh_rsa.pub"
             state: absent
+          become: true
 
         - name: Ensure GCP Terraform Directory Exists
           stat:
@@ -50,11 +52,13 @@
           file:
             path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
             state: absent
+          become: true
         
         - name: Delete local public key
           file:
             path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
             state: absent
+          become: true
 
         - name: Ensure AWS Terraform Directory Exists
           stat:
