@@ -29,15 +29,15 @@
             path: /tmp/gcp_deploy
           register: gcp_deploy_directory
 
-        - name: Teardown GCP Plan
-          command:
-            cmd: terraform plan -destroy -out=destroy.tfplan
-            chdir: /tmp/gcp_deploy
-          when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
+        # - name: Teardown GCP Plan
+        #   command:
+        #     cmd: terraform plan -destroy -out=destroy.tfplan
+        #     chdir: /tmp/gcp_deploy
+        #   when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
         - name: Teardown GCP infrastructure via Terraform
           command:
-            cmd: terraform apply destroy.tfplan
+            cmd: terraform destroy -auto-approve
             chdir: /tmp/gcp_deploy
           when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
