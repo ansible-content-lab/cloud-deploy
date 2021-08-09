@@ -29,9 +29,14 @@
             path: /tmp/gcp_deploy
           register: gcp_deploy_directory
 
+        - name: Teardown GCP Plan
+          command:
+            cmd: terraform plan -destroy -out=destroy.tfplan
+            chdir: /tmp/gcp_deploy
+
         - name: Teardown GCP infrastructure via Terraform
           command:
-            cmd: terraform apply -auto-approve
+            cmd: terraform apply destroy.tfplan
             chdir: /tmp/gcp_deploy
 
         # - name: Teardown GCP infrastructure via Terraform
