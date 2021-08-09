@@ -54,7 +54,7 @@
               gcp_disk_image: "{{ gcp_disk_image }}"
               machine_type: "{{ machine_type }}"
           register: terraform_output
-          no_log: false
+          no_log: true
 
         - name: Debug Terraform output
           debug:
