@@ -14,7 +14,8 @@ application: apache
 # machine_type: t2.medium
 # ec2_image_id: ami-02eac2c0129f6376b #Centos7
 # ec2_image_id: ami-07ebfd5b3428b6f4d #Ubuntu 18.04
-ec2_image_id: ami-098f16afa9edf40be #RHEL 8
+# ec2_image_id: ami-098f16afa9edf40be #RHEL-8.2.0_HVM-20200423-x86_64
+ec2_image_id: ami-0b0af3577fe5e3532 #RHEL-8.4.0_HVM-20210504-x86_64
 ec2_wait: yes #wait for newly created instances to reach desired state before returning
 ec2_vpc_subnet: "192.168.0.0/28"
 ec2_vpc_cidr: "192.168.0.0/24"
