@@ -22,4 +22,50 @@
       org_id: "{{ rhorg_id }}"
       auto_attach: true
     become: yes
-  when: tags.cloud_provider == "aws"
+    when: tags.cloud_provider == "aws"
+
+  - name: Install package rhc-worker-playbook
+    dnf:
+      state: present
+      name: rhc-worker-playbook
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Enable the Subscription-Manager repository
+    command: subscription-manager config --rhsm.manage_repos=1
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Enable a RHSM repository
+    rhsm_repository:
+      name: ansible-2.9-for-rhel-8-x86_64-rpms
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Install package ansible
+    dnf:
+      state: present
+      name: ansible
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Disable the Subscription-Manager repository
+    command: subscription-manager config --rhsm.manage_repos=0
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Unregister from Red Hat Subscription Manager
+    redhat_subscription:
+      state: absent
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Disconnect Red Hat Connector
+    command: rhc disconnect
+    become: yes
+    when: tags.cloud_provider == "aws"
+
+  - name: Connect Red Hat Connector
+    command: "rhc connect -a {{ rhactivationkey }} -o {{ rhorg_id }}"
+    become: yes
+    when: tags.cloud_provider == "aws"
