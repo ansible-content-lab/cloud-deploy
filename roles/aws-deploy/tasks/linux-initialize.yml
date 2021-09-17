@@ -36,7 +36,7 @@
     become: yes
     when: tags.cloud_provider == "aws"
 
-  - name: Enable a RHSM repository
+  - name: Enable the RHSM repository
     rhsm_repository:
       name: ansible-2.9-for-rhel-8-x86_64-rpms
     become: yes
@@ -63,6 +63,7 @@
   - name: Disconnect Red Hat Connector
     command: rhc disconnect
     become: yes
+    ignore_errors: yes
     when: tags.cloud_provider == "aws"
 
   - name: Connect Red Hat Connector
