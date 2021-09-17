@@ -22,4 +22,51 @@
       org_id: "{{ rhorg_id }}"
       auto_attach: true
     become: yes
-  when: labels.cloud_provider == "gcp"
+    when: labels.cloud_provider == "gcp"
+  
+  - name: Install package rhc-worker-playbook
+    dnf:
+      state: present
+      name: rhc-worker-playbook
+    become: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Enable the Subscription-Manager repository
+    command: subscription-manager config --rhsm.manage_repos=1
+    become: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Enable the RHSM repository
+    rhsm_repository:
+      name: ansible-2.9-for-rhel-8-x86_64-rpms
+    become: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Install package ansible
+    dnf:
+      state: present
+      name: ansible
+    become: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Disable the Subscription-Manager repository
+    command: subscription-manager config --rhsm.manage_repos=0
+    become: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Unregister from Red Hat Subscription Manager
+    redhat_subscription:
+      state: absent
+    become: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Disconnect Red Hat Connector
+    command: rhc disconnect
+    become: yes
+    ignore_errors: yes
+    when: labels.cloud_provider == "gcp"
+
+  - name: Connect Red Hat Connector
+    command: "rhc connect -a {{ rhactivationkey }} -o {{ rhorg_id }}"
+    become: yes
+    when: labels.cloud_provider == "gcp"
