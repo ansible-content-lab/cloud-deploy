@@ -12,7 +12,7 @@
       block:
 
         - name: Provision Resources on GCP
-          include_role:
+          ansible.builtin.include_role:
             name: gcp-deploy
             tasks_from: provision-resources
 
@@ -22,7 +22,7 @@
       block:
 
         - name: Provision Resources on AWS
-          include_role:
+          ansible.builtin.include_role:
             name: aws-deploy
             tasks_from: provision-resources
 

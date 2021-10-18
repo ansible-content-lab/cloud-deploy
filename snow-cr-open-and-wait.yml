@@ -32,7 +32,7 @@
     #   when: from_snow|bool
 
     - name: Store Change Request number as artifact for later in the workflow
-      template:
+      ansible.builtin.template:
         src: ./templates/snow-change-request.j2
         dest: "{{ working_dir }}/snow-change-request.yml"
       run_once: yes
@@ -40,13 +40,13 @@
       when: from_snow|bool
 
     - name: Print out Change Request number
-      debug:
+      ansible.builtin.debug:
         msg: "The newly created Change Request is {{ new_change_request.record.number }}. Awaiting Approval."
       when: from_snow|bool
 
     #https://www.infinitypp.com/ansible/email-notifications-with-examples/
     - name: Sending an email requesting approval
-      mail:
+      ansible.builtin.mail:
         host: smtp.gmail.com
         port: 587
         username: "{{ gmail_username }}"
@@ -76,7 +76,7 @@
       retries: 50
       delay: 10
 
-    - debug:
+    - ansible.builtin.debug:
         msg: "Change Request {{ new_change_request.record.number }} has been approved!"
       when: from_snow|bool
 
