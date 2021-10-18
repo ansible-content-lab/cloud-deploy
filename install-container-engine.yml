@@ -15,7 +15,7 @@
       block:
 
         - name: Install Container Engine on GCP
-          include_role:
+          ansible.builtin.include_role:
             name: gcp-deploy
             tasks_from: install-podman
 
@@ -25,7 +25,7 @@
       block:
 
         - name: Install Container Engine on AWS
-          include_role:
+          ansible.builtin.include_role:
             name: aws-deploy
             tasks_from: install-podman
 

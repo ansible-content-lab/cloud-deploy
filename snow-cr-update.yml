@@ -34,7 +34,7 @@
 
     - block:
       - name: Remove Change Request Variable file
-        file:
+        ansible.builtin.file:
           path: "{{ working_dir }}/snow-change-request.yml"
           state: absent
         when: ((change_request_status.record.state == "3") or

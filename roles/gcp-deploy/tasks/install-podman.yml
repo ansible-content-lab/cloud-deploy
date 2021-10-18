@@ -4,19 +4,19 @@
 ---
 - block:
   - name: Remove docker directory
-    file:
+    ansible.builtin.file:
       path: /var/lib/docker/
       state: absent
     become: yes
 
   - name: Remove existing Docker repositories from /etc/yum.repos.d/
-    file:
+    ansible.builtin.file:
       path: /etc/yum.repos.d/docker*.repo
       state: absent
     become: yes
 
   - name: Remove docker if installed from CentOS repo
-    yum:
+    ansible.builtin.yum:
       name: "{{ packages }}"
       state: removed
     become: yes
@@ -34,19 +34,19 @@
         - docker-ce-cli
 
   - name: Uninstall the latest available containerd.io package manually
-    yum:
+    ansible.builtin.yum:
       name: containerd.io-1.2.6-3.3.el7.x86_64
       state: removed
     become: yes
 
   - name: install the 'Container tools' package group
-    yum:
+    ansible.builtin.yum:
       name: "@container-tools"
       state: present
     become: yes
 
   - name: install the podman-docker package group
-    yum:
+    ansible.builtin.yum:
       name: podman-docker
       state: present
     become: yes

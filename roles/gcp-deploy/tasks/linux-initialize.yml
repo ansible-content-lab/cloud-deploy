@@ -1,12 +1,12 @@
 ---
 - block:
   - name: Wait for instances to be reachable
-    wait_for_connection:
+    ansible.builtin.wait_for_connection:
       sleep: 5
       timeout: 600
 
   - name: Install subscription-manager
-    yum:
+    ansible.builtin.yum:
       name: "{{ packages }}"
     vars:
       packages:
@@ -16,7 +16,7 @@
     become: yes
 
   - name: Register with activationkey and consume subscriptions matching Red Hat Enterprise Linux Server
-    redhat_subscription:
+    community.general.redhat_subscription:
       state: present
       activationkey: "{{ rhactivationkey }}"
       org_id: "{{ rhorg_id }}"
@@ -25,48 +25,48 @@
     when: labels.cloud_provider == "gcp"
   
   - name: Install package rhc-worker-playbook
-    dnf:
+    ansible.builtin.dnf:
       state: present
       name: rhc-worker-playbook
     become: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Enable the Subscription-Manager repository
-    command: subscription-manager config --rhsm.manage_repos=1
+    ansible.builtin.command: subscription-manager config --rhsm.manage_repos=1
     become: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Enable the RHSM repository
-    rhsm_repository:
+    community.general.rhsm_repository:
       name: ansible-2.9-for-rhel-8-x86_64-rpms
     become: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Install package ansible
-    dnf:
+    ansible.builtin.dnf:
       state: present
       name: ansible
     become: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Disable the Subscription-Manager repository
-    command: subscription-manager config --rhsm.manage_repos=0
+    ansible.builtin.command: subscription-manager config --rhsm.manage_repos=0
     become: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Unregister from Red Hat Subscription Manager
-    redhat_subscription:
+    community.general.redhat_subscription:
       state: absent
     become: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Disconnect Red Hat Connector
-    command: rhc disconnect
+    ansible.builtin.command: rhc disconnect
     become: yes
     ignore_errors: yes
     when: labels.cloud_provider == "gcp"
 
   - name: Connect Red Hat Connector
-    command: "rhc connect -a {{ rhactivationkey }} -o {{ rhorg_id }}"
+    ansible.builtin.command: "rhc connect -a {{ rhactivationkey }} -o {{ rhorg_id }}"
     become: yes
     when: labels.cloud_provider == "gcp"
