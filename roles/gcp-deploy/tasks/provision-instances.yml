@@ -1,31 +1,31 @@
 ---
 - name: Set Machine Type to Micro
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: f1-micro
   when: instance_size == "micro"
 
 - name: Set Machine Type to Small
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: g1-small
   when: instance_size == "small"
 
 - name: Set Machine Type to Medium
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: n1-standard-1
   when: instance_size == "medium"
 
 - name: Set Machine Type to large
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: n1-standard-2
   when: instance_size == "large"
 
 - name: Generate SSH Key pair
-  openssh_keypair:
+  community.crypto.openssh_keypair:
     path: "{{working_dir }}/id_ssh_rsa"
   register: ssh_key_output
 
 - name: Update Ansible Tower Cloud SSH Credential
-  tower_credential:
+  ansible.tower.tower_credential:
     name: Cloud Demo Instances Key
     organization: "Cloud Organization"
     tower_host: "{{ tower_url }}"
@@ -38,24 +38,24 @@
   delegate_to: localhost
   run_once: true
 
-- debug:
+- ansible.builtin.debug:
     var: ssh_key_output
 
 - name: Gather Subnet Information
-  gcp_compute_subnetwork_info:
+  google.cloud.gcp_compute_subnetwork_info:
     region: "{{ gcp_region }}"
     filters:
     - name = "{{ gcp_prefix }}-subnet"
   register: subnetwork_info
 
 - name: Gather Network Information
-  gcp_compute_network_info:
+  google.cloud.gcp_compute_network_info:
     filters:
     - name = "{{ gcp_prefix }}-vpc"
   register: network_info
 
 - name: "Create GCP instances for {{ application }}"
-  gcp_compute_instance:
+  google.cloud.gcp_compute_instance:
     name: "{{ application }}-server-{{ item|int }}"
     machine_type: "{{ machine_type }}"
     disks:
@@ -91,7 +91,7 @@
   no_log: true
 
 - name: "Create GCP secrets engine instance"
-  gcp_compute_instance:
+  google.cloud.gcp_compute_instance:
     name: "{{ gcp_prefix}}-webserver"
     machine_type: n1-standard-1
     disks:

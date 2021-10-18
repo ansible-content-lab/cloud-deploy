@@ -1,37 +1,37 @@
 ---
 - name: Set Machine Type to Micro
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: t2.micro
     ec2_root_volume_name: /dev/xvda
   when: instance_size == "micro"
 
 - name: Set Machine Type to Small
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: t2.small
     ec2_root_volume_name: /dev/sda1
   when: instance_size == "small"
 
 - name: Set Machine Type to Medium
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: t2.medium
     ec2_root_volume_name: /dev/sda1
   when: instance_size == "medium"
 
 - name: Set Machine Type to large
-  set_fact:
+  ansible.builtin.set_fact:
     machine_type: t2.large
     ec2_root_volume_name: /dev/sda1
   when: instance_size == "large"
 
 - name: Create AWS SSH Key Pair
-  ec2_key:
+  amazon.aws.ec2_key:
     region: "{{ ec2_region }}"
     name: "{{ ec2_prefix }}-key"
   register: create_key
 
 # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
 - name: Save Private Key Locally
-  copy:
+  ansible.builtin.copy:
     content: "{{ create_key.key.private_key }}"
     dest: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
     mode: '0600'
@@ -39,13 +39,13 @@
   no_log: yes
 
 - name: Derive Public Key from Private Key
-  command: "ssh-keygen -y -f {{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+  ansible.builtin.command: "ssh-keygen -y -f {{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
   register: pubkey_output
   when: create_key.changed
   no_log: yes
 
 - name: Save Public Key Locally
-  copy:
+  ansible.builtin.copy:
     content: "{{ pubkey_output.stdout }}"
     dest: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
     mode: '0400'
@@ -53,7 +53,7 @@
   no_log: yes
 
 - name: Update Ansible Tower Cloud SSH Credential
-  tower_credential:
+  ansible.tower.tower_credential:
     name: Cloud Demo Instances Key
     organization: "Cloud Organization"
     tower_host: "{{ tower_url }}"
@@ -68,7 +68,7 @@
   when: create_key.changed
 
 - name: Gather Subnet Information
-  ec2_vpc_subnet_info:
+  community.aws.ec2_vpc_subnet_info:
     region: "{{ ec2_region }}"
     filters:
       "tag:application": "{{ application }}"
@@ -77,7 +77,7 @@
 
 
 - name: "Create ec2 secrets engine instance"
-  ec2:
+  amazon.aws.ec2:
     assign_public_ip: true
     key_name: "{{ ec2_prefix }}-key"
     group: "{{ ec2_prefix }}-sg"
@@ -103,7 +103,7 @@
 
 
 - name: "Create EC2 instances for {{ application }}"
-  ec2:
+  amazon.aws.ec2:
     assign_public_ip: true
     key_name: "{{ ec2_prefix }}-key"
     group: "{{ ec2_prefix }}-sg"
