@@ -20,7 +20,7 @@
       state: present
       activationkey: "{{ rhactivationkey }}"
       org_id: "{{ rhorg_id }}"
-      auto_attach: true
+      # auto_attach: true
     become: yes
     when: tags.cloud_provider == "aws"
 
