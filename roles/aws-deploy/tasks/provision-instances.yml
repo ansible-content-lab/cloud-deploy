@@ -68,7 +68,7 @@
   when: create_key.changed
 
 - name: Gather Subnet Information
-  community.aws.ec2_vpc_subnet_info:
+  amazon.aws.ec2_vpc_subnet_info:
     region: "{{ ec2_region }}"
     filters:
       "tag:application": "{{ application }}"
