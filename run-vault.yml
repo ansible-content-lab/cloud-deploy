@@ -13,7 +13,7 @@
       block:
 
         - name: Set up secrets engine on GCP
-          include_role:
+          ansible.builtin.include_role:
             name: gcp-deploy
             tasks_from: install-vault-podman
 
@@ -23,7 +23,7 @@
       block:
 
         - name: Set up secrets engine on  AWS
-          include_role:
+          ansible.builtin.include_role:
             name: aws-deploy
             tasks_from: install-vault-podman
 

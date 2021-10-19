@@ -16,4 +16,6 @@ collections:
     version: 3.8.3
   - name: community.crypto
     version: 1.9.5
+  - name: containers.podman
+    version: 1.8.1
   

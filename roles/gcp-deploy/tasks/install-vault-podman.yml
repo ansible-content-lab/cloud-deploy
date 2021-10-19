@@ -1,13 +1,13 @@
 ---
 - block:
     - name: Ensure pip is installed
-      yum:
+      ansible.builtin.yum:
         name: python3-pip
         state: latest
       become: yes
 
     - name: Ensure yaml python package is installed
-      pip:
+      ansible.builtin.pip:
         name: pyyaml
         state: present
       become: yes
