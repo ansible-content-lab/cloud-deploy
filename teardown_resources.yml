@@ -15,7 +15,7 @@
 
       # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
       - name: "Get the VPC ID for {{ ec2_prefix }}-vpc"
-        ec2_vpc_net_info:
+        amazon.aws.ec2_vpc_net_info:
           region: "{{ ec2_region }}"
           filters:
             "tag:Name": "{{ ec2_prefix }}-vpc"
@@ -27,7 +27,7 @@
       #     var: vpc_net_facts
 
       - name: "Gather {{ application }} Instance Info"
-        ec2_instance_info:
+        community.aws.ec2_instance_info:
           region: "{{ ec2_region }}"
           filters:
             "tag:application": "{{ application }}"
@@ -45,7 +45,7 @@
       #     var: instance_info | json_query('instances[*].instance_id')
 
       - name: "Gather {{ application }} Route Table Information"
-        ec2_vpc_route_table_info:
+        community.aws.ec2_vpc_route_table_info:
           region: "{{ ec2_region }}"
           filters:
             "tag:application": "{{ application }}"
@@ -56,7 +56,7 @@
       #     var: route_table_info.route_tables[0].id
 
       - name: Delete Route Table
-        ec2_vpc_route_table:
+        community.aws.ec2_vpc_route_table:
           region: "{{ ec2_region }}"
           vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
           route_table_id: "{{ route_table_info.route_tables[0].id }}"
@@ -65,13 +65,13 @@
         when: route_table_info.route_tables[0].id is defined
 
       - name: Delete Internet Gateway
-        ec2_vpc_igw:
+        community.aws.ec2_vpc_igw:
           vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
           region: "{{ ec2_region }}"
           state: absent
 
       - name: "Delete Subnet for {{ ec2_prefix }}-vpc"
-        ec2_vpc_subnet:
+        amazon.aws.ec2_vpc_subnet:
           state: absent
           region: "{{ ec2_region }}"
           vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
@@ -82,7 +82,7 @@
         block:
 
           - name: "Delete EC2 Security Group {{ec2_prefix }}-sg"
-            ec2_group:
+            amazon.aws.ec2_group:
               name: "{{ ec2_prefix }}-sg"
               region: "{{ec2_region }}"
               vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
@@ -92,7 +92,7 @@
             retries: 50
 
           - name: "Delete AWS VPC {{ ec2_prefix }}-vpc"
-            ec2_vpc_net:
+            amazon.aws.ec2_vpc_net:
               region: "{{ ec2_region }}"
               name: "{{ ec2_prefix }}-vpc"
               cidr_block: "{{ vpc_net_facts.vpcs[0].cidr_block }}"
@@ -103,7 +103,7 @@
       block:
 
         - name: "Gather GCP VPC {{ gcp_prefix }}-vpc info"
-          gcp_compute_network_info:
+          google.cloud.gcp_compute_network_info:
             filters:
             - name = "{{ gcp_prefix }}-vpc"
           register: gcp_vpc
@@ -112,12 +112,12 @@
         #     var: gcp_vpc
 
         - name: "Delete GCP Firewall for {{ gcp_prefix }}-vpc"
-          gcp_compute_firewall:
+          google.cloud.gcp_compute_firewall:
             name: "{{ gcp_prefix }}-firewall"
             state: absent
 
         - name: "Delete GCP Subnet {{ gcp_prefix }}-subnet"
-          gcp_compute_subnetwork:
+          google.cloud.gcp_compute_subnetwork:
             name: "{{ gcp_prefix }}-subnet"
             ip_cidr_range: "{{ gcp_vpc_subnet }}"
             network: "{{ gcp_vpc.resources[0] }}"
@@ -125,7 +125,7 @@
             state: absent
 
         - name: "Delete GCP VPC {{ gcp_prefix }}-vpc"
-          gcp_compute_network:
+          google.cloud.gcp_compute_network:
             name: "{{ gcp_prefix }}-vpc"
             state: absent
 

@@ -14,7 +14,7 @@
     - name: Teardown AWS Instances
       block:
         - name: "Gather {{ application }} instance info"
-          ec2_instance_info:
+          community.aws.ec2_instance_info:
             region: "{{ ec2_region }}"
             filters:
               "tag:application": "{{ application }}"
@@ -23,14 +23,14 @@
           register: instance_info
 
         - name: "Create a list of the {{ application }} Instances"
-          set_fact:
+          ansible.builtin.set_fact:
             ec2_instance_ids: "{{ ec2_instance_ids }} + [ '{{ item }}']"
           # TODO: https://github.com/ansible/ansible/issues/19347
           # loop: "{{ instance_info | json_query('instances[*].instance_id')  }}"
           with_items: "{{ instance_info | json_query('instances[*].instance_id')  }}"
 
         - name: "Terminate Instances for Application {{ application }}"
-          ec2:
+          amazon.aws.ec2:
             state: absent
             instance_ids: "{{ ec2_instance_ids }}"
             wait: "{{ ec2_wait }}"
@@ -38,18 +38,18 @@
           when: ec2_instance_ids | length > 0
 
         - name: Delete AWS SSH Public Key
-          ec2_key:
+          amazon.aws.ec2_key:
             region: "{{ ec2_region }}"
             name: "{{ ec2_prefix }}-key"
             state: absent
 
         - name: delete flat-file private key
-          file:
+          ansible.builtin.file:
             path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
             state: absent
         
         - name: delete flat-file public key
-          file:
+          ansible.builtin.file:
             path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
             state: absent
       when: cloud_provider == "aws"
@@ -58,7 +58,7 @@
       block:
 
           - name: "Gather {{ application }} instance info"
-            gcp_compute_instance_info:
+            google.cloud.gcp_compute_instance_info:
               zone: "{{ gcp_zone }}"
               filters:
               - labels.provisioner = mford
@@ -71,7 +71,7 @@
           #     var: instance_info
 
           - name: Teardown GCP instances
-            gcp_compute_instance:
+            google.cloud.gcp_compute_instance:
               name: "{{ item.name }}"
               zone: "{{ gcp_zone }}"
               state: absent
@@ -79,12 +79,12 @@
             no_log: true
 
           - name: delete flat-file public key
-            file:
+            ansible.builtin.file:
               path: "{{ working_dir }}/id_ssh_rsa.pub"
               state: absent
           
           - name: delete flat-file private key
-            file:
+            ansible.builtin.file:
               path: "{{ working_dir }}/id_ssh_rsa"
               state: absent
 
