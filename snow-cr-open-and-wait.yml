@@ -9,24 +9,7 @@
     - servicenow.servicenow
 
   tasks:
-    # - name: Create ServiceNow Change Request (OLD)
-    #   snow_record:
-    #     username: "{{ SNOW_USERNAME }}"
-    #     password: "{{ SNOW_PASSWORD }}"
-    #     instance: "{{ SNOW_INSTANCE }}"
-    #     table: change_request
-    #     state: present
-    #     data:
-    #       short_description: "Deploy Cloud RHEL Instances"
-    #       severity: 3
-    #       priority: 2
-    #       assignment_group: "CAB Approval"
-    #       approval: "requested"
-    #       state: -4
-    #   register: new_change_request
-    #   when: from_snow|bool
-
-    - name: Create ServiceNow Change Request (NEW)
+    - name: Create ServiceNow Change Request
       servicenow.itsm.change_request:
         instance:
           host: "https://{{ SNOW_INSTANCE }}.service-now.com"
@@ -45,7 +28,7 @@
       when: from_snow|bool
 
     - name: Show Change Request details
-      debug:
+      ansible.builtin.debug:
         var: new_change_request
       when: from_snow|bool
 
@@ -72,29 +55,12 @@
         to:
         - "Michael Ford <{{ approver_email }}>"
         - "{{secondary_approver}}"
-        #- "{{tertiary_approver}}"
         subject: "Approval request for ServiceNow Change Request {{ new_change_request.record.number }}"
         body: "You have a new CR Approval request. Please click on this URL to approve: https://{{ SNOW_INSTANCE }}.service-now.com/nav_to.do?uri=change_request.do?sysparm_query=number={{ new_change_request.record.number }}"
       delegate_to: localhost
       when: from_snow|bool
 
-    # - name: Wait for Change Request approval (OLD)
-    #   snow_record_find:
-    #     username: "{{ SNOW_USERNAME }}"
-    #     password: "{{ SNOW_PASSWORD }}"
-    #     instance: "{{ SNOW_INSTANCE }}"
-    #     table: change_request
-    #     query:
-    #       AND:
-    #         equals:
-    #           number: "{{ new_change_request.record.number }}"
-    #   register: change_request_status
-    #   when: from_snow|bool
-    #   until: change_request_status.record[0].state == "-2"
-    #   retries: 50
-    #   delay: 10
-
-    - name: Wait for Change Request approval (NEW)
+    - name: Wait for Change Request approval
       servicenow.itsm.change_request_info:
         instance:
             host: "https://{{ SNOW_INSTANCE }}.service-now.com"
@@ -112,19 +78,17 @@
       when: from_snow|bool
 
     - name: Move Change Request to Review stage
-      snow_record:
-        username: "{{ SNOW_USERNAME }}"
-        password: "{{ SNOW_PASSWORD }}"
-        instance: "{{ SNOW_INSTANCE }}"
-        table: change_request
-        number: "{{ new_change_request.record.number }}"
-        state: present
-        data:
-          state: "{{ item }}"
+      servicenow.itsm.change_request:
+        instance:
+            host: "https://{{ SNOW_INSTANCE }}.service-now.com"
+            username: "{{ SNOW_USERNAME }}"
+            password: "{{ SNOW_PASSWORD }}"
+        sys_id: "{{ new_change_request.record.sys_id }}"
+        state: "{{ item }}"
       when: from_snow|bool
       loop:
-        - "-1"
-        - "0"
+        - "implement"
+        - "review"
 
 
 
