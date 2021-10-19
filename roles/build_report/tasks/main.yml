@@ -1,24 +1,24 @@
 - name: Copy Ansible Logo
-  copy:
+  ansible.builtin.copy:
     src: webpage_logo.png
     dest: /var/www/html/
   become: yes
 
 - name: Copy CSS
-  copy:
+  ansible.builtin.copy:
     src: css
     dest: /var/www/html/
   become: yes
 
 - name: create HTML report
-  template:
+  ansible.builtin.template:
     src: report.j2
     dest: /var/www/html/index.html
   become: yes
   notify: restart_apache
 
 - name: update directory permissions
-  file:
+  ansible.builtin.file:
     path: /var/www/html
     state: directory
     recurse: yes
