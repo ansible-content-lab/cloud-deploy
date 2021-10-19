@@ -2,7 +2,7 @@
 - block:
 
   - name: Install insights-client
-    yum:
+    ansible.builtin.yum:
       name: "{{ packages }}"
     vars:
       packages:
@@ -17,16 +17,16 @@
   #   become: yes
 
   - name: Install Apache
-    yum:
+    ansible.builtin.yum:
       name: httpd
       state: latest
     become: yes
 
   - name: Register with Red Hat Insights
-    command: insights-client --register
+    ansible.builtin.command: insights-client --register
     become: yes
 
   - name: build report
-    include_role:
+    ansible.builtin.include_role:
       name: build_report
   when: tags.group == "rhel"

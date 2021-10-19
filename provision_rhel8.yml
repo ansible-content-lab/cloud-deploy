@@ -11,7 +11,7 @@
       block:
 
         - name: Ensure Standard Linux Configuration GCP
-          include_role:
+          ansible.builtin.include_role:
             name: gcp-deploy
             tasks_from: provision-linux
 
@@ -21,7 +21,7 @@
       block:
 
         - name: Ensure Standard Linux Configuration on AWS
-          include_role:
+          ansible.builtin.include_role:
             name: aws-deploy
             tasks_from: provision-linux
 
