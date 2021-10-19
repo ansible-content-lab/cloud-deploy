@@ -103,7 +103,7 @@
         sys_id: "{{ new_change_request.record.sys_id }}"
       register: change_request_status
       when: from_snow|bool
-      until: change_request_status.records[0].state == "-2"
+      until: change_request_status.records[0].state == "scheduled"
       retries: 50
       delay: 10
 
