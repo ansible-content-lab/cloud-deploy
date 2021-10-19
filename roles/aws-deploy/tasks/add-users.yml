@@ -1,18 +1,18 @@
 ---
 - name: Create vault_hostname.yml template
-  template:
+  ansible.builtin.template:
     src: vault_hostname.j2
     dest: /tmp/vault_hostname.yml
   delegate_to: localhost
   run_once: yes
 
 - name: Include variable file for vault_hostname
-  include_vars:
+  ansible.builtin.include_vars:
     file: /tmp/vault_hostname.yml
   run_once: yes
 
 - name: Add key value pair secrets engine to vault
-  uri:
+  ansible.builtin.uri:
     url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel"
     method: POST
     body_format: json
@@ -26,14 +26,14 @@
   run_once: yes
 
 - name: Create linux_users.json template
-  template:
+  ansible.builtin.template:
     src: linux_users.j2
     dest: /tmp/linux_users.json
   delegate_to: localhost
   run_once: yes
 
 - name: Add user ssh keys to secrets engine
-  uri:
+  ansible.builtin.uri:
     url: "http://{{ vault_hostname }}:8200/v1/rhel/users"
     method: POST
     src: /tmp/linux_users.json
@@ -43,14 +43,14 @@
   run_once: yes
 
 - name: Delete linux_users.json
-  file:
+  ansible.builtin.file:
     path: /tmp/linux_users.json
     state: absent
   delegate_to: localhost
   run_once: yes
 
 - name: Delete vault_hostname.yml
-  file:
+  ansible.builtin.file:
     path: /tmp/vault_hostname.yml
     state: absent
   delegate_to: localhost
@@ -90,14 +90,14 @@
   #Create users and force them to change password upon first login
   #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
   - name: Add users
-    user:
+    ansible.builtin.user:
       name: "{{ item.username }}"
       groups: wheel
     with_items: "{{ linux_users }}"
     become: yes
 
   - name: Add public ssh key to user
-    authorized_key:
+    ansible.posix.authorized_key:
       user: "{{ item.username }}"
       state: present
       key: "{{ lookup('file', '{{ working_dir }}/{{ tags.ec2_prefix }}-key.pub') }}"
@@ -105,17 +105,17 @@
     become: yes
 
   - name: Unlock password and set it to empty
-    command: "passwd -d {{ item.username }}"
+    ansible.builtin.command: "passwd -d {{ item.username }}"
     with_items: "{{ linux_users }}"
     become: yes
 
   - name: Expire password
-    command: "chage -d 0 {{ item.username }}"
+    ansible.builtin.command: "chage -d 0 {{ item.username }}"
     with_items: "{{ linux_users }}"
     become: yes
 
   - name: Allow newly added users to sudo without a password
-    template:
+    ansible.builtin.template:
       src: sudoers.j2
       dest: /etc/sudoers.d/sudoers
       validate: 'visudo -cf %s'
@@ -125,7 +125,7 @@
   #Instructions on how to change SSH PasswordAuthentication
   #https://www.reddit.com/r/ansible/comments/8v943t/add_a_ansible_task_to_allow/
   - name: update sshd config to allow for Password Authentication
-    lineinfile:
+    ansible.builtin.lineinfile:
       path: /etc/ssh/sshd_config
       regexp: '^PasswordAuthentication.*no'
       line: 'PasswordAuthentication yes'

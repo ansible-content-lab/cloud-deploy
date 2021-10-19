@@ -18,7 +18,7 @@
       block:
 
         - name: Add RHEL8 users from data file on GCP
-          include_role:
+          ansible.builtin.include_role:
             name: gcp-deploy
             tasks_from: add-users
 
@@ -28,7 +28,7 @@
       block:
 
         - name: Add RHEL8 users from data file AWS
-          include_role:
+          ansible.builtin.include_role:
             name: aws-deploy
             tasks_from: add-users
 
