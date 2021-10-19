@@ -60,11 +60,11 @@
     become: yes
     when: tags.cloud_provider == "aws"
 
-  - name: Disconnect Red Hat Connector
-    ansible.builtin.command: rhc disconnect
-    become: yes
-    ignore_errors: yes
-    when: tags.cloud_provider == "aws"
+  # - name: Disconnect Red Hat Connector
+  #   ansible.builtin.command: rhc disconnect
+  #   become: yes
+  #   ignore_errors: yes
+  #   when: tags.cloud_provider == "aws"
 
   - name: Connect Red Hat Connector
     ansible.builtin.command: "rhc connect -a {{ rhactivationkey }} -o {{ rhorg_id }}"

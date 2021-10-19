@@ -60,11 +60,11 @@
     become: yes
     when: labels.cloud_provider == "gcp"
 
-  - name: Disconnect Red Hat Connector
-    ansible.builtin.command: rhc disconnect
-    become: yes
-    ignore_errors: yes
-    when: labels.cloud_provider == "gcp"
+  # - name: Disconnect Red Hat Connector
+  #   ansible.builtin.command: rhc disconnect
+  #   become: yes
+  #   ignore_errors: yes
+  #   when: labels.cloud_provider == "gcp"
 
   - name: Connect Red Hat Connector
     ansible.builtin.command: "rhc connect -a {{ rhactivationkey }} -o {{ rhorg_id }}"
