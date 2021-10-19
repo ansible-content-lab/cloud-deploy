@@ -4,29 +4,39 @@
   vars_files:
     - ./credentials/snow_creds.yml
     - ./vars/default-vars.yml
-  collections:
-    - servicenow.servicenow
 
   tasks:
 
     - name: Include Change Request artifact
-      include_vars: "{{ working_dir }}/snow-change-request.yml"
+      ansible.builtin.include_vars: "{{ working_dir }}/snow-change-request.yml"
       when: from_snow|bool
 
-    - name: Update Change Request
-      snow_record:
-        username: "{{ SNOW_USERNAME }}"
-        password: "{{ SNOW_PASSWORD }}"
-        instance: "{{ SNOW_INSTANCE }}"
-        table: change_request
-        number: "{{ snow_cr_number }}"
-        state: present
-        data:
-          state: "{{ close_state }}"
-          close_code: "{{ close_code }}"
-          close_notes: "{{ close_notes }}"
+    # - name: Update Change Request (OLD)
+    #   snow_record:
+    #     username: "{{ SNOW_USERNAME }}"
+    #     password: "{{ SNOW_PASSWORD }}"
+    #     instance: "{{ SNOW_INSTANCE }}"
+    #     table: change_request
+    #     number: "{{ snow_cr_number }}"
+    #     state: present
+    #     data:
+    #       state: "{{ close_state }}"
+    #       close_code: "{{ close_code }}"
+    #       close_notes: "{{ close_notes }}"
+    #   register: change_request_status
+    #   when: from_snow|bool
+
+    - name: Update Change Request (NEW)
+      servicenow.itsm.change_request:
+        instance:
+            host: "https://{{ SNOW_INSTANCE }}.service-now.com"
+            username: "{{ SNOW_USERNAME }}"
+            password: "{{ SNOW_PASSWORD }}"
+        sys_id: "{{ snow_cr_sys_id }}"
+        close_code: "{{ close_code }}"
+        close_notes: "{{ close_notes }}"
+        state: "{{ close_state }}"
       register: change_request_status
-      when: from_snow|bool
 
     # - name: Show Change Request details
     #   debug:
@@ -37,8 +47,8 @@
         ansible.builtin.file:
           path: "{{ working_dir }}/snow-change-request.yml"
           state: absent
-        when: ((change_request_status.record.state == "3") or
-              (change_request_status.record.state == "4"))
+        when: ((change_request_status.record.state == "closed") or
+              (change_request_status.record.state == "canceled"))
       when: from_snow|bool
 
     #state
