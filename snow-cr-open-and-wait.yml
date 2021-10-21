@@ -22,8 +22,8 @@
           approval: requested
         state: assess
         assignment_group: "CAB Approval"
-        short_description: "Deploy Cloud RHEL Instances"
-        description: "Deploy Cloud RHEL Instances"
+        short_description: "Deploy Cloud Linux Instances"
+        description: "Deploy Cloud Linux Instances"
       register: new_change_request
       when: from_snow|bool
 
