@@ -22,6 +22,7 @@
         close_notes: "{{ close_notes }}"
         state: "{{ close_state }}"
       register: change_request_status
+      when: from_snow|bool
 
     # - name: Show Change Request details
     #   debug:
