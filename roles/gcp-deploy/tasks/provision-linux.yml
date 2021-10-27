@@ -22,9 +22,9 @@
       state: latest
     become: yes
 
-  - name: Register with Red Hat Insights
-    ansible.builtin.command: insights-client --register
-    become: yes
+  # - name: Register with Red Hat Insights
+  #   ansible.builtin.command: insights-client --register
+  #   become: yes
 
   - name: build report
     ansible.builtin.include_role:
