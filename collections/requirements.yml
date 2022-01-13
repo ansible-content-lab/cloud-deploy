@@ -12,8 +12,8 @@ collections:
     version: 3.4.0
   # - name: michaelford85.reports
   #   version: 1.1.6
-  - name: ansible.tower
-    version: 3.8.3
+  # - name: ansible.tower
+  #   version: 3.8.5
   - name: community.crypto
     version: 1.9.5
   - name: containers.podman
