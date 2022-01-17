@@ -25,7 +25,7 @@
   register: ssh_key_output
 
 - name: Update Ansible Tower Cloud SSH Credential
-  ansible.tower.tower_credential:
+  ansible.controller.credential:
     name: Cloud Demo Instances Key
     organization: "Cloud Organization"
     tower_host: "{{ tower_url }}"
