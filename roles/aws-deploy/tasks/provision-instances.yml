@@ -56,13 +56,14 @@
   ansible.controller.credential:
     name: Cloud Demo Instances Key
     organization: "Cloud Organization"
-    tower_host: "{{ tower_url }}"
-    tower_username: "{{ tower_user }}"
-    tower_password: "{{ tower_pass }}"
-    kind: ssh
-    username: "{{ aws_instance_username }}"
-    ssh_key_data: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key-private.pem') }}"
-    tower_verify_ssl: false
+    controller_host: "{{ tower_url }}"
+    controller_username: "{{ tower_user }}"
+    controller_password: "{{ tower_pass }}"
+    credential_type: "Machine"
+    inputs:
+      username: "{{ aws_instance_username }}"
+      ssh_key_data: "{{ lookup('file', '{{ working_dir }}/{{ ec2_prefix }}-key-private.pem') }}"
+    validate_certs: no
   delegate_to: localhost
   run_once: true
   when: create_key.changed
