@@ -104,8 +104,8 @@
           ansible.builtin.template:
             src: "{{ playbook_dir }}/templates/aws.auto.tfvars.j2"
             dest: /tmp/aws_deploy/aws.auto.tfvars
-            owner: awx
-            group: awx
+            # owner: awx
+            # group: awx
 
         - name: Initialize Terraform
           ansible.builtin.command:
