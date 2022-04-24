@@ -140,7 +140,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
     connection {
       type     = "ssh"
       user     = "${var.tower_ssh_username}"
-      key = "${var.tower_ssh_key}"
+      private_key = "${var.tower_ssh_key}"
       host     = "${var.tower_hostname}"
     }
   }
@@ -152,7 +152,7 @@ resource "tls_private_key" "cloud-deploy-tls-private-key" {
     connection {
       type     = "ssh"
       user     = "${var.tower_ssh_username}"
-      key = "${var.tower_ssh_key}"
+      private_key = "${var.tower_ssh_key}"
       host     = "${var.tower_hostname}"
     }
   }
