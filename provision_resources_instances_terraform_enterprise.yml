@@ -14,48 +14,48 @@
       block:
 
         - name: Set Machine Type to Small
-          set_fact:
+          ansible.builtin.set_fact:
             machine_type: g1-small
           when: instance_size == "small"
 
         - name: Set Machine Type to Medium
-          set_fact:
+          ansible.builtin.set_fact:
             machine_type: n1-standard-1
           when: instance_size == "medium"
 
         - name: Set Machine Type to large
-          set_fact:
+          ansible.builtin.set_fact:
             machine_type: n1-standard-2
           when: instance_size == "large"
 
         - name: Copy GCP Terraform Directory
-          copy:
+          ansible.builtin.copy:
             src: "{{ playbook_dir }}/terraform/cloud-deploy/gcp_deploy"
             dest: /tmp
             mode: 0777
 
-        - set_fact:
+        - ansible.builtin.set_fact:
             gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
 
         - name: Ensure Terraform Variables File Exists
-          template:
+          ansible.builtin.template:
             src: "{{ playbook_dir }}/templates/gcp.auto.tfvars.j2"
             dest: /tmp/gcp_deploy/gcp.auto.tfvars
             owner: awx
             group: awx
 
         - name: Initialize Terraform
-          command:
+          ansible.builtin.command:
             cmd: terraform init
             chdir: /tmp/gcp_deploy
 
         - name: Terraform Plan
-          command:
+          ansible.builtin.command:
             cmd: terraform apply -auto-approve
             chdir: /tmp/gcp_deploy
 
         - name: Update Ansible Tower Cloud SSH Credential
-          tower_credential:
+          ansible.controller.credential:
             name: Cloud Demo Instances Key
             organization: "Cloud Organization"
             tower_host: "{{ tower_url }}"
@@ -72,25 +72,25 @@
       block:
 
         - name: Set Machine Type to Small
-          set_fact:
+          ansible.builtin.set_fact:
             machine_type: t2.small
             # ec2_root_volume_name: /dev/sda1
           when: instance_size == "small"
 
         - name: Set Machine Type to Medium
-          set_fact:
+          ansible.builtin.set_fact:
             machine_type: t2.medium
             # ec2_root_volume_name: /dev/sda1
           when: instance_size == "medium"
 
         - name: Set Machine Type to large
-          set_fact:
+          ansible.builtin.set_fact:
             machine_type: t2.large
             # ec2_root_volume_name: /dev/sda1
           when: instance_size == "large"
 
         - name: Copy AWS Terraform Directory
-          copy:
+          ansible.builtin.copy:
             src: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
             dest: /tmp
             mode: 0777
@@ -101,27 +101,27 @@
 
 
         - name: Ensure Terraform Variables File Exists
-          template:
+          ansible.builtin.template:
             src: "{{ playbook_dir }}/templates/aws.auto.tfvars.j2"
             dest: /tmp/aws_deploy/aws.auto.tfvars
             owner: awx
             group: awx
 
         - name: Initialize Terraform
-          command:
+          ansible.builtin.command:
             cmd: terraform init
             chdir: /tmp/aws_deploy
             # chdir: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
 
         - name: Terraform Plan
-          command:
+          ansible.builtin.command:
             cmd: terraform apply -auto-approve
             chdir: /tmp/aws_deploy
 
         #TODO: https://registry.terraform.io/providers/nolte/awx/latest/docs/resources/credential_machine
 
         - name: Update Ansible Tower Cloud SSH Credential
-          tower_credential:
+          ansible.controller.credential:
             name: Cloud Demo Instances Key
             organization: "Cloud Organization"
             tower_host: "{{ tower_url }}"
