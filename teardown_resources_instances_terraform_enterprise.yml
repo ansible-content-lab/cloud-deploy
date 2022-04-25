@@ -71,6 +71,11 @@
         #     path: /tmp/aws_deploy
         #   register: aws_deploy_directory
 
+        - name: Initialize Terraform
+          ansible.builtin.command:
+            cmd: terraform init
+            chdir: /tmp/aws_deploy
+            
         - name: Teardown AWS infrastructure via Terraform
           ansible.builtin.command:
             cmd: terraform destroy -auto-approve
