@@ -1,6 +1,6 @@
 ---
 - name: Teardown Cloud Deploy infrastructure via Terraform
-  hosts: automation-controller
+  hosts: localhost
   gather_facts: no
   vars_files:
     - ./vars/default-vars.yml
