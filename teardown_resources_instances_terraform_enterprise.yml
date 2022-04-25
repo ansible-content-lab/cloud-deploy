@@ -83,10 +83,10 @@
         - name: Remove .terraform.lock.hcl from S3 Bucket
           ansible.builtin.command: "aws s3 rm s3://mford-terraform-key-bucket/.terraform.lock.hcl"
 
-        - name: Initialize Terraform
-          ansible.builtin.command:
-            cmd: terraform init
-            chdir: /tmp/aws_deploy
+        # - name: Initialize Terraform
+        #   ansible.builtin.command:
+        #     cmd: terraform init
+        #     chdir: /tmp/aws_deploy
 
         - name: Teardown AWS infrastructure via Terraform
           ansible.builtin.command:
