@@ -135,24 +135,24 @@
             mode: get
 
         - name: Add Terraform Variables to S3
-            amazon.aws.aws_s3:
+          amazon.aws.aws_s3:
             bucket: mford-terraform-key-bucket
             object: aws.auto.tfvars
             src: /tmp/aws_deploy/aws.auto.tfvars
             mode: put
 
         - name: Add terraform.locl.hcl to S3
-            amazon.aws.aws_s3:
+          amazon.aws.aws_s3:
             bucket: mford-terraform-key-bucket
             object: aws.auto.tfvars
             src: /tmp/aws_deploy/.terraform.lock.hcl
             mode: put
         
         - name: add terraform state files to S3
-            community.aws.s3_sync:
-                bucket: mford-terraform-key-bucket
-                file_root: /tmp/aws_deploy/.terraform/
-                
+          community.aws.s3_sync:
+            bucket: mford-terraform-key-bucket
+            file_root: /tmp/aws_deploy/.terraform/
+
         - name: Update Ansible Tower Cloud SSH Credential
           ansible.controller.credential:
             name: Cloud Demo Instances Key
