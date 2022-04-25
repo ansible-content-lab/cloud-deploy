@@ -71,11 +71,17 @@
         #     path: /tmp/aws_deploy
         #   register: aws_deploy_directory
 
+        - name: copy S3 bucket contents to the /tmp/aws_deploy directory
+          ansible.builtin.command: "aws s3 cp s3://mford-terraform-key-bucket /tmp/aws_deploy --recursive"
+
+        - name: Empty S3 Bucket
+          ansible.builtin.command: "aws s3 rm s3://mford-terraform-key-bucket/ --recursive"
+
         - name: Initialize Terraform
           ansible.builtin.command:
             cmd: terraform init
             chdir: /tmp/aws_deploy
-            
+
         - name: Teardown AWS infrastructure via Terraform
           ansible.builtin.command:
             cmd: terraform destroy -auto-approve
