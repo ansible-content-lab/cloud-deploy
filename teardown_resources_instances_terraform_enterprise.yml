@@ -11,34 +11,34 @@
       block:
 
         - name: Set GCP Project Environment Variable
-          set_fact:
+          ansible.builtin.set_fact:
             gcp_project: '{{ lookup("env", "GCE_PROJECT") }}'
 
         - name: Delete local private key
-          file:
+          ansible.builtin.file:
             path: "{{ working_dir }}/id_ssh_rsa"
             state: absent
           become: true
         
         - name: Delete local public key
-          file:
+          ansible.builtin.file:
             path: "{{ working_dir }}/id_ssh_rsa.pub"
             state: absent
           become: true
 
         - name: Ensure GCP Terraform Directory Exists
-          stat:
+          ansible.builtin.stat:
             path: /tmp/gcp_deploy
           register: gcp_deploy_directory
 
         - name: Teardown GCP infrastructure via Terraform
-          command:
+          ansible.builtin.command:
             cmd: terraform destroy -auto-approve
             chdir: /tmp/gcp_deploy
           when: gcp_deploy_directory.stat.exists and gcp_deploy_directory.stat.isdir
 
         - name: delete terraform directory
-          file:
+          ansible.builtin.file:
             path: /tmp/gcp_deploy
             state: absent
           become: true
@@ -49,34 +49,39 @@
     - name: Teardown AWS infrastructure via Terraform
       block:
 
-        - name: Delete local private key
-          file:
-            path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
-            state: absent
-          become: true
+        # - name: Delete local private key
+        #   ansible.builtin.file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key-private.pem"
+        #     state: absent
+        #   become: true
         
-        - name: Delete local public key
-          file:
-            path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
-            state: absent
-          become: true
+        # - name: Delete local public key
+        #   ansible.builtin.file:
+        #     path: "{{ working_dir }}/{{ ec2_prefix }}-key.pub"
+        #     state: absent
+        #   become: true
 
-        - name: Ensure AWS Terraform Directory Exists
-          stat:
-            path: /tmp/aws_deploy
-          register: aws_deploy_directory
+        - name: Copy AWS Terraform Directory
+          ansible.builtin.copy:
+            src: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
+            dest: /tmp
+
+        # - name: Ensure AWS Terraform Directory Exists
+        #   stat:
+        #     path: /tmp/aws_deploy
+        #   register: aws_deploy_directory
 
         - name: Teardown AWS infrastructure via Terraform
-          command:
+          ansible.builtin.command:
             cmd: terraform destroy -auto-approve
             chdir: /tmp/aws_deploy
 
-        - name: delete terraform directory
-          file:
-            path: /tmp/aws_deploy
-            state: absent
-          become: true
-          when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
+        # - name: delete terraform directory
+        #   file:
+        #     path: /tmp/aws_deploy
+        #     state: absent
+        #   become: true
+        #   when: aws_deploy_directory.stat.exists and aws_deploy_directory.stat.isdir
 
 
 
