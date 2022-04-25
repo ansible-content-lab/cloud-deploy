@@ -154,7 +154,7 @@
         #     file_root: /tmp/aws_deploy/.terraform/
 
         - name: add terraform state files to S3
-          ansible.builtin.command: "aws s3 cp /tmp/aws_deploy/.terraform/ s3://mford-terraform-key-bucket/ --recursive"
+          ansible.builtin.command: "aws s3 cp /tmp/aws_deploy/.terraform/ s3://mford-terraform-key-bucket/.terraform/ --recursive"
 
         - name: Update Ansible Tower Cloud SSH Credential
           ansible.controller.credential:

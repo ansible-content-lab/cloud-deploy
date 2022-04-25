@@ -74,8 +74,14 @@
         - name: copy S3 bucket contents to the /tmp/aws_deploy directory
           ansible.builtin.command: "aws s3 cp s3://mford-terraform-key-bucket /tmp/aws_deploy --recursive"
 
-        - name: Empty S3 Bucket
-          ansible.builtin.command: "aws s3 rm s3://mford-terraform-key-bucket/ --recursive"
+        - name: Remove .terraform S3 Bucket
+          ansible.builtin.command: "aws s3 rm s3://mford-terraform-key-bucket/.terraform/ --recursive"
+
+        - name: Remove aws.auto.tfvars from S3 Bucket
+          ansible.builtin.command: "aws s3 rm s3://mford-terraform-key-bucket/aws.auto.tfvars"
+        
+        - name: Remove .terraform.lock.hcl from S3 Bucket
+          ansible.builtin.command: "aws s3 rm s3://mford-terraform-key-bucket/.terraform.lock.hcl"
 
         - name: Initialize Terraform
           ansible.builtin.command:
