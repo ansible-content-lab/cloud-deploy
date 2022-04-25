@@ -120,6 +120,20 @@
 
         #TODO: https://registry.terraform.io/providers/nolte/awx/latest/docs/resources/credential_machine
 
+        - name: Retrieve public Key from S3 
+          amazon.aws.aws_s3:
+            bucket: mford-terraform-key-bucket
+            object: "{{ ec2_prefix }}-key.pub"
+            dest: "/tmp/{{ ec2_prefix }}-key.pub"
+            mode: get
+
+        - name: Retrieve Private Key from S3 
+          amazon.aws.aws_s3:
+            bucket: mford-terraform-key-bucket
+            object: "{{ec2_prefix}}-key-private.pem"
+            dest: "/tmp/{{ec2_prefix}}-key-private.pem"
+            mode: get
+
         - name: Update Ansible Tower Cloud SSH Credential
           ansible.controller.credential:
             name: Cloud Demo Instances Key

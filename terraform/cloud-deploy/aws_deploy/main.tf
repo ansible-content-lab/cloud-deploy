@@ -14,7 +14,6 @@ provider "aws" {
 
 resource "aws_s3_bucket" "mford_key_bucket" {
   bucket = "mford-terraform-key-bucket"
-  acl    = "private"   # or can be "public-read"
   tags = {
     Name        = "mford-terraform-key-bucket"
   }
