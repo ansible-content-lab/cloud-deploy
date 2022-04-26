@@ -25,6 +25,13 @@
     status_code: 200, 204
   run_once: yes
 
+- name: write SSH Private Key to /tmp directory
+  ansible.builtin.copy:
+    content: "{{ ssh_key_data }}"
+    dest: "/tmp/{{ ec2_prefix}}-key-private.pem"
+  delegate_to: localhost
+  run_once: yes
+
 - name: Create linux_users.json template
   ansible.builtin.template:
     src: linux_users.j2
