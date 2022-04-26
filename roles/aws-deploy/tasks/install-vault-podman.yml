@@ -24,10 +24,11 @@
     - name: Create vault container
       containers.podman.podman_container:
         name: vault
-        image: docker.io/library/vault
+        image: vault
         env:
           VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
         published_ports:
-          - 8200:8200
+          - "8200:8200"
         state: started
+        restart_policy: always
   when: tags.group == "webserver"
