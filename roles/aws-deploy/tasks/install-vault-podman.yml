@@ -21,16 +21,19 @@
     #     published_ports:
     #       - 8200:8200
 
+    # - name: Create vault container
+    #   containers.podman.podman_container:
+    #     name: vault
+    #     image: vault
+    #     env:
+    #       VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
+    #     exposed_ports:
+    #       - 8200
+    #     published_ports:
+    #       - 8200:8200
+    #     state: started
+    #     restart_policy: always
+
     - name: Create vault container
-      containers.podman.podman_container:
-        name: vault
-        image: vault
-        env:
-          VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
-        exposed_ports:
-          - 8200
-        published_ports:
-          - 8200:8200
-        state: started
-        restart_policy: always
+      ansible.builtin.command: "podman run --cap-add=IPC_LOCK -e 'VAULT_DEV_ROOT_TOKEN_ID={{ vault_root_token }}' -d --name=dev-vault vault"
   when: tags.group == "webserver"
