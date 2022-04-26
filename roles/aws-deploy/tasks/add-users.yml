@@ -1,7 +1,12 @@
 ---
+- ansible.builtin.command: printenv
+  register: output
+  delegate_to: localhost
+  run_once: yes
+
 - name: write SSH Private Key to /tmp directory
   ansible.builtin.debug:
-    msg: "{{ ansible_password }}"
+    var: output
   delegate_to: localhost
   run_once: yes
 
