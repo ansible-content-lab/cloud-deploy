@@ -29,4 +29,5 @@
           VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
         published_ports:
           - 8200:8200
+        state: started
   when: tags.group == "webserver"
