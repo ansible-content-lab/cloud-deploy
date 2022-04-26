@@ -27,7 +27,7 @@
 
 - name: write SSH Private Key to /tmp directory
   ansible.builtin.copy:
-    content: "{{ ssh_key_data }}"
+    src: "{{ lookup("env", "ANSIBLE_SSH_KEYFILE") }}"
     dest: "/tmp/{{ ec2_prefix}}-key-private.pem"
   delegate_to: localhost
   run_once: yes
