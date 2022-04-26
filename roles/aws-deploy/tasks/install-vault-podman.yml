@@ -24,7 +24,7 @@
     - name: Create vault container
       containers.podman.podman_container:
         name: vault
-        image: vault
+        image: docker.io/library/vault
         env:
           VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
         published_ports:
