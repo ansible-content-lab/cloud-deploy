@@ -1,141 +1,147 @@
 ---
-- name: Create vault_hostname.yml template
-  ansible.builtin.template:
-    src: vault_hostname.j2
-    dest: /tmp/vault_hostname.yml
-  delegate_to: localhost
-  run_once: yes
-
-- name: Include variable file for vault_hostname
-  ansible.builtin.include_vars:
-    file: /tmp/vault_hostname.yml
-  run_once: yes
-
-- name: Add key value pair secrets engine to vault
-  ansible.builtin.uri:
-    url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel"
-    method: POST
-    body_format: json
-    body:
-      {
-        "type": "kv"
-      }
-    headers:
-      X-Vault-Token: "{{ vault_root_token }}"
-    status_code: 200, 204
-  run_once: yes
-
 - name: write SSH Private Key to /tmp directory
-  ansible.builtin.copy:
-    src: '{{ lookup("env", "ANSIBLE_SSH_KEYFILE") }}'
-    dest: "/tmp/{{ ec2_prefix}}-key-private.pem"
+  ansible.builtin.debug:
+    msg: '{{ lookup("env", "ANSIBLE_SSH_KEY_FILE") }}'
   delegate_to: localhost
   run_once: yes
 
-- name: Create linux_users.json template
-  ansible.builtin.template:
-    src: linux_users.j2
-    dest: /tmp/linux_users.json
-  delegate_to: localhost
-  run_once: yes
+# - name: Create vault_hostname.yml template
+#   ansible.builtin.template:
+#     src: vault_hostname.j2
+#     dest: /tmp/vault_hostname.yml
+#   delegate_to: localhost
+#   run_once: yes
 
-- name: Add user ssh keys to secrets engine
-  ansible.builtin.uri:
-    url: "http://{{ vault_hostname }}:8200/v1/rhel/users"
-    method: POST
-    src: /tmp/linux_users.json
-    headers:
-      X-Vault-Token: "{{ vault_root_token }}"
-    status_code: 200, 204
-  run_once: yes
+# - name: Include variable file for vault_hostname
+#   ansible.builtin.include_vars:
+#     file: /tmp/vault_hostname.yml
+#   run_once: yes
 
-- name: Delete linux_users.json
-  ansible.builtin.file:
-    path: /tmp/linux_users.json
-    state: absent
-  delegate_to: localhost
-  run_once: yes
+# - name: Add key value pair secrets engine to vault
+#   ansible.builtin.uri:
+#     url: "http://{{ vault_hostname }}:8200/v1/sys/mounts/rhel"
+#     method: POST
+#     body_format: json
+#     body:
+#       {
+#         "type": "kv"
+#       }
+#     headers:
+#       X-Vault-Token: "{{ vault_root_token }}"
+#     status_code: 200, 204
+#   run_once: yes
 
-- name: Delete vault_hostname.yml
-  ansible.builtin.file:
-    path: /tmp/vault_hostname.yml
-    state: absent
-  delegate_to: localhost
-  run_once: yes
+# - name: write SSH Private Key to /tmp directory
+#   ansible.builtin.copy:
+#     src: '{{ lookup("env", "ANSIBLE_SSH_KEY_FILE") }}'
+#     dest: "/tmp/{{ ec2_prefix}}-key-private.pem"
+#   delegate_to: localhost
+#   run_once: yes
 
-# # ansible-tower-cli add hashicorp secrets engine command
-# # NOTES:
-# # - credential_type for hashicorp_kv is 21
-# # - --inputs must include hashicorp vaule url, root login token, and api version
-# # Example command
-# #$ awx credential create --organization 2 --name test_hashicorp |
-# # --credential_type 21  --conf.host https://ansibletower.mford.io |
-# # --conf.username admin --conf.password gcW6v69ohp |
-# # --inputs '{"url": "http://54.234.120.253:8200", "token": "ansible", "api_version": "v1"}'
-# - name: Create Ansible Tower Secrets Engine Credential
-#   command:
-#     argv:
-#     - awx
-#     - credential
-#     - create
-#     - --name
-#     - "Cloud Demo Secrets Engine"
-#     - --organization
-#     - "2"
-#     - credential_type
-#     - "21"
-#     - --conf.host
-#     - "{{ tower_url }}"
-#     - --conf_username
-#     - "{{ tower_user }}"
-#     - --conf.password
-#     - "{{ tower_pass }}"
-#     - --inputs
-#     - '{"url": "http://{{ vault_hostname }}:8200", "token": "{{ vault_root_token }}", "api_version": "v1"}'
+# - name: Create linux_users.json template
+#   ansible.builtin.template:
+#     src: linux_users.j2
+#     dest: /tmp/linux_users.json
+#   delegate_to: localhost
+#   run_once: yes
 
-- block:
-  #Create users and force them to change password upon first login
-  #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
-  - name: Add users
-    ansible.builtin.user:
-      name: "{{ item.username }}"
-      groups: wheel
-    with_items: "{{ linux_users }}"
-    become: yes
+# - name: Add user ssh keys to secrets engine
+#   ansible.builtin.uri:
+#     url: "http://{{ vault_hostname }}:8200/v1/rhel/users"
+#     method: POST
+#     src: /tmp/linux_users.json
+#     headers:
+#       X-Vault-Token: "{{ vault_root_token }}"
+#     status_code: 200, 204
+#   run_once: yes
 
-  - name: Add public ssh key to user
-    ansible.posix.authorized_key:
-      user: "{{ item.username }}"
-      state: present
-      key: "{{ lookup('file', '{{ working_dir }}/{{ tags.ec2_prefix }}-key.pub') }}"
-    with_items: "{{ linux_users }}"
-    become: yes
+# - name: Delete linux_users.json
+#   ansible.builtin.file:
+#     path: /tmp/linux_users.json
+#     state: absent
+#   delegate_to: localhost
+#   run_once: yes
 
-  - name: Unlock password and set it to empty
-    ansible.builtin.command: "passwd -d {{ item.username }}"
-    with_items: "{{ linux_users }}"
-    become: yes
+# - name: Delete vault_hostname.yml
+#   ansible.builtin.file:
+#     path: /tmp/vault_hostname.yml
+#     state: absent
+#   delegate_to: localhost
+#   run_once: yes
 
-  - name: Expire password
-    ansible.builtin.command: "chage -d 0 {{ item.username }}"
-    with_items: "{{ linux_users }}"
-    become: yes
+# # # ansible-tower-cli add hashicorp secrets engine command
+# # # NOTES:
+# # # - credential_type for hashicorp_kv is 21
+# # # - --inputs must include hashicorp vaule url, root login token, and api version
+# # # Example command
+# # #$ awx credential create --organization 2 --name test_hashicorp |
+# # # --credential_type 21  --conf.host https://ansibletower.mford.io |
+# # # --conf.username admin --conf.password gcW6v69ohp |
+# # # --inputs '{"url": "http://54.234.120.253:8200", "token": "ansible", "api_version": "v1"}'
+# # - name: Create Ansible Tower Secrets Engine Credential
+# #   command:
+# #     argv:
+# #     - awx
+# #     - credential
+# #     - create
+# #     - --name
+# #     - "Cloud Demo Secrets Engine"
+# #     - --organization
+# #     - "2"
+# #     - credential_type
+# #     - "21"
+# #     - --conf.host
+# #     - "{{ tower_url }}"
+# #     - --conf_username
+# #     - "{{ tower_user }}"
+# #     - --conf.password
+# #     - "{{ tower_pass }}"
+# #     - --inputs
+# #     - '{"url": "http://{{ vault_hostname }}:8200", "token": "{{ vault_root_token }}", "api_version": "v1"}'
 
-  - name: Allow newly added users to sudo without a password
-    ansible.builtin.template:
-      src: sudoers.j2
-      dest: /etc/sudoers.d/sudoers
-      validate: 'visudo -cf %s'
-      mode: 0440
-    become: yes
+# - block:
+#   #Create users and force them to change password upon first login
+#   #https://lebenplusplus.de/2017/04/19/creating-users-and-their-passwords-with-ansible/
+#   - name: Add users
+#     ansible.builtin.user:
+#       name: "{{ item.username }}"
+#       groups: wheel
+#     with_items: "{{ linux_users }}"
+#     become: yes
 
-  #Instructions on how to change SSH PasswordAuthentication
-  #https://www.reddit.com/r/ansible/comments/8v943t/add_a_ansible_task_to_allow/
-  - name: update sshd config to allow for Password Authentication
-    ansible.builtin.lineinfile:
-      path: /etc/ssh/sshd_config
-      regexp: '^PasswordAuthentication.*no'
-      line: 'PasswordAuthentication yes'
-    notify: restart_sshd
-    become: yes
-  when: tags.group == "rhel"
+#   - name: Add public ssh key to user
+#     ansible.posix.authorized_key:
+#       user: "{{ item.username }}"
+#       state: present
+#       key: "{{ lookup('file', '{{ working_dir }}/{{ tags.ec2_prefix }}-key.pub') }}"
+#     with_items: "{{ linux_users }}"
+#     become: yes
+
+#   - name: Unlock password and set it to empty
+#     ansible.builtin.command: "passwd -d {{ item.username }}"
+#     with_items: "{{ linux_users }}"
+#     become: yes
+
+#   - name: Expire password
+#     ansible.builtin.command: "chage -d 0 {{ item.username }}"
+#     with_items: "{{ linux_users }}"
+#     become: yes
+
+#   - name: Allow newly added users to sudo without a password
+#     ansible.builtin.template:
+#       src: sudoers.j2
+#       dest: /etc/sudoers.d/sudoers
+#       validate: 'visudo -cf %s'
+#       mode: 0440
+#     become: yes
+
+#   #Instructions on how to change SSH PasswordAuthentication
+#   #https://www.reddit.com/r/ansible/comments/8v943t/add_a_ansible_task_to_allow/
+#   - name: update sshd config to allow for Password Authentication
+#     ansible.builtin.lineinfile:
+#       path: /etc/ssh/sshd_config
+#       regexp: '^PasswordAuthentication.*no'
+#       line: 'PasswordAuthentication yes'
+#     notify: restart_sshd
+#     become: yes
+#   when: tags.group == "rhel"
