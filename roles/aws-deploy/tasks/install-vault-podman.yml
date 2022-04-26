@@ -27,8 +27,10 @@
         image: vault
         env:
           VAULT_DEV_ROOT_TOKEN_ID: "{{ vault_root_token }}"
+        exposed_ports:
+          - 8200
         published_ports:
-          - "8200:8200"
+          - 8200:8200
         state: started
         restart_policy: always
   when: tags.group == "webserver"
