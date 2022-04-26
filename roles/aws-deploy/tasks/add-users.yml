@@ -1,7 +1,7 @@
 ---
 - name: write SSH Private Key to /tmp directory
   ansible.builtin.debug:
-    msg: '{{ lookup("env", "ANSIBLE_SSH_KEY_FILE") }}'
+    msg: '{{ lookup("env", "ANSIBLE_SSH_PRIVATE_KEY_FILE") }}'
   delegate_to: localhost
   run_once: yes
 
