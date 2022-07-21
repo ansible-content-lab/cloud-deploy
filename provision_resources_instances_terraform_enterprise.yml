@@ -110,7 +110,7 @@
 
         - name: Terraform Login
           ansible.builtin.expect:
-            ansible.builtin.command: terraform login
+            command: terraform login
             responses: 
               Question:
                 - "{{ tf_token }}"
