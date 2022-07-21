@@ -113,6 +113,7 @@
             command: terraform login
             responses: 
               Question:
+                - yes
                 - "{{ tf_token }}"
 
         - name: Initialize Terraform
