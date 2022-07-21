@@ -115,7 +115,7 @@
 
         - name: Place API Token File in its proper location
           ansible.builtin.template:
-            src: "{{ token_file }}"
+            src: "{{ api_token_file }}"
             dest: /home/runner/.terraform.d/credentials.tfrc.json
 
         # - name: Terraform Login
