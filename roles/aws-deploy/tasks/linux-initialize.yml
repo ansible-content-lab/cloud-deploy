@@ -45,7 +45,7 @@
   - name: Install package ansible
     ansible.builtin.dnf:
       state: present
-      name: ansible
+      name: ansible-core
     become: yes
     when: tags.cloud_provider == "aws"
 

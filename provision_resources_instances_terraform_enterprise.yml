@@ -118,19 +118,10 @@
             src: "{{ api_token_file }}"
             dest: /home/runner/.terraform.d/credentials.tfrc.json
 
-        # - name: Terraform Login
-        #   ansible.builtin.expect:
-        #     command: terraform login
-        #     responses: 
-        #       Question:
-        #         - "yes"
-        #         - "{{ tf_token }}"
-
         - name: Initialize Terraform
           ansible.builtin.command:
             cmd: terraform init
             chdir: /tmp/aws_deploy
-            # chdir: "{{ playbook_dir }}/terraform/cloud-deploy/aws_deploy"
 
         - name: Terraform Plan
           ansible.builtin.command:
