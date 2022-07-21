@@ -7,6 +7,7 @@
   vars_files:
     - ./credentials/tower_creds.yml
     - ./vars/default-vars.yml
+    - ./credentials/tf_token.yml
 
   tasks:
 
@@ -108,9 +109,11 @@
             # group: awx
 
         - name: Terraform Login
-          ansible.builtin.command:
-            cmd: terraform login --help
-            chdir: /tmp/aws_deploy
+          ansible.builtin.expect:
+            ansible.builtin.command: terraform login
+            responses: 
+              Question:
+                - "{{ tf_token }}"
 
         - name: Initialize Terraform
           ansible.builtin.command:
