@@ -32,13 +32,20 @@
         var: new_change_request
       when: from_snow|bool
 
-    - name: Store Change Request number as artifact for later in the workflow
+    - name: Create Change Request number artifact from template
       ansible.builtin.template:
         src: ./templates/snow-change-request.j2
         dest: "{{ working_dir }}/snow-change-request.yml"
       run_once: yes
       delegate_to: localhost
       when: from_snow|bool
+
+    - name: Store Change Request number artifact for later in the workflow
+      amazon.aws.aws_s3:
+        bucket: mford-cloud-deploy-bucket
+        object: snow-change-request.yml
+        src: "{{ working_dir }}/snow-change-request.yml"
+        mode: put
 
     - name: Print out Change Request number
       ansible.builtin.debug:
@@ -60,22 +67,22 @@
       delegate_to: localhost
       when: from_snow|bool
 
-    - name: Wait for Change Request approval
-      servicenow.itsm.change_request_info:
-        instance:
-            host: "https://{{ SNOW_INSTANCE }}.service-now.com"
-            username: "{{ SNOW_USERNAME }}"
-            password: "{{ SNOW_PASSWORD }}"
-        sys_id: "{{ new_change_request.record.sys_id }}"
-      register: change_request_status
-      when: from_snow|bool
-      until: change_request_status.records[0].state == "scheduled"
-      retries: 50
-      delay: 10
+    # - name: Wait for Change Request approval
+    #   servicenow.itsm.change_request_info:
+    #     instance:
+    #         host: "https://{{ SNOW_INSTANCE }}.service-now.com"
+    #         username: "{{ SNOW_USERNAME }}"
+    #         password: "{{ SNOW_PASSWORD }}"
+    #     sys_id: "{{ new_change_request.record.sys_id }}"
+    #   register: change_request_status
+    #   when: from_snow|bool
+    #   until: change_request_status.records[0].state == "scheduled"
+    #   retries: 50
+    #   delay: 10
 
-    - ansible.builtin.debug:
-        msg: "Change Request {{ new_change_request.record.number }} has been approved!"
-      when: from_snow|bool
+    # - ansible.builtin.debug:
+    #     msg: "Change Request {{ new_change_request.record.number }} has been approved!"
+    #   when: from_snow|bool
 
     - name: Move Change Request to Review stage
       servicenow.itsm.change_request:
