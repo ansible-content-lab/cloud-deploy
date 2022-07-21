@@ -107,6 +107,11 @@
             # owner: awx
             # group: awx
 
+        - name: Terraform Login
+          ansible.builtin.command:
+            cmd: terraform login --help
+            chdir: /tmp/aws_deploy
+
         - name: Initialize Terraform
           ansible.builtin.command:
             cmd: terraform init
