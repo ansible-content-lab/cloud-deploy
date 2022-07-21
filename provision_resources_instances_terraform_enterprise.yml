@@ -108,6 +108,11 @@
             # owner: awx
             # group: awx
 
+        - name: Create .terraform.d directory
+          ansible.builtin.file:
+            path: /home/runner/.terraform.d/
+            state: directory
+
         - name: Test out home runner copy
           ansible.builtin.template:
             src: "{{ playbook_dir }}/templates/aws.auto.tfvars.j2"
