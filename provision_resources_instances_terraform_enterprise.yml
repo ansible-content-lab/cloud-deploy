@@ -111,7 +111,7 @@
         - name: Test out home runner copy
           ansible.builtin.template:
             src: "{{ playbook_dir }}/templates/aws.auto.tfvars.j2"
-            dest: /home/runner/aws.auto.tfvars
+            dest: /home/runner/.terraform.d/aws.auto.tfvars
 
         # - name: Terraform Login
         #   ansible.builtin.expect:
