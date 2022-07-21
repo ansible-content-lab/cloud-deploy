@@ -113,10 +113,10 @@
             path: /home/runner/.terraform.d/
             state: directory
 
-        - name: Test out home runner copy
+        - name: Place API Token File in its proper location
           ansible.builtin.template:
-            src: "{{ playbook_dir }}/templates/aws.auto.tfvars.j2"
-            dest: /home/runner/.terraform.d/aws.auto.tfvars
+            src: "{{ token_file }}"
+            dest: /home/runner/.terraform.d/credentials.tfrc.json
 
         # - name: Terraform Login
         #   ansible.builtin.expect:
